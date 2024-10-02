@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Input;
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('name',Input::old('name'),['id'=>'name','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'Enter Role Name','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('name',old('name'),['id'=>'name','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'Enter Role Name','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('name') !!}</span>
         </div>
     </div>

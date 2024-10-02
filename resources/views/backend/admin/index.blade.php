@@ -94,7 +94,7 @@
                             @if(isset($organization_id))
                                 {!! Form::select('organization_id',$selectOrganization,$organization_id,['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single']) !!}
                             @else
-                                {!! Form::select('organization_id',$selectOrganization,Input::old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single']) !!}
+                                {!! Form::select('organization_id',$selectOrganization,old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single']) !!}
                             @endif
                         </div>
                         @endif
@@ -104,7 +104,7 @@
                             @if(isset($survey_id))
                                 {!! Form::select('survey_id',$surveySelect,$survey_id,['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
                             @else
-                                {!! Form::select('survey_id',$surveySelect,Input::old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
+                                {!! Form::select('survey_id',$surveySelect,old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
                             @endif
                         </div>
 

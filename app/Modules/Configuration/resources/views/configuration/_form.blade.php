@@ -22,7 +22,7 @@ $Submit = __('Organization::message.Submit');
         ?>
 
         <div class="col-sm-4">
-            {!! Form::select('language',$Language,Input::old('language'),['id'=>'language','class' => 'form-control form-select js-example-basic-single']) !!}
+            {!! Form::select('language',$Language,old('language'),['id'=>'language','class' => 'form-control form-select js-example-basic-single']) !!}
             <span style="color: #ff0000">{!! $errors->first('language') !!}</span>
 
         </div>

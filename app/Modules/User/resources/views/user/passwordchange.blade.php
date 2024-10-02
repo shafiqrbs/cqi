@@ -59,7 +59,7 @@
                                         <span style="color: red">*</span>
                                     <div class="input-group mb-3">
                                         <div class="form-control-plaintext">
-                                                {!! Form::text('password',Input::old('password'),['id'=>'password','class' => 'form-control','Placeholder' => 'Enter new password','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
+                                                {!! Form::text('password',old('password'),['id'=>'password','class' => 'form-control','Placeholder' => 'Enter new password','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
                                         </div>
                                         <span style="color: #ff0000">{!! $errors->first('password') !!}</span>
                                     </div>
@@ -70,7 +70,7 @@
                                     <span style="color: red">*</span>
                                     <div class="input-group mb-3">
                                         <div class="form-control-plaintext">
-                                                {!! Form::text('confirmed',Input::old('confirmed'),['id'=>'confirmed','class' => 'form-control','Placeholder' => 'Enter confirm password','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
+                                                {!! Form::text('confirmed',old('confirmed'),['id'=>'confirmed','class' => 'form-control','Placeholder' => 'Enter confirm password','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
                                         </div>
                                         <span style="color: #ff0000">{!! $errors->first('confirmed') !!}</span>
                                     </div>

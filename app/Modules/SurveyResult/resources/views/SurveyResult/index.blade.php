@@ -131,7 +131,7 @@
                                                 @if(isset($input['survey_id']) && !empty($input['survey_id']))
                                                     {!! Form::select('survey_id',$surveySelect,$input['survey_id'],['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
                                                 @else
-                                                    {!! Form::select('survey_id',$surveySelect,Input::old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
+                                                    {!! Form::select('survey_id',$surveySelect,old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single']) !!}
                                                 @endif
                                             </th>
                                             <th colspan="1" style="vertical-align: middle;">
@@ -142,7 +142,7 @@
                                                     @php
                                                         $item[''] = 'Choose Item';
                                                     @endphp
-                                                    {!! Form::select('item_id',$item,Input::old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','disabled'=>true]) !!}
+                                                    {!! Form::select('item_id',$item,old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','disabled'=>true]) !!}
                                                 @endif
                                             </th>
 
@@ -153,7 +153,7 @@
                                                 @if(isset($input['device_id']))
                                                 {!! Form::text('device_id',$input['device_id'],['id'=>'device_id','class' => 'form-control','style'=>'height:28px']) !!}
                                                 @else
-                                                    {!! Form::text('device_id',Input::old('device_id'),['id'=>'device_id','class' => 'form-control','style'=>'height:28px']) !!}
+                                                    {!! Form::text('device_id',old('device_id'),['id'=>'device_id','class' => 'form-control','style'=>'height:28px']) !!}
                                                 @endif
                                             </th>
                                             @endif
@@ -163,13 +163,13 @@
                                                 @if(isset($input['organization_id']))
                                                 {!! Form::select('organization_id',$selectOrganization,$input['organization_id'],['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}
                                                 @else
-                                                    {!! Form::select('organization_id',$selectOrganization,Input::old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}
+                                                    {!! Form::select('organization_id',$selectOrganization,old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}
                                                 @endif
 {{--                                                User--}}
 {{--                                                @if(isset($input['user_id']))--}}
 {{--                                                {!! Form::select('user_id',$selectUser,$input['user_id'],['id'=>'user_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}--}}
 {{--                                                @else--}}
-{{--                                                    {!! Form::select('user_id',$selectUser,Input::old('user_id'),['id'=>'user_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}--}}
+{{--                                                    {!! Form::select('user_id',$selectUser,old('user_id'),['id'=>'user_id','class' => 'form-control form-select js-example-basic-single','style'=>'height:28px']) !!}--}}
 {{--                                                @endif--}}
                                             </th>
 
@@ -182,7 +182,7 @@
                                                     @endphp
                                                     {{ Form::date('startdate',date('Y-m-d', strtotime($startDate)),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
                                                 @else
-                                                    {{ Form::date('startdate',Input::old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
+                                                    {{ Form::date('startdate',old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
                                                 @endif
                                             </th>
 
@@ -195,7 +195,7 @@
                                                     ?>
                                                     {{ Form::date('enddate', date('Y-m-d', strtotime($enddate)),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','placeholder'=>'Start Date']) }}
                                                 @else
-                                                    {{ Form::date('enddate',Input::old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
+                                                    {{ Form::date('enddate',old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
                                                 @endif
                                             </th>
 

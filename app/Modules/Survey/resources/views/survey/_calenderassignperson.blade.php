@@ -45,7 +45,7 @@ $Submit = __('Survey::message.Submit');
                 $monthvalue = $input['month'];
                 $yearvalue = $input['year'];
             }else{
-                $monthvalue = Input::old('month');
+                $monthvalue = old('month');
                 $yearvalue = '';
 
             }

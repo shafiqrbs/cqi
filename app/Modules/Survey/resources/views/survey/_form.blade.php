@@ -26,7 +26,7 @@ $Submit = __('Survey::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('nameen',Input::old('nameen'),['id'=>'nameen','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $SurveyPlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('nameen',old('nameen'),['id'=>'nameen','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $SurveyPlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('nameen') !!}</span>
         </div>
     </div>
@@ -37,7 +37,7 @@ $Submit = __('Survey::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('namebn',Input::old('namebn'),['id'=>'namebn','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'জরিপের নাম লিখুন (বাংলা)','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('namebn',old('namebn'),['id'=>'namebn','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'জরিপের নাম লিখুন (বাংলা)','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('namebn') !!}</span>
         </div>
     </div>
@@ -50,7 +50,7 @@ $Submit = __('Survey::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::textarea('discriptionen',Input::old('discriptionen'),['id'=>'discription','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $discriptionPlaceholder,'aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
+            {!! Form::textarea('discriptionen',old('discriptionen'),['id'=>'discription','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $discriptionPlaceholder,'aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
             <span style="color: #ff0000">{!! $errors->first('discriptionen') !!}</span>
         </div>
     </div>
@@ -61,7 +61,7 @@ $Submit = __('Survey::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::textarea('discriptionbn',Input::old('discriptionbn'),['id'=>'discription','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'বর্ণনা লিখুন (বাংলা)','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
+            {!! Form::textarea('discriptionbn',old('discriptionbn'),['id'=>'discription','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'বর্ণনা লিখুন (বাংলা)','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
             <span style="color: #ff0000">{!! $errors->first('discriptionbn') !!}</span>
         </div>
     </div>
@@ -84,7 +84,7 @@ $Submit = __('Survey::message.Submit');
         ?>
 
         <div class="col-sm-10">
-            {!! Form::select('mode',$modeType,Input::old('mode'),['id'=>'mode','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::select('mode',$modeType,old('mode'),['id'=>'mode','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('mode') !!}</span>
         </div>
     </div>
@@ -109,7 +109,7 @@ $Submit = __('Survey::message.Submit');
                     {!! Form::select('organization_id[]',$Organization,$orgArray,['id'=>'organization_id','multiple'=>'multiple','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 <span style="color: #ff0000">{!! $errors->first('organization_id') !!}</span>
             @else
-                {!! Form::select('organization_id[]',$Organization,Input::old('organization_id'),['id'=>'organization_id','multiple'=>'multiple','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                {!! Form::select('organization_id[]',$Organization,old('organization_id'),['id'=>'organization_id','multiple'=>'multiple','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 <span style="color: #ff0000">{!! $errors->first('organization_id') !!}</span>
             @endif
         </div>

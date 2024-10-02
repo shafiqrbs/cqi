@@ -30,7 +30,7 @@ $Submit = __('Organization::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::select('survey_id',$survey,Input::old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','aria-label' =>'survey_id','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::select('survey_id',$survey,old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','aria-label' =>'survey_id','aria-describedby'=>'basic-addon2']) !!}
             <span class="colorRed">{!! $errors->first('survey_id') !!}</span>
         </div>
     </div>
@@ -43,7 +43,7 @@ $Submit = __('Organization::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('itemtexten',Input::old('itemtexten'),['id'=>'itemtexten','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'Enter survey Item','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
+            {!! Form::text('itemtexten',old('itemtexten'),['id'=>'itemtexten','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'Enter survey Item','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
             <span class="colorRed">{!! $errors->first('itemtexten') !!}</span>
         </div>
     </div>
@@ -54,7 +54,7 @@ $Submit = __('Organization::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('itemtextbn',Input::old('itemtextbn'),['id'=>'itemtextbn','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' =>'জরিপ আইটেম নাম লিখুন','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
+            {!! Form::text('itemtextbn',old('itemtextbn'),['id'=>'itemtextbn','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' =>'জরিপ আইটেম নাম লিখুন','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
             <span class="colorRed">{!! $errors->first('itemtextbn') !!}</span>
         </div>
     </div>
@@ -70,7 +70,7 @@ $Submit = __('Organization::message.Submit');
             @if(isset($data))
             {!! Form::color('color_code','#'.$data->color_code,['id'=>'color_code','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $colorcodePlc]) !!}
             @else
-                {!! Form::color('color_code',Input::old('color_code'),['id'=>'color_code','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $colorcodePlc]) !!}
+                {!! Form::color('color_code',old('color_code'),['id'=>'color_code','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $colorcodePlc]) !!}
             @endif
             <span class="colorRed">{!! $errors->first('oredring') !!}</span>
         </div>
@@ -86,7 +86,7 @@ $Submit = __('Organization::message.Submit');
 {{--        </div>--}}
 
 {{--        <div class="col-sm-10">--}}
-{{--            {!! Form::textarea('itemvalueen',Input::old('itemvalueen'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'Enter item, if item is more , saperate by comma.','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
+{{--            {!! Form::textarea('itemvalueen',old('itemvalueen'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'Enter item, if item is more , saperate by comma.','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
 {{--            <span style="color: #ff0000">{!! $errors->first('itemvalueen') !!}</span>--}}
 {{--        </div>--}}
 {{--    </div>--}}
@@ -97,7 +97,7 @@ $Submit = __('Organization::message.Submit');
 {{--        </div>--}}
 
 {{--        <div class="col-sm-10">--}}
-{{--            {!! Form::textarea('itemvaluebn',Input::old('itemvaluebn'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'জরিপ আইটেম  লিখুন, যদি আরও আইটেম কমা দ্বারা পৃথক করা হয়','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
+{{--            {!! Form::textarea('itemvaluebn',old('itemvaluebn'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'জরিপ আইটেম  লিখুন, যদি আরও আইটেম কমা দ্বারা পৃথক করা হয়','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
 {{--            <span style="color: #ff0000">{!! $errors->first('itemvaluebn') !!}</span>--}}
 {{--        </div>--}}
 {{--    </div>--}}
@@ -110,7 +110,7 @@ $Submit = __('Organization::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('oredring',Input::old('oredring'),['id'=>'oredring','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $oredringPlaceholder,'aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
+            {!! Form::text('oredring',old('oredring'),['id'=>'oredring','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $oredringPlaceholder,'aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}
             <span class="colorRed">{!! $errors->first('oredring') !!}</span>
         </div>
     </div>

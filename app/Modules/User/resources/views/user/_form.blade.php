@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Input;
             <span style="color: red">*</span>
             <div class="input-group mb-3">
                 <div class="form-control-plaintext">
-                    {!! Form::text('name',Input::old('name'),['id'=>'name','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'Enter User Name','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                    {!! Form::text('name',old('name'),['id'=>'name','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'Enter User Name','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 </div>
                 <span style="color: #ff0000">{!! $errors->first('name') !!}</span>
             </div>
@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Input;
                     <span style="color: red">*</span>
                     <div class="input-group mb-3">
                         <div class="form-control-plaintext">
-                            {!! Form::text('mobile',Input::old('mobile'),['id'=>'mobile','class' => 'form-control','data-checkify'=>'minlen=11,required,number,maxlen=11','Placeholder' => 'Enter Mobile','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                            {!! Form::text('mobile',old('mobile'),['id'=>'mobile','class' => 'form-control','data-checkify'=>'minlen=11,required,number,maxlen=11','Placeholder' => 'Enter Mobile','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                         </div>
                         <span style="color: #ff0000">{!! $errors->first('mobile') !!}</span>
                     </div>
@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Input;
                     <span style="color: red">*</span>
                     <div class="input-group mb-3">
                         <div class="form-control-plaintext">
-                            {!! Form::text('email',Input::old('email'),['id'=>'email','class' => 'form-control','Placeholder' => 'Enter email','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
+                            {!! Form::text('email',old('email'),['id'=>'email','class' => 'form-control','Placeholder' => 'Enter email','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
                         </div>
                         <span style="color: #ff0000">{!! $errors->first('email') !!}</span>
                     </div>
@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Input;
 {{--            <span style="color: red">*</span>--}}
             <div class="input-group mb-3">
                 <div class="form-control-plaintext">
-                    {!! Form::textarea('address',Input::old('address'),['id'=>'address','class' => 'form-control','Placeholder' => 'Enter Address','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>1]) !!}
+                    {!! Form::textarea('address',old('address'),['id'=>'address','class' => 'form-control','Placeholder' => 'Enter Address','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>1]) !!}
                 </div>
                 <span style="color: #ff0000">{!! $errors->first('address') !!}</span>
             </div>
@@ -63,7 +63,7 @@ use Illuminate\Support\Facades\Input;
 {{--                <span style="color: red">*</span>--}}
                 <div class="input-group mb-3">
                     <div class="form-control-plaintext">
-                        {!! Form::select('organization_id',$Organization,Input::old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                        {!! Form::select('organization_id',$Organization,old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                     </div>
 {{--                    <span style="color: #ff0000">{!! $errors->first('organization_id') !!}</span>--}}
                 </div>
@@ -101,7 +101,7 @@ use Illuminate\Support\Facades\Input;
                         @if(isset($data))
                         {!! Form::text('password','',['id'=>'password','class' => 'form-control','Placeholder' => 'Enter password','aria-label' =>'email','aria-describedby'=>'basic-addon2']) !!}
                         @else
-                            {!! Form::text('password',Input::old('password'),['id'=>'password','class' => 'form-control','Placeholder' => 'Enter password','aria-label' =>'email','aria-describedby'=>'basic-addon2','required'=>true]) !!}
+                            {!! Form::text('password',old('password'),['id'=>'password','class' => 'form-control','Placeholder' => 'Enter password','aria-label' =>'email','aria-describedby'=>'basic-addon2','required'=>true]) !!}
                         @endif
 
                     </div>

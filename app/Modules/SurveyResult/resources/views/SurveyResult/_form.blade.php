@@ -30,7 +30,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::select('survey_id',$survey,Input::old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','aria-label' =>'survey_id','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::select('survey_id',$survey,old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','aria-label' =>'survey_id','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('survey_id') !!}</span>
         </div>
     </div>
@@ -42,7 +42,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('survey_value',Input::old('survey_value'),['id'=>'survey_value','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $SurveyValuePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('survey_value',old('survey_value'),['id'=>'survey_value','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $SurveyValuePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('survey_value') !!}</span>
         </div>
     </div>
@@ -54,7 +54,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('device_id',Input::old('device_id'),['id'=>'device_id','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $deviceIDPlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('device_id',old('device_id'),['id'=>'device_id','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $deviceIDPlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('device_id') !!}</span>
         </div>
     </div>
@@ -65,7 +65,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('latitude',Input::old('latitude'),['id'=>'latitude','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $latitudePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('latitude',old('latitude'),['id'=>'latitude','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $latitudePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('latitude') !!}</span>
         </div>
     </div>
@@ -76,7 +76,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::text('longitude',Input::old('longitude'),['id'=>'device_id','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $longitudePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::text('longitude',old('longitude'),['id'=>'device_id','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => $longitudePlaceholder,'aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('longitude') !!}</span>
         </div>
     </div>
@@ -89,7 +89,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::select('item_id',$Item,Input::old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::select('item_id',$Item,old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('item_id') !!}</span>
         </div>
     </div>
@@ -102,7 +102,7 @@ $Submit = __('SurveyResult::message.Submit');
         </div>
 
         <div class="col-sm-10">
-            {!! Form::select('organization_id',$Organization,Input::old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            {!! Form::select('organization_id',$Organization,old('organization_id'),['id'=>'organization_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
             <span style="color: #ff0000">{!! $errors->first('organization_id') !!}</span>
         </div>
     </div>
