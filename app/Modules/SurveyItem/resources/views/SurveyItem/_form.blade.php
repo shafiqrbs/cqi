@@ -66,7 +66,6 @@ $Submit = __('Organization::message.Submit');
         </div>
 
         <div class="col-sm-10">
-{{--            <input type="color" id="favcolor" name="color_code" value="">--}}
             @if(isset($data))
             {!! Form::color('color_code','#'.$data->color_code,['id'=>'color_code','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => $colorcodePlc]) !!}
             @else
@@ -75,34 +74,6 @@ $Submit = __('Organization::message.Submit');
             <span class="colorRed">{!! $errors->first('oredring') !!}</span>
         </div>
     </div>
-
-
-
-
-{{--    <div class="form-group row mg-top">--}}
-{{--        <div class="col-sm-2">--}}
-{{--            {!! Form::label('Item Value', 'Item Value', array('class' => 'form-label')) !!}--}}
-{{--            <span style="color: red">*</span>--}}
-{{--        </div>--}}
-
-{{--        <div class="col-sm-10">--}}
-{{--            {!! Form::textarea('itemvalueen',old('itemvalueen'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'Enter item, if item is more , saperate by comma.','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
-{{--            <span style="color: #ff0000">{!! $errors->first('itemvalueen') !!}</span>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    <div class="form-group row mg-top">--}}
-{{--        <div class="col-sm-2">--}}
-
-{{--        </div>--}}
-
-{{--        <div class="col-sm-10">--}}
-{{--            {!! Form::textarea('itemvaluebn',old('itemvaluebn'),['id'=>'item','data-checkify'=>'minlen=3,required','class' => 'form-control','Placeholder' => 'জরিপ আইটেম  লিখুন, যদি আরও আইটেম কমা দ্বারা পৃথক করা হয়','aria-label' =>'content','aria-describedby'=>'basic-addon2','rows'=>2]) !!}--}}
-{{--            <span style="color: #ff0000">{!! $errors->first('itemvaluebn') !!}</span>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-
     <div class="form-group row mg-top">
         <div class="col-sm-2">
             {!! Form::label($oredring, $oredring, array('class' => 'form-label')) !!}
