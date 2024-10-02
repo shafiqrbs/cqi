@@ -84,7 +84,7 @@
                             @if(isset($searchDate))
                                 {{ Form::date('date',date('Y-m-d', strtotime($searchDate)),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
                             @else
-                                {{ Form::date('date',Input::old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
+                                {{ Form::date('date',old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px']) }}
                             @endif
                         </div>
 

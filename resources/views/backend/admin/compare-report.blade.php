@@ -87,7 +87,7 @@
                                 @endphp
                                 {{ Form::date('startdate',date('Y-m-d', strtotime($startDate)),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
                             @else
-                                {{ Form::date('startdate',Input::old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
+                                {{ Form::date('startdate',old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
                             @endif
                         </div>
 
@@ -104,7 +104,7 @@
                                 @endphp
                                 {{ Form::date('enddate',date('Y-m-d', strtotime($endDate)),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
                             @else
-                                {{ Form::date('enddate',Input::old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
+                                {{ Form::date('enddate',old(date('Y-m-d')),['id'=>'ref_date','class' => 'form-control','style'=>'height:28px','required'=>true]) }}
                             @endif
                         </div>
 
@@ -113,7 +113,7 @@
                             @if(isset($input))
                             {!! Form::select('survey_id',$surveySelect,$input['survey_id'],['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','required'=>true]) !!}
                             @else
-                                {!! Form::select('survey_id',$surveySelect,Input::old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','required'=>true]) !!}
+                                {!! Form::select('survey_id',$surveySelect,old('survey_id'),['id'=>'survey_id','class' => 'form-control form-select js-example-basic-single','required'=>true]) !!}
                             @endif
                         </div>
 
@@ -124,7 +124,7 @@
                                 @php
                                     $item[''] = 'Choose Item ';
                                 @endphp
-                                {!! Form::select('item_id',$item,Input::old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','required'=>true,'disabled'=>true]) !!}
+                                {!! Form::select('item_id',$item,old('item_id'),['id'=>'item_id','class' => 'form-control form-select js-example-basic-single','required'=>true,'disabled'=>true]) !!}
                             @endif
                         </div>
 
