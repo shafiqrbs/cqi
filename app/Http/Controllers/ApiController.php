@@ -64,10 +64,12 @@ class ApiController extends Controller
         }
     }
 
-    public function getsurveydata(){
+    public function getsurveydata(Request $request){
         try{
             if ($this->access == 'allow'){
-                $allSurvey = Survey::all();
+                $input = $request->all();
+                $organization_id = $input['organization_id'];
+                $allSurvey = Survey::query()->where('organization_id',$organization_id);
                 return \response(
                     $allSurvey
                 );
@@ -84,15 +86,20 @@ class ApiController extends Controller
     }
 
 
-    public function getsurveyitem(){
+    public function getsurveyitem(Request $request){
         try{
             if ($this->access == 'allow'){
+                $input = $request->all();
+                $survey_id = $input['survey_id'];
                 $allSurveyItem = Survey::query()
-                    ->with(['SurveyItem' => function ($query) {
-                        $query->select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn');
+                    ->with(['SurveyItem' => function ($query) use($survey_id) {
+                        $query->select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn','color_code as color_code');
                         $query->where('status',1);
+                        $query->where('survey_id',$survey_id);
+                        $query->orderBy('oredring','ASC');
                     }])
                     ->where('status',1)
+                    ->where('id',$survey_id)
                     ->get(['id','nameen as name_en','namebn as name_bn','discriptionen as discriptionen_en','discriptionbn as discriptionbn_bn','mode']);
                 return \response(
                     $allSurveyItem
