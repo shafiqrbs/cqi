@@ -108,16 +108,11 @@ class ApiController extends Controller
             if ($this->access == 'allow'){
                 $input = $request->all();
                 $survey_id = $input['survey_id'];
-                $allSurveyItem = Survey::query()
-                    ->with(['SurveyItem' => function ($query) use($survey_id) {
-                        $query->select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn',DB::raw("CONCAT('0XFF',color_code) AS color_code"));
-                        $query->where('status',1);
-                        $query->where('survey_id',$survey_id);
-                        $query->orderBy('oredring','ASC');
-                    }])
-                    ->where('status',1)
-                    ->where('id',$survey_id)
-                    ->get(['id','nameen as name_en','namebn as name_bn','discriptionen as discriptionen_en','discriptionbn as discriptionbn_bn','mode']);
+                $allSurveyItem = SurveyItem::select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn',DB::raw("CONCAT('0XFF',color_code) AS color_code"))
+                        ->where('status',1)
+                        ->where('survey_id',$survey_id)
+                        ->orderBy('oredring','ASC')
+                    ->get();
                 return \response(
                     $allSurveyItem
                 );
