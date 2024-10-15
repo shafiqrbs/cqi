@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use app;
-use auth;
+use Illuminate\Support\Facades\Auth;
 
 class SurveyResult extends Model
 {

@@ -194,7 +194,6 @@ class ApiController extends Controller
 //        var_dump($_REQUEST);
 //        exit;
 
-//        dd($input['survey_id']);
         if ($this->access == 'allow'){
             $input = $request->all();
             $validation = true;
@@ -230,6 +229,7 @@ class ApiController extends Controller
                     'error'=>'User Id must be filled'
                 ]);
             }
+
 
             if ($validation){
                 DB::beginTransaction();
