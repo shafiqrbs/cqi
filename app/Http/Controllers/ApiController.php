@@ -243,7 +243,7 @@ class ApiController extends Controller
 
                     DB::commit();
                     return \response([
-                        'message'=>'Survey added successfully'
+                        'message'=>'success'
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
