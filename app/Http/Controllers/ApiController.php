@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Modules\Organization\Models\Organization;
 use App\Modules\Survey\Models\Survey;
+use App\Modules\Survey\Models\SurveyOrganization;
 use App\Modules\SurveyItem\Models\SurveyItem;
 use App\Modules\SurveyResult\Models\SurveyResult;
 use App\Modules\User\Models\User;
@@ -69,7 +70,23 @@ class ApiController extends Controller
             if ($this->access == 'allow'){
                 $input = $request->all();
                 $organization_id = $input['organization_id'];
-                $allSurvey = Survey::query()->where('organization_id',$organization_id);
+                $allSurvey = SurveyOrganization::where('sur_survey_organization.organization_id',$organization_id)
+                    #->where('sur_survey.status',1)
+                    ->join('sur_survey','sur_survey.id','=','sur_survey_organization.survey_id')
+                    ->join('sur_organization','sur_organization.id','=','sur_survey_organization.organization_id')
+                    ->select([
+                        'sur_survey.id',
+                        'sur_survey.nameen',
+                        'sur_survey.namebn',
+                        'sur_survey.discriptionen',
+                        'sur_survey.discriptionbn',
+                        'sur_survey.mode',
+                        'sur_organization.name as organization_name',
+                        'sur_organization.mobile',
+                        'sur_organization.address',
+                        'sur_organization.email',
+                    ])
+                    ->get();
                 return \response(
                     $allSurvey
                 );
@@ -93,7 +110,7 @@ class ApiController extends Controller
                 $survey_id = $input['survey_id'];
                 $allSurveyItem = Survey::query()
                     ->with(['SurveyItem' => function ($query) use($survey_id) {
-                        $query->select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn','color_code as color_code');
+                        $query->select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn',DB::raw("CONCAT('0XFF',color_code) AS color_code"));
                         $query->where('status',1);
                         $query->where('survey_id',$survey_id);
                         $query->orderBy('oredring','ASC');
