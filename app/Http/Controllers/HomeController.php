@@ -82,6 +82,7 @@ class HomeController extends Controller
         $selectOrganization = $selectOrganization->pluck('sur_organization.name','sur_organization.id')->all();
         $selectOrganization[''] = 'Choose Organization';
         ksort($selectOrganization);
+
 //        dd($selectOrganization);
 
         return view("backend.admin.index",compact(['surveyInfo','surveySelect','selectOrganization']));
@@ -91,7 +92,6 @@ class HomeController extends Controller
         $input = $request->all();
 
         ConfigurationHelper::Language();
-
         $surveyInfo = Survey::with(
             array(
                 'SurveyResult' => function ($query) {
@@ -284,6 +284,7 @@ class HomeController extends Controller
                         $data .= "{ item:'" . $arraySurveyArray[$item->id]->itemtextbn . "', value:" . $arraySurveyArray[$item->id]->total . "}, ";
                     }
                 }else{
+                    $dataWithColor.='am5.color(0x'.$item->color_code.'),';
                     if (session()->get('locale') == 'en') {
                         $data .= "{ item:'" . $item->itemtexten . "', value:0}, ";
                     } else {

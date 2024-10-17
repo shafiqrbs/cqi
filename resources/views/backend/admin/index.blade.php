@@ -192,7 +192,9 @@
                 $data = '';
                 $dataWithColor = '';
 
+
                 if($surveyItems){
+//                    dd($surveyItems);
                     foreach ($surveyItems as $item){
                         if(isset($arraySurveyArray[$item->id])){
                             $dataWithColor.='am5.color(0x'.$item->color_code.'),';
@@ -203,6 +205,8 @@
                             }
 
                         }else{
+                            $dataWithColor.='am5.color(0x'.$item->color_code.'),';
+
                             if (session()->get('locale') == 'en') {
                                 $data .= "{ item:'" . $item->itemtexten . "', value:0}, ";
                             } else {
@@ -212,6 +216,7 @@
                     }
                 }
                 $data = substr($data, 0, -2);
+
                 ?>
             @if($totalResponse>0)
                 <div class="card" style="margin-bottom: 20px !important;">
