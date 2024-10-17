@@ -4,9 +4,10 @@ namespace App\Modules\Survey\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 use app;
-use auth;
+
 
 class SurveyOrganizationPerson extends Model
 {

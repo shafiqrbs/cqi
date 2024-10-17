@@ -4,8 +4,9 @@ namespace App\Modules\Configuration\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-use auth;
+
 
 class Configuration extends Model
 {
