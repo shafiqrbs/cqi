@@ -219,11 +219,11 @@
                                             <th>Date</th>
                                             <th>Time</th>
 {{--                                        <th>Value</th>--}}
+                                            <th>Intervel Time</th>
                                             @if(Auth::user()->hasRole('ADMINISTRATOR'))
                                         <th>Device ID</th>
                                             @endif
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
+
                                         <th>Item</th>
                                         <th>Organization</th>
                                             @if(Auth::user()->hasRole('ADMINISTRATOR'))
@@ -246,11 +246,10 @@
                                                 <td>{{$value->created_at->format('d-m-Y')}}</td>
                                                 <td>{{$value->created_at->format('h:i:s A')}}</td>
 {{--                                                <td>{{$value->survey_value}}</td>--}}
+                                                <td>{{$value->duration_time}}</td>
                                                 @if(Auth::user()->hasRole('ADMINISTRATOR'))
                                                 <td>{{$value->device_id}}</td>
                                                 @endif
-                                                <td>{{$value->latitude}}</td>
-                                                <td>{{$value->longitude}}</td>
                                                 <td>{{$value->SurveyItem->itemtexten}}</td>
                                                 <td>{{$value->SurveyOrganization->name}}</td>
                                                 @if(Auth::user()->hasRole('ADMINISTRATOR'))
