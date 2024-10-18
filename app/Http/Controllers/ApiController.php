@@ -243,7 +243,9 @@ class ApiController extends Controller
 
                     DB::commit();
                     return \response([
-                        'message'=>'success'
+                        'message'=>'success',
+                        'message_bn'=>'ধন্যবাদ! আপনার মূল্যবান মতামত প্রদান করার জন্য ।',
+                        'message_en'=>'Thank you! For providing your valuable feedback.'
                     ]);
                 } catch (\Exception $e) {
                     DB::rollback();
