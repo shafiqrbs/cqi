@@ -237,10 +237,25 @@ class ApiController extends Controller
                     $input['date'] = date('d-m-Y');
                     $input['status'] = 1;
                     $input['created_by'] = $input['user_id'];
+                    $last = DB::table('sur_survey_result')->latest('updated_at')->where('created_by',$input['user_id'])->first();
+                    $previous_datetime = ($last->updated_at);
+                    $input['previous_datetime'] = $previous_datetime;
+                    $start = $previous_datetime;
+
+                    $end   = new \DateTime();
+                    $datetime1 = new \DateTime($start);
+                    $interval = $datetime1->diff($end);
+                    $time = $interval->format('%h')." Hours ".$interval->format('%i')." Min ".$interval->format('%s')." Sec";
+                    /*$time = sprintf(
+                        '%d:%02d:%02d',
+                        ($interval->d * 24) + $interval->h,
+                        $interval->i,
+                        $interval->s
+                    );*/
+                    $input['duration_time'] = $time;
                     if ($SurveyResultData = SurveyResult::create($input)) {
                         $SurveyResultData->save();
                     }
-
                     DB::commit();
                     return \response([
                         'message'=>'success',

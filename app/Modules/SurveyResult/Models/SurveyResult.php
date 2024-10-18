@@ -26,6 +26,8 @@ class SurveyResult extends Model
         'updated_by',
         'created_at',
         'updated_at',
+        'previous_datetime',
+        'duration_time',
         'latitude',
         'longitude'
     ];
