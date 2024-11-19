@@ -2,8 +2,14 @@
 
 return [
     'OrganizationMenuButton' => 'Organization',
+    'CanteenMenuButton' => 'Canteen',
+    'DeviceMenuButton' => 'Device',
     'OrganizationFieldName'=>' Name',
+    'CanteenFieldName'=>' Device',
+    'CanteenName'=>' Canteen',
     'OrganizationPlaceholder'=>'Enter Organization Name',
+    'CanteenPlaceholder'=>'Enter canteen Name',
+    'DevicePlaceholder'=>'Enter device Name',
     'Address'=>'Address',
     'AddressPlaceholder'=>'Enter Organization Address',
     'Mobile'=>'Mobile',

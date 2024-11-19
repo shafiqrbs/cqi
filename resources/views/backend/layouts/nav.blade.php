@@ -64,7 +64,6 @@
             </a>
         </li>
     @endcan
-
     @canany(['organization-list','organization-create','organization-edit','organization-delete'])
     <li class="nav-item dropdown">
         <a class="nav-link wave-effect" href="{{route('admin.organization.index')}}" style="color: #000;">
@@ -74,6 +73,26 @@
             <span class="title"> {{__('Organization::message.OrganizationMenuButton')}}</span>
         </a>
     </li>
+    @endcan
+    @canany(['canteen-list','canteen-create','canteen-edit','canteen-delete'])
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.canteen.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                <i class="fas fa-network-wired"></i>
+              </span>
+                <span class="title"> {{__('Organization::message.CanteenMenuButton')}}</span>
+            </a>
+        </li>
+    @endcan
+    @canany(['device-list','device-create','device-edit','device-delete'])
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.device.index')}}" style="color: #000;">
+                  <span class="icon-holder">
+                    <i class="fas fa-network-wired"></i>
+                  </span>
+                <span class="title"> {{__('Organization::message.DeviceMenuButton')}}</span>
+            </a>
+        </li>
     @endcan
 
     @canany(['user-list','user-create','user-edit','user-delete'])
