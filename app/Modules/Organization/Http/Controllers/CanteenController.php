@@ -3,23 +3,19 @@
 namespace App\Modules\Organization\Http\Controllers;
 use App\Modules\Configuration\ConfigurationHelper;
 use App\Http\Controllers\Controller;
+use App\Modules\Organization\Requests\Canteen;
 use Illuminate\Http\Request;
 
 use App\Modules\Organization\Models\Organization;
+use App\Modules\Organization\Models\Canteen as OrganizationCanteen;
 use App\Modules\Organization\Requests;
 
-use App\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 use Illuminate\Support\Facades\Session;
 
-
-use DB;
-use Image;
-use File;
-use Storage;
 use App;
-Use Auth;
 
 class CanteenController extends Controller
 {
@@ -40,9 +36,9 @@ class CanteenController extends Controller
         $PageTitle = __('Organization::ControllerMsg.PageTitleAdd');
         $TableTitle = __('Organization::ControllerMsg.TableTitle');
 
-        $allOrganization = Organization::orderby('id','desc')->paginate(10);
+        $canteens = OrganizationCanteen::orderby('id','desc')->paginate(10);
 
-        return view("Organization::canteen.index", compact('ModuleTitle','PageTitle','TableTitle','allOrganization'));
+        return view("Organization::canteen.index", compact('ModuleTitle','PageTitle','TableTitle','canteens'));
     }
 
     public function create(){
@@ -53,79 +49,65 @@ class CanteenController extends Controller
         return view("Organization::canteen.create", compact('ModuleTitle','PageTitle','TableTitle','Organization'));
     }
 
-    public function store(Requests\Organization $request)
+    public function store(Canteen $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        $EmailExistsOrNot = Organization::where('email', $input['email'])->count();
-
-        if ($EmailExistsOrNot == 0){
-            DB::beginTransaction();
-            try {
-                if ($organizationData = Organization::create($input)) {
-                    $organizationData->save();
-                }
-
-                DB::commit();
-                Session::flash('message',__('Organization::FormValidation.DataAdd'));
-                return redirect()->route('admin.canteen.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                print($e->getMessage());
-                exit();
-                Session::flash('danger', $e->getMessage());
+        DB::beginTransaction();
+        try {
+            if ($canteenData = OrganizationCanteen::create($input)) {
+                $canteenData->save();
             }
-        }else{
-            Session::flash('validate',__('Organization::FormValidation.emailExists'));
-            return redirect()->back()->withInput($input);
+
+            DB::commit();
+            Session::flash('message',__('Organization::FormValidation.DataAdd'));
+            return redirect()->route('admin.canteen.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            print($e->getMessage());
+            exit();
+            Session::flash('danger', $e->getMessage());
         }
     }
 
 
     public function edit($id){
         $ModuleTitle = __('Organization::ControllerMsg.ModuleTitle');
-        $PageTitle = __('Organization::ControllerMsg.PageTitleUpdate');
+        $PageTitle = __('Organization::ControllerMsg.PageTitleUpdateCanteen');
+        $Organization = Organization::where('status','1')->pluck('name','id')->all();
 
-        $data = Organization::where('status','1')->where('id',$id)->first();
+        $data = OrganizationCanteen::where('status','1')->where('id',$id)->first();
 
-        return view("Organization::canteen.edit", compact('data','ModuleTitle','PageTitle'));
+        return view("Organization::canteen.edit", compact('data','ModuleTitle','PageTitle','Organization'));
     }
 
 
-    public function update(Requests\Organization $request,$id){
-        $input = $request->all();
+    public function update(Canteen $request,$id){
+        $input = $request->validated();
 
-        $EmailExistsOrNot = Organization::where('email', $input['email'])->count();
-        $EmailToId = Organization::where('email',$input['email'])->first();
+        $UpdateModel = OrganizationCanteen::where('id',$id)->first();
 
-        if ($EmailExistsOrNot == 0 || ($EmailExistsOrNot == 1 && $id == $EmailToId->id)) {
-            $UpdateModel = Organization::where('id',$id)->first();
+        DB::beginTransaction();
+        try {
+            $UpdateModel->update($input);
+            $UpdateModel->save();
 
-            DB::beginTransaction();
-            try {
-                $UpdateModel->update($input);
-                $UpdateModel->save();
+            DB::commit();
 
-                DB::commit();
-
-                Session::flash('message', __('Organization::FormValidation.UpdateData'));
-                return redirect()->route('admin.canteen.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                print($e->getMessage());
-                exit();
-                Session::flash('danger', $e->getMessage());
-            }
-        }else{
-            Session::flash('validate', __('Organization::FormValidation.emailExists'));
-            return redirect()->back()->withInput($input);
+            Session::flash('message', __('Organization::FormValidation.UpdateData'));
+            return redirect()->route('admin.canteen.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            print($e->getMessage());
+            exit();
+            Session::flash('danger', $e->getMessage());
         }
     }
 
     public function inactive($id){
         DB::beginTransaction();
         try {
-            $data = Organization::where('id',$id);
+            $data = OrganizationCanteen::where('id',$id);
             $data->update([
                 'status' => 0,
                 'updated_by' => Auth::user()->id,

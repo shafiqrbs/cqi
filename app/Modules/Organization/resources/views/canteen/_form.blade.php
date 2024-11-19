@@ -24,14 +24,7 @@ $organizationName = __('Survey::message.organizationName');
         <div class="col-sm-10">
 
             @if(isset($data))
-                @php $orgArray = array(); @endphp
-                @foreach($data->SurveyOrganization($data->id) as $orgData)
-                    <?php
-                    array_push($orgArray,$orgData->id);
-                    ?>
-                @endforeach
-
-                {!! Form::select('organization_id',$Organization,$orgArray,['id'=>'organization_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                {!! Form::select('organization_id',$Organization,$data->organization_id,['id'=>'organization_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 <span style="color: #ff0000">{!! $errors->first('organization_id') !!}</span>
             @else
                 {!! Form::select('organization_id',$Organization,old('organization_id'),['id'=>'organization_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
