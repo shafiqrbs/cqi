@@ -38,6 +38,7 @@
                     <a href="{{route('admin.valuewise.report')}}" style="color: #000;padding: 5px;">Survey Chart</a>
                     <a href="{{route('admin.compare.report')}}" style="color: #000;padding: 5px;">Survey Compare</a>
                     <a href="{{route('admin.surveyresult.index')}}" style="color: #000;padding: 5px;">{{__('SurveyResult::message.SurveyResultMenuButton')}}</a>
+                    <a href="{{route('admin.canteen.report')}}" style="color: #000;padding: 5px;">Canteen Wise</a>
                 </li>
             </ul>
         </li>

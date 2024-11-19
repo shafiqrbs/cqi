@@ -41,6 +41,16 @@ Route::get('admin-canteen-delete/{id}',[
     'uses' => 'CanteenController@delete'
 ]);
 
+Route::get('admin-canteen-report',[
+    'as' => 'admin.canteen.report',
+    'uses' => 'CanteenController@reportWithGraph'
+]);
+
+Route::post('admin-canteen-report-value',[
+    'as' => 'admin.canteen.report.value',
+    'uses' => 'CanteenController@reportWithGraphValue'
+]);
+
 
 
 
