@@ -127,10 +127,10 @@ class CanteenController extends Controller
     public function delete($id){
         DB::beginTransaction();
         try {
-            $organizationExists = DB::table('sur_survey_organization')->where('organization_id',$id)->count();
+            $canteenExists = DB::table('sur_device')->where('canteen_id',$id)->count();
 //            dd($organizationExists);
-            if ($organizationExists == 0){
-                $DeleteModel = Organization::where('id', $id)
+            if ($canteenExists == 0){
+                $DeleteModel = App\Modules\Organization\Models\Canteen::where('id', $id)
                     ->select('*')
                     ->first();
 
@@ -140,7 +140,7 @@ class CanteenController extends Controller
                 return redirect()->back();
             }else{
 //                Session::flash('delete', __('Organization::FormValidation.DeleteMsg'));
-                Session::flash('delete', 'Already use this organization');
+                Session::flash('delete', 'Already use this canteen');
                 return redirect()->back();
             }
         } catch (\Exception $e) {

@@ -23,17 +23,10 @@ $CanteenName = __('Organization::message.CanteenName');
         </div>
         <div class="col-sm-10">
             @if(isset($data))
-                @php $orgArray = array(); @endphp
-                @foreach($data->SurveyOrganization($data->id) as $orgData)
-                    <?php
-                    array_push($orgArray,$orgData->id);
-                    ?>
-                @endforeach
-
-                {!! Form::select('canteen_id',$Organization,$orgArray,['id'=>'canteen_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                {!! Form::select('canteen_id',$canteens,$data->canteen_id,['id'=>'canteen_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 <span style="color: #ff0000">{!! $errors->first('canteen_id') !!}</span>
             @else
-                {!! Form::select('canteen_id',$Organization,old('canteen_id'),['id'=>'canteen_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+                {!! Form::select('canteen_id',$canteens,old('canteen_id'),['id'=>'canteen_id','class' => 'form-select js-example-basic-multiple form-control','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
                 <span style="color: #ff0000">{!! $errors->first('canteen_id') !!}</span>
             @endif
         </div>

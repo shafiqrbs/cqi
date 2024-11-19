@@ -10,7 +10,7 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             @canany(['organization-list'])
-                        <a style="color: #000;" href="{{route('admin.organization.index')}}" title="{{__('Organization::message.ListButton')}}" class="module_button_header">
+                        <a style="color: #000;" href="{{route('admin.device.index')}}" title="{{__('Organization::message.ListButton')}}" class="module_button_header">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fas fa-th-list"></i> {{__('Organization::message.ListButton')}}
                             </button>
@@ -44,7 +44,7 @@
 
                             @include('backend.layouts.message')
 
-                            {!! Form::model($data, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['admin.canteen.update', $data->id],"class"=>"",'enctype'=>'multipart/form-data', 'id' => 'basic-form']) !!}
+                            {!! Form::model($data, ['method' => 'PATCH','autocomplete'=>'off', 'files'=> true, 'route'=> ['admin.device.update', $data->id],"class"=>"",'enctype'=>'multipart/form-data', 'id' => 'basic-form']) !!}
 
                             @include('Organization::device._form')
 

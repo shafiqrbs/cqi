@@ -3,18 +3,19 @@
 namespace App\Modules\Organization\Http\Controllers;
 use App\Modules\Configuration\ConfigurationHelper;
 use App\Http\Controllers\Controller;
+use App\Modules\Organization\Models\Canteen;
+use App\Modules\Organization\Models\Device;
 use Illuminate\Http\Request;
 
 use App\Modules\Organization\Models\Organization;
 use App\Modules\Organization\Requests;
 
-use App\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 use Illuminate\Support\Facades\Session;
 
 
-use DB;
 use Image;
 use File;
 use Storage;
@@ -37,12 +38,12 @@ class DeviceController extends Controller
     {
         ConfigurationHelper::Language();
         $ModuleTitle = __('Organization::ControllerMsg.ModuleTitle');
-        $PageTitle = __('Organization::ControllerMsg.PageTitleAdd');
-        $TableTitle = __('Organization::ControllerMsg.TableTitle');
+        $PageTitle = __('Organization::ControllerMsg.PageTitleAddDevice');
+        $TableTitle = __('Organization::ControllerMsg.TableTitleDevice');
 
-        $allOrganization = Organization::orderby('id','desc')->paginate(10);
+        $devices = Device::orderby('id','desc')->paginate(10);
 
-        return view("Organization::device.index", compact('ModuleTitle','PageTitle','TableTitle','allOrganization'));
+        return view("Organization::device.index", compact('ModuleTitle','PageTitle','TableTitle','devices'));
     }
 
     public function create(){
@@ -50,35 +51,27 @@ class DeviceController extends Controller
         $ModuleTitle = __('Organization::ControllerMsg.ModuleTitle');
         $PageTitle = __('Organization::ControllerMsg.PageTitleAdd');
         $TableTitle = __('Organization::ControllerMsg.TableTitle');
-        $Organization = Organization::where('status','1')->pluck('name','id')->all();
-        return view("Organization::device.create", compact('ModuleTitle','PageTitle','TableTitle','Organization'));
+        $canteens = Canteen::where('status','1')->pluck('name','id')->all();
+        return view("Organization::device.create", compact('ModuleTitle','PageTitle','TableTitle','canteens'));
     }
 
-    public function store(Requests\Organization $request)
+    public function store(Requests\Device $request)
     {
-        $input = $request->all();
-
-        $EmailExistsOrNot = Organization::where('email', $input['email'])->count();
-
-        if ($EmailExistsOrNot == 0){
-            DB::beginTransaction();
-            try {
-                if ($organizationData = Organization::create($input)) {
-                    $organizationData->save();
-                }
-
-                DB::commit();
-                Session::flash('message',__('Organization::FormValidation.DataAdd'));
-                return redirect()->route('admin.device.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                print($e->getMessage());
-                exit();
-                Session::flash('danger', $e->getMessage());
+        $input = $request->validated();
+        DB::beginTransaction();
+        try {
+            if ($deviceData = Device::create($input)) {
+                $deviceData->save();
             }
-        }else{
-            Session::flash('validate',__('Organization::FormValidation.emailExists'));
-            return redirect()->back()->withInput($input);
+
+            DB::commit();
+            Session::flash('message',__('Organization::FormValidation.DataAdd'));
+            return redirect()->route('admin.device.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            print($e->getMessage());
+            exit();
+            Session::flash('danger', $e->getMessage());
         }
     }
 
@@ -87,39 +80,32 @@ class DeviceController extends Controller
         $ModuleTitle = __('Organization::ControllerMsg.ModuleTitle');
         $PageTitle = __('Organization::ControllerMsg.PageTitleUpdate');
 
-        $data = Organization::where('status','1')->where('id',$id)->first();
+        $data = Device::where('status','1')->where('id',$id)->first();
+        $canteens = Canteen::where('status','1')->pluck('name','id')->all();
 
-        return view("Organization::device.edit", compact('data','ModuleTitle','PageTitle'));
+        return view("Organization::device.edit", compact('data','ModuleTitle','PageTitle','canteens'));
     }
 
 
-    public function update(Requests\Organization $request,$id){
-        $input = $request->all();
+    public function update(Requests\Device $request,$id){
+        $input = $request->validated();
 
-        $EmailExistsOrNot = Organization::where('email', $input['email'])->count();
-        $EmailToId = Organization::where('email',$input['email'])->first();
+        $UpdateModel = Device::where('id',$id)->first();
 
-        if ($EmailExistsOrNot == 0 || ($EmailExistsOrNot == 1 && $id == $EmailToId->id)) {
-            $UpdateModel = Organization::where('id',$id)->first();
+        DB::beginTransaction();
+        try {
+            $UpdateModel->update($input);
+            $UpdateModel->save();
 
-            DB::beginTransaction();
-            try {
-                $UpdateModel->update($input);
-                $UpdateModel->save();
+            DB::commit();
 
-                DB::commit();
-
-                Session::flash('message', __('Organization::FormValidation.UpdateData'));
-                return redirect()->route('admin.device.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                print($e->getMessage());
-                exit();
-                Session::flash('danger', $e->getMessage());
-            }
-        }else{
-            Session::flash('validate', __('Organization::FormValidation.emailExists'));
-            return redirect()->back()->withInput($input);
+            Session::flash('message', __('Organization::FormValidation.UpdateData'));
+            return redirect()->route('admin.device.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            print($e->getMessage());
+            exit();
+            Session::flash('danger', $e->getMessage());
         }
     }
 

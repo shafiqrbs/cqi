@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCanteenTable extends Migration
+class CreateDeviceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreateCanteenTable extends Migration
      */
     public function up()
     {
-        Schema::create('sur_canteen', function (Blueprint $table) {
+        Schema::create('device', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+
+        Schema::create('sur_device', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('organization_id')->nullable();
+            $table->unsignedBigInteger('canteen_id')->nullable();
             $table->string('name');
             $table->tinyInteger('status')->nullable()->comment('active = 1, inactive = 0');
             $table->integer('created_by')->nullable();
@@ -23,8 +28,8 @@ class CreateCanteenTable extends Migration
             $table->timestamps();
             $table->engine= 'InnoDB';
 
-            $table->foreign('organization_id')
-                ->references('id')->on('sur_organization')
+            $table->foreign('canteen_id')
+                ->references('id')->on('sur_canteen')
                 ->onDelete('cascade');
         });
     }
@@ -36,6 +41,6 @@ class CreateCanteenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('canteen');
+        Schema::dropIfExists('device');
     }
 }

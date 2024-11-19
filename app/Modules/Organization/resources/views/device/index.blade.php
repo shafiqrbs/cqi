@@ -37,12 +37,12 @@
                         <div class="card-body">
                             @include('backend.layouts.message')
 
-                            @if(isset($allOrganization) && !empty($allOrganization))
+                            @if(isset($devices) && !empty($devices))
                                 <div class="table-responsive">
                                     <table  class="table table-striped table-bordered" id="table_id">
                                         <thead>
                                         <th>SL</th>
-                                        <th>Organization</th>
+{{--                                        <th>Organization</th>--}}
                                         <th>Canteen</th>
                                         <th>Name</th>
                                         <th>Status</th>
@@ -51,12 +51,12 @@
 
                                         <tbody>
                                         <?php $i=1; ?>
-                                        @foreach($allOrganization as $value)
+                                        @foreach($devices as $value)
                                             <tr>
                                                 <td>{{$i++}}</td>
+                                                <td>{{$value->canteen->name}}</td>
                                                 <td>{{$value->name}}</td>
-                                                <td>{{$value->name}}</td>
-                                                <td>{{$value->address}}</td>
+{{--                                                <td>{{$value->address}}</td>--}}
                                                 <td>
                                                     <?php
                                                         if (isset($value) && ($value->status == 1)){
@@ -68,7 +68,7 @@
                                                         }
                                                     ?>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input isChecked setvalue{{$value->id}}" type="checkbox" style="text-align: center" id="flexSwitchCheckChecked" {{$checked}} dbTable = 'sur_organization' value="{{$CheckValue}}" data-id="{{$value->id}}" data-href="{{route('admin.status.change')}}" onchange="getCheckboxValue(this.value,this.data-id)">
+                                                        <input class="form-check-input isChecked setvalue{{$value->id}}" type="checkbox" style="text-align: center" id="flexSwitchCheckChecked" {{$checked}} dbTable = 'sur_device' value="{{$CheckValue}}" data-id="{{$value->id}}" data-href="{{route('admin.status.change')}}" onchange="getCheckboxValue(this.value,this.data-id)">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -84,11 +84,9 @@
 {{--                                                    @if(isset($value) && ($value->status == 1))--}}
                                                         @canany(['organization-edit'])
                                                     <a href="{{route('admin.device.edit',$value->id)}}" title="Edit Brand" class="text-primary"><i class="fas fa-pencil-alt"></i></a>@endcan
-{{--                                                    <a href="{{route('admin.device.inactive',$value->id)}}" title="Delete From List" onclick="return confirm('Are you sure to remove from this list?')" class="text-warning"><i class="fas fa-ban"></i></a>--}}
-                                                        @canany(['organization-delete'])
-                                                    <a href="{{route('admin.device.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>@endcan
-{{--                                                    @endif--}}
-                                                                                                            </span>
+                                                        {{--@canany(['organization-delete'])
+                                                    <a href="{{route('admin.device.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>@endcan--}}
+                                                    </span>
 
                                                 </td>
                                             </tr>
@@ -97,7 +95,7 @@
                                     </table>
                                 </div>
                                 <div class=" justify-content-right" style="margin-top: 20px;text-align: end;display: inline;">
-                                    {{ $allOrganization->links('backend.layouts.pagination') }}
+                                    {{ $devices->links('backend.layouts.pagination') }}
                                 </div>
                             @endif
                         </div>

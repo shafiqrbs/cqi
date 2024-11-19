@@ -10,7 +10,7 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             @canany(['organization-list'])
-                        <a style="color: #000;" href="{{route('admin.organization.index')}}" title="{{__('Organization::message.ListButton')}}" class="module_button_header">
+                        <a style="color: #000;" href="{{route('admin.device.index')}}" title="{{__('Organization::message.ListButton')}}" class="module_button_header">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fas fa-th-list"></i> {{__('Organization::message.ListButton')}}
                             </button>
@@ -43,7 +43,7 @@
 
                             @include('backend.layouts.message')
 
-                            {!! Form::open(['route' => 'admin.canteen.store','enctype'=>'multipart/form-data', 'autocomplete'=>'off', 'files'=> true, 'id'=>'basic-form', 'class' => '']) !!}
+                            {!! Form::open(['route' => 'admin.device.store','enctype'=>'multipart/form-data', 'autocomplete'=>'off', 'files'=> true, 'id'=>'basic-form', 'class' => '']) !!}
 
                             @include('Organization::device._form')
 
