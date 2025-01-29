@@ -108,13 +108,30 @@ class ApiController extends Controller
             if ($this->access == 'allow'){
                 $input = $request->all();
                 $survey_id = $input['survey_id'];
+                $device_id = $input['device_id'];
                 $allSurveyItem = SurveyItem::select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn',DB::raw("CONCAT('0XFF',color_code) AS color_code"))
                         ->where('status',1)
                         ->where('survey_id',$survey_id)
                         ->orderBy('oredring','ASC')
                     ->get();
-                return \response(
-                    $allSurveyItem
+
+                $surveyResults = SurveyResult::where([['device_id',$device_id],['survey_id',$survey_id]])->select([
+                    DB::raw('count(sur_survey_result.id) as total'),
+                ])->first();
+                $total = $surveyResults->total;
+
+                $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->where('sur_survey_result.survey_id',$survey_id)->select([
+                    DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn',
+                ])
+                    ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
+                    ->groupBy('sur_survey_result.item_id')->get()->toArray();
+
+
+                return \response(array(
+                        'total'=> $total,
+                        'result_data' => $surveyGroupResults,
+                        'allSurveyItem' => $allSurveyItem,
+                    )
                 );
             }else{
                 return \response([
