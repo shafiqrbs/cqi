@@ -252,11 +252,27 @@ class ApiController extends Controller
                         $SurveyResultData->save();
                     }
                     DB::commit();
+
+
+                    $surveyResults = SurveyResult::where('device_id',$input['device_id'])->select([
+                        DB::raw('count(sur_survey_result.id) as total'),
+                    ])->first();
+                    $total = $surveyResults->total;
+
+                    $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->select([
+                        DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn',
+                    ])
+                        ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
+                        ->groupBy('sur_survey_result.item_id')->get()->toArray();
+
                     return \response([
+                        'total'=> $total,
+                        'result_data' => $surveyGroupResults,
                         'message'=>'success',
                         'message_bn'=>'ধন্যবাদ! আপনার মূল্যবান মতামত প্রদান করার জন্য ।',
                         'message_en'=>'Thank you! For providing your valuable feedback.'
                     ]);
+
                 } catch (\Exception $e) {
                     DB::rollback();
                     return \response([
