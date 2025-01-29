@@ -130,7 +130,7 @@ class ApiController extends Controller
                 return \response(array(
                         'total'=> $total,
                         'result_data' => $surveyGroupResults,
-                        'allSurveyItem' => $allSurveyItem,
+                        'survey_item' => $allSurveyItem,
                     )
                 );
             }else{
