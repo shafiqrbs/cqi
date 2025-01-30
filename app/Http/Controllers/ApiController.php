@@ -109,18 +109,23 @@ class ApiController extends Controller
                 $input = $request->all();
                 $survey_id = $input['survey_id'];
                 $device_id = $input['device_id'];
+                $date =  new \DateTime();
+                $start_date =  $date->format('Y-m-d 00:00:00');
+                $end_date = $date->format('Y-m-d 23:59:59');
                 $allSurveyItem = SurveyItem::select('id','survey_id', 'itemtexten as item_name_en','itemtextbn as item_name_bn','itemvalueen as item_value_en','itemvaluebn as item_value_bn',DB::raw("CONCAT('0XFF',color_code) AS color_code"))
                         ->where('status',1)
                         ->where('survey_id',$survey_id)
                         ->orderBy('oredring','ASC')
                     ->get();
 
-                $surveyResults = SurveyResult::where([['device_id',$device_id],['survey_id',$survey_id]])->select([
-                    DB::raw('count(sur_survey_result.id) as total'),
-                ])->first();
+                $surveyResults = SurveyResult::where([['device_id',$device_id],['survey_id',$survey_id]])
+                    ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
+                    ->select([ DB::raw('count(sur_survey_result.id) as total')])->first();
                 $total = $surveyResults->total;
 
-                $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->where('sur_survey_result.survey_id',$survey_id)->select([
+                $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->where('sur_survey_result.survey_id',$survey_id)
+                    ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
+                    ->select([
                     DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn',
                 ])
                     ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
@@ -250,10 +255,15 @@ class ApiController extends Controller
 
             if ($validation){
                 DB::beginTransaction();
+
                 try {
                     $input['date'] = date('d-m-Y');
                     $input['status'] = 1;
                     $input['created_by'] = $input['user_id'];
+                    $date =  new \DateTime();
+                    $start_date =  $date->format('Y-m-d 00:00:00');
+                    $end_date = $date->format('Y-m-d 23:59:59');
+
                     $last = DB::table('sur_survey_result')->latest('updated_at')->where('created_by',$input['user_id'])->first();
                     if($last){
                         $previous_datetime = ($last->updated_at);
@@ -271,14 +281,16 @@ class ApiController extends Controller
                     DB::commit();
 
 
-                    $surveyResults = SurveyResult::where('device_id',$input['device_id'])->select([
+                    $surveyResults = SurveyResult::where('device_id',$input['device_id'])
+                        ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
+                        ->select([
                         DB::raw('count(sur_survey_result.id) as total'),
                     ])->first();
                     $total = $surveyResults->total;
 
-                    $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->select([
-                        DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn',
-                    ])
+                    $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])
+                        ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
+                        ->select([DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn'])
                         ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
                         ->groupBy('sur_survey_result.item_id')->get()->toArray();
 
