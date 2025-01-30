@@ -125,7 +125,7 @@ class ApiController extends Controller
 
                 $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])->where('sur_survey_result.survey_id',$survey_id)
                     ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
-                    ->select([DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn','sur_item.color_code'])
+                    ->select([DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten as item_name_en','sur_item.itemtextbn as item_name_bn','sur_item.color_code'])
                     ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
                     ->groupBy('sur_survey_result.item_id')->get()->toArray();
 
@@ -288,7 +288,7 @@ class ApiController extends Controller
 
                     $surveyGroupResults = SurveyResult::where('sur_survey_result.device_id',$input['device_id'])
                         ->whereBetween('sur_survey_result.created_at', [$start_date, $end_date])
-                        ->select([DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten','sur_item.itemtextbn','sur_item.color_code'])
+                        ->select([DB::raw('count(sur_survey_result.id) as total'),'sur_survey_result.item_id','sur_item.itemtexten as item_name_en','sur_item.itemtextbn as item_name_bn','sur_item.color_code'])
                         ->join('sur_item','sur_item.id','=','sur_survey_result.item_id')
                         ->groupBy('sur_survey_result.item_id')->get()->toArray();
 
