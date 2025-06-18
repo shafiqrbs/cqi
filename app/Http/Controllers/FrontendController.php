@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Configuration\ConfigurationHelper;
+use App\Modules\Swapno\Models\SwapnoNumber;
+use App\Modules\Swapno\Models\TotalNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -36,7 +38,9 @@ class FrontendController extends Controller
     public function swapnoDashboard(){
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Dashboard';
-        return view("frontend.layouts.swapno-dashboard",compact('TabHeader'));
+        $totalNumbers = TotalNumber::first();
+        $swapnoNumbers = SwapnoNumber::get();
+        return view("frontend.layouts.swapno-dashboard",compact('TabHeader','totalNumbers','swapnoNumbers'));
     }
 
     public function swapnoDetails(){

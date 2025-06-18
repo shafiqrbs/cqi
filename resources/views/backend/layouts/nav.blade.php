@@ -13,6 +13,28 @@
         </li>
     @endcan
 
+{{--    @canany(['survey-list','survey-create','survey-edit','survey-delete'])--}}
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.swapno.total.index')}}" style="color: #000;">
+          <span class="icon-holder">
+              <i class="fas fa-sad-cry"></i>
+          </span>
+                <span class="title">Total Numbers</span>
+            </a>
+        </li>
+{{--    @endcan--}}
+
+        @canany(['survey-list','survey-create','survey-edit','survey-delete'])
+            <li class="nav-item dropdown">
+                <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-paint-roller"></i>
+              </span>
+                    <span class="title">Swapno</span>
+                </a>
+            </li>
+        @endcan
+
     @canany(['result-list','result-create','result-edit','result-delete'])
         <li class="nav-item dropdown">
             <a class="nav-link wave-effect" href="{{route('admin.surveyresult.index')}}" style="color: #000;"><span class="icon-holder"><i class="fas fa-award"></i></span>
@@ -54,6 +76,8 @@
             </a>
         </li>
     @endcan
+
+
 
     @canany(['item-list','item-create','item-edit','item-delete'])
         <li class="nav-item dropdown">
