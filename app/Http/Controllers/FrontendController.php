@@ -33,5 +33,17 @@ class FrontendController extends Controller
         return view("frontend.layouts.welcome",compact('TabHeader'));
     }
 
+    public function swapnoDashboard(){
+        ConfigurationHelper::Language();
+        $TabHeader = 'Swapno Dashboard';
+        return view("frontend.layouts.swapno-dashboard",compact('TabHeader'));
+    }
+
+    public function swapnoDetails(){
+        ConfigurationHelper::Language();
+        $TabHeader = 'Swapno Details';
+        return view("frontend.layouts.swapno-details",compact('TabHeader'));
+    }
+
 
 }

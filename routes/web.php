@@ -16,10 +16,12 @@ use App\Modules\Color\Http\Controllers\ColorController;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+/*Route::get('/swapno', function () {
+    echo 'ok';
+});*/
 Route::get('/', [App\Http\Controllers\FrontendController::class,'HomePage']);
+Route::get('/swapno', [App\Http\Controllers\FrontendController::class,'swapnoDashboard']);
+Route::get('/swapno-details', [App\Http\Controllers\FrontendController::class,'swapnoDetails']);
 
 Auth::routes();
 Route::get('/admin-dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('admin-dashboard');
@@ -74,11 +76,6 @@ Route::post('update-user-password',[
     'as' => 'update.user.password',
     'uses' => 'App\Http\Controllers\HomeController@updatePassword'
 ]);
-
-
-
-
-
 
 
 
