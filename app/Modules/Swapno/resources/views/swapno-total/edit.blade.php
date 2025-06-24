@@ -10,6 +10,12 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
 
+                            <a style="color: #000;" href="{{route('admin.swapno.index')}}" title="{{__('Survey::message.ListButton')}}" class="module_button_header">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-th-list"></i> Swapno
+                                </button>
+                            </a>
+
                         <a style="color: #000;" href="{{route('admin.swapno.total.index')}}" title="{{__('Survey::message.ListButton')}}" class="module_button_header">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fas fa-th-list"></i> {{__('Survey::message.ListButton')}}

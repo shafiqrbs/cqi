@@ -14,14 +14,14 @@
     @endcan
 
 {{--    @canany(['survey-list','survey-create','survey-edit','survey-delete'])--}}
-        <li class="nav-item dropdown">
+        {{--<li class="nav-item dropdown">
             <a class="nav-link wave-effect" href="{{route('admin.swapno.total.index')}}" style="color: #000;">
           <span class="icon-holder">
               <i class="fas fa-sad-cry"></i>
           </span>
                 <span class="title">Total Numbers</span>
             </a>
-        </li>
+        </li>--}}
 {{--    @endcan--}}
 
         @canany(['survey-list','survey-create','survey-edit','survey-delete'])
