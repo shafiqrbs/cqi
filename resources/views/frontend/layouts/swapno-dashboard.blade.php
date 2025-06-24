@@ -38,7 +38,7 @@
         }
 
         .kpi-title {
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 15px;
             opacity: 0.9;
         }
