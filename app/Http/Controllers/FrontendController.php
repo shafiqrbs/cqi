@@ -40,7 +40,7 @@ class FrontendController extends Controller
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Dashboard';
         $totalNumbers = TotalNumber::first();
-        $Organization = Organization::where('status','1')->get();
+        $Organization = Organization::join('swapno_total','swapno_total.organization_id','=','sur_organization.id')->where('status','1')->select('sur_organization.*')->get();
 
         $swapnoNumbers = SwapnoNumber::get();
         return view("frontend.layouts.swapno-dashboard",compact('TabHeader','totalNumbers','swapnoNumbers','Organization'));
