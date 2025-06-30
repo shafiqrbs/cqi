@@ -33,7 +33,32 @@ class FrontendController extends Controller
     public function HomePage(){
         ConfigurationHelper::Language();
         $TabHeader = 'Home';
-        return view("frontend.layouts.welcome",compact('TabHeader'));
+
+        // for bar chat
+        $labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+        $datasets = [
+            [
+                'label' => 'Category 1',
+                'data' => [65, 75, 70, 68, 72, 70],
+                'backgroundColor' => '#60a5fa',
+                'borderRadius' => 4,
+                'barThickness' => 30
+            ],
+            [
+                'label' => 'Category 2',
+                'data' => [45, 55, 60, 58, 62, 65],
+                'backgroundColor' => '#34d399',
+                'borderRadius' => 4,
+                'barThickness' => 30
+            ]
+        ];
+
+        // for pie chart
+        $pieLabels = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
+        $pieData = [50, 25, 15, 10];
+        $pieColors = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24'];
+
+        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','pieLabels','pieData','pieColors'));
     }
 
     public function swapnoDashboard(){
@@ -44,6 +69,12 @@ class FrontendController extends Controller
 
         $swapnoNumbers = SwapnoNumber::get();
         return view("frontend.layouts.swapno-dashboard",compact('TabHeader','totalNumbers','swapnoNumbers','Organization'));
+    }
+
+    public function swapnoSummary(){
+        ConfigurationHelper::Language();
+        $TabHeader = 'Swapno Summary';
+        return view("frontend.layouts.swapno-summary",compact('TabHeader'));
     }
 
 

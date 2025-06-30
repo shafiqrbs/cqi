@@ -8,6 +8,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.87.0">
     <title>Swapno Dashboard</title>
+    <link rel="icon" type="image/png" href="{{asset('assets/logo.jpeg')}}">
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 
@@ -51,7 +52,7 @@
         .kpi-icon {
             font-size: 40px;
             opacity: 0.2;
-            position: absolute;
+            /*position: absolute;*/
             right: 20px;
             bottom: 20px;
         }
