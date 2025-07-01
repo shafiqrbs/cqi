@@ -24,7 +24,7 @@
         </li>--}}
 {{--    @endcan--}}
 
-        @canany(['survey-list','survey-create','survey-edit','survey-delete'])
+{{--        @canany(['survey-list','survey-create','survey-edit','survey-delete'])--}}
             <li class="nav-item dropdown">
                 <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">
               <span class="icon-holder">
@@ -33,7 +33,16 @@
                     <span class="title">Swapno</span>
                 </a>
             </li>
-        @endcan
+
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.sales.index','all')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-money-bill"></i>
+              </span>
+                <span class="title">Sales</span>
+            </a>
+        </li>
+{{--        @endcan--}}
 
     @canany(['result-list','result-create','result-edit','result-delete'])
         <li class="nav-item dropdown">
