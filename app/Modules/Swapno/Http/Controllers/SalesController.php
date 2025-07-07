@@ -138,6 +138,20 @@ class SalesController extends Controller
 
     public function update(SalesRequest $request,$id){
         $input = $request->validated();
+
+        $exists = Sales::where('organization_id', $input['organization_id'])
+            ->when(!empty($input['category_id']), function ($query) use ($input) {
+                $query->where('category_id', $input['category_id']);
+            })
+            ->where('month', $input['month'])
+            ->where('year', $input['year'])
+            ->first();
+
+        if ($exists && $exists->id != $id) {
+            Session::flash('validate', 'Sales already exists.');
+            return redirect()->back()->withInput();
+        }
+
         $updateModel = Sales::where('id',$id)->first();
 
         DB::beginTransaction();
