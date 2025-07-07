@@ -278,9 +278,10 @@
 <!-- Project Title Section -->
 <div class="container">
     <div class="project-title">
+        <h1 class="main-title">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
         <div class="project-duration">Project Duration</div>
         <div class="project-duration"><strong>January 2025-Dec 2027</strong></div>
-        <h1 class="main-title">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
+
     </div>
     {{--<div class="goal-cards">
         <div class="row g-4">
@@ -438,7 +439,7 @@
     <div class="chart-section my-5">
         <div class="row g-4">
             <!-- Column 1: Monthly Sales -->
-            <div class="col-lg-12">
+            <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Product Wise Sales</h3>
                     <div class="chart-controls mb-3">
@@ -458,6 +459,59 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4">
+                <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
+
+                    <h3 class="chart-title">Quarterly Milestone</h3>
+
+                    <div class="p-4 text-center border rounded bg-light shadow-sm position-relative">
+                        <i class="bi bi-award-fill text-success fs-1 mb-3 d-block"></i>
+                        <small class="text-muted d-block">
+                            Increased investment by the businesses in improving nutrition and wellbeing of their workers and communities.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+                <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
+                    <h3 class="chart-title">Upcoming Events</h3>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">
+                                    <i class="bi bi-bullseye me-2 text-success"></i> Nutrition Fair
+                                </h6>
+                                <small class="text-muted">July 10, 2025 • Auditorium A</small>
+                            </div>
+                            <span class="badge bg-success rounded-pill">New</span>
+                        </li>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">
+                                    <i class="bi bi-easel2-fill me-2 text-info"></i> Training Session
+                                </h6>
+                                <small class="text-muted">July 15, 2025 • Hall B</small>
+                            </div>
+                            <span class="badge bg-info rounded-pill">Soon</span>
+                        </li>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">
+                                    <i class="bi bi-people-fill me-2 text-warning"></i> Community Meeting
+                                </h6>
+                                <small class="text-muted">July 20, 2025 • Conference Room</small>
+                            </div>
+                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
