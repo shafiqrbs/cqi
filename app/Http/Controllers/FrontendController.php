@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Modules\Configuration\ConfigurationHelper;
 use App\Modules\Organization\Models\Organization;
+use App\Modules\Swapno\Models\Sales;
 use App\Modules\Swapno\Models\SwapnoNumber;
 use App\Modules\Swapno\Models\TotalNumber;
 use Illuminate\Http\Request;
@@ -33,30 +34,44 @@ class FrontendController extends Controller
     public function HomePage(){
         ConfigurationHelper::Language();
         $TabHeader = 'Home';
+        $currentMonth = date('F');
+        $currentYear = date('Y');
+        $monthlySalesData = Sales::where('swapno_sales.month', $currentMonth)->where('swapno_sales.year', $currentYear)
+            ->join('sur_organization','sur_organization.id','=','swapno_sales.organization_id')
+            ->select('swapno_sales.*','sur_organization.name as org_name')
+            ->get()->toArray();
 
         // for bar chat
-        $labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-        $datasets = [
-            [
-                'label' => 'Category 1',
-                'data' => [65, 75, 70, 68, 72, 70],
-                'backgroundColor' => '#60a5fa',
-                'borderRadius' => 4,
-                'barThickness' => 30
-            ],
-            [
-                'label' => 'Category 2',
-                'data' => [45, 55, 60, 58, 62, 65],
-                'backgroundColor' => '#34d399',
-                'borderRadius' => 4,
-                'barThickness' => 30
-            ]
-        ];
+        $labels = [$currentMonth];
+        $colors = ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f87171']; // Add more if needed
+        $datasets = [];
 
-        // for pie chart
+        foreach ($monthlySalesData as $index => $item) {
+            $datasets[] = [
+                'label' => $item['org_name'],
+                'data' => [(float) $item['total_sales_amount']],
+                'backgroundColor' => $colors[$index % count($colors)],
+                'borderRadius' => 4,
+                'barThickness' => 30
+            ];
+        }
+
+    /*    // for pie chart
         $pieLabels = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
         $pieData = [50, 25, 15, 10];
-        $pieColors = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24'];
+        $pieColors = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24'];*/
+
+        $colorPalette = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24', '#a78bfa', '#f87171'];
+
+        $pieLabels = [];
+        $pieData = [];
+        $pieColors = [];
+
+        foreach ($monthlySalesData as $index => $item) {
+            $pieLabels[] = $item['org_name'];
+            $pieData[] = (float) $item['total_sales_amount'];
+            $pieColors[] = $colorPalette[$index % count($colorPalette)];
+        }
 
         return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','pieLabels','pieData','pieColors'));
     }

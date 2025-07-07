@@ -233,7 +233,25 @@
                 padding: 0.4rem 1rem;
             }
         }
+
     </style>
+    <style>
+        .goal-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;            /* Set fixed height */
+            width: 60px;             /* Set fixed width */
+            background-color: #f8f9fa; /* Optional background */
+            border-radius: 50%;      /* Optional: makes it circular */
+            margin: 0 auto;          /* Center the whole div horizontally if needed */
+        }
+        .goal-icon i {
+            font-size: 24px;         /* Size of the icon */
+            color: #0d6efd;          /* Optional color */
+        }
+    </style>
+
 </head>
 <body>
 <!-- Header Section -->
@@ -264,9 +282,7 @@
         <div class="project-duration"><strong>January 2025-Dec 2027</strong></div>
         <h1 class="main-title">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
     </div>
-
-    <!-- Goal Cards -->
-    <div class="goal-cards">
+    {{--<div class="goal-cards">
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="goal-card">
@@ -285,7 +301,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
+
 
     <!-- Charts Section -->
 {{--
@@ -401,6 +418,27 @@
 
             <!-- Column 3: Product Wise Sales -->
             <div class="col-lg-4">
+                <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm d-flex flex-column justify-content-center text-center">
+                    <div class="p-4 text-center border rounded bg-white shadow-sm h-100">
+{{--                        <div class="goal-icon"></div>--}}
+                        <div class="goal-icon">
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+
+                        <small class="text-muted">SWAPNO is a factory driven model to improve nutrition knowledge of workers and to increase availability and accessibility to nutritious and safe food.</small>
+                    </div>
+                    <div class="p-4 text-center border rounded bg-white shadow-sm h-100">
+                        <div class="goal-icon"></div>
+                        <small class="text-muted">Increased investment by the businesses in improving nutrition and wellbeing of their workers and communities</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chart-section my-5">
+        <div class="row g-4">
+            <!-- Column 1: Monthly Sales -->
+            <div class="col-lg-12">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Product Wise Sales</h3>
                     <div class="chart-controls mb-3">
@@ -472,13 +510,13 @@
                     }
                 }
             },
-            scales: {
+            /*scales: {
                 y: {
                     beginAtZero: true,
                     max: 100,
                     ticks: {
                         callback: function(value) {
-                            return '$' + value + 'K';
+                            return value + 'tk';
                         }
                     }
                 },
@@ -487,7 +525,7 @@
                         display: false
                     }
                 }
-            }
+            }*/
         }
     });
 
@@ -523,7 +561,7 @@
                     },
                     formatter: (value, context) => {
                         const label = context.chart.data.labels[context.dataIndex];
-                        return `${label}: ${value}%`;
+                        return `${label}: ${value}`;
                     }
                 }
             },
