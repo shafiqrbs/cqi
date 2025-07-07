@@ -33,6 +33,17 @@ $Submit = __('Organization::message.Submit');
         </div>
     </div>
 
+    <div class="form-group row mg-top">
+        <div class="col-sm-2">
+            {!! Form::label('Short Name', 'Short Name', array('class' => 'col-form-label')) !!}
+        </div>
+
+        <div class="col-sm-10">
+            {!! Form::text('short_name',old('short_name'),['id'=>'short_name','class' => 'form-control','data-checkify'=>'minlen=3,required','Placeholder' => 'Enter short name','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}
+            <span style="color: #ff0000">{!! $errors->first('short_name') !!}</span>
+        </div>
+    </div>
+
 
     <div class="form-group row mg-top">
         <div class="col-sm-2">

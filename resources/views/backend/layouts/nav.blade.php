@@ -42,6 +42,15 @@
                 <span class="title">Sales</span>
             </a>
         </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.gallery.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-photo-video"></i>
+              </span>
+                <span class="title">Gallery</span>
+            </a>
+        </li>
 {{--        @endcan--}}
 
     @canany(['result-list','result-create','result-edit','result-delete'])

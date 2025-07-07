@@ -199,7 +199,7 @@
         }
 
         .cta-button {
-            background-color: var(--secondary-color);
+            background-color: #960535FF;
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -212,7 +212,7 @@
         }
 
         .cta-button:hover {
-            background-color: #059669;
+            background-color: #710026FF;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
@@ -269,7 +269,10 @@
             </div>
             <div class="col-md-4 text-end">
                 <div class="text-muted mb-2">Funded By</div>
-                <div class="funded-badge">Auchan | Foundation</div>
+{{--                <div class="funded-badge">Auchan | Foundation</div>--}}
+                <a href="{{route('home')}}">
+                    <img width="40%" src="{{asset('assets/logo-auchon.jpeg')}}" alt="">
+                </a>
             </div>
         </div>
     </div>
@@ -383,7 +386,7 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Monthly FPS Sales</h3>
-                    <div class="chart-controls mb-3">
+                    {{--<div class="chart-controls mb-3">
                         <select class="chart-dropdown form-select">
                             <option>Metric</option>
                             <option>Revenue</option>
@@ -394,7 +397,7 @@
                             <option>This Week</option>
                             <option>This Month</option>
                         </select>
-                    </div>
+                    </div>--}}
                     <div class="chart-container">
                         <canvas id="monthlyChart"></canvas>
                     </div>
@@ -421,15 +424,11 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm d-flex flex-column justify-content-center text-center">
                     <div class="p-4 text-center border rounded bg-white shadow-sm h-100">
-{{--                        <div class="goal-icon"></div>--}}
-                        <div class="goal-icon">
-                            <i class="bi bi-star-fill"></i>
-                        </div>
-
+                        <h4 class="fw-bold mb-2">Goals</h4>
                         <small class="text-muted">SWAPNO is a factory driven model to improve nutrition knowledge of workers and to increase availability and accessibility to nutritious and safe food.</small>
                     </div>
                     <div class="p-4 text-center border rounded bg-white shadow-sm h-100">
-                        <div class="goal-icon"></div>
+                        <h4 class="fw-bold mb-2">Objectives</h4>
                         <small class="text-muted">Increased investment by the businesses in improving nutrition and wellbeing of their workers and communities</small>
                     </div>
                 </div>
@@ -442,7 +441,7 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Product Wise Sales</h3>
-                    <div class="chart-controls mb-3">
+                    {{--<div class="chart-controls mb-3">
                         <select class="chart-dropdown form-select">
                             <option>Metric</option>
                             <option>Revenue</option>
@@ -453,7 +452,7 @@
                             <option>This Week</option>
                             <option>This Month</option>
                         </select>
-                    </div>
+                    </div>--}}
                     <div class="pie-chart-container">
                         <canvas id="pieChart"></canvas>
                     </div>
@@ -465,10 +464,27 @@
 
                     <h3 class="chart-title">Quarterly Milestone</h3>
 
-                    <div class="p-4 text-center border rounded bg-light shadow-sm position-relative">
-                        <i class="bi bi-award-fill text-success fs-1 mb-3 d-block"></i>
+                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-4">
                         <small class="text-muted d-block">
-                            Increased investment by the businesses in improving nutrition and wellbeing of their workers and communities.
+                            Successfully inaugurated 03 Fair Price Shop (FPS) in 3 factories.
+                        </small>
+                    </div>
+
+                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-4">
+                        <small class="text-muted d-block">
+                            Formally three NICs announced by the factory management.
+                        </small>
+                    </div>
+
+                    <div class="p-2 text-left mb-xl-4 border rounded bg-light shadow-sm position-relative">
+                        <small class="text-muted d-block">
+                            Completed baseline survey in 2 factories (Russel Garments and TM Jeans).
+                        </small>
+                    </div>
+
+                    <div class="p-2 text-left  mb-xl-4 border rounded bg-light shadow-sm position-relative">
+                        <small class="text-muted d-block">
+                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
                         </small>
                     </div>
                 </div>
@@ -480,32 +496,41 @@
                     <h3 class="chart-title">Upcoming Events</h3>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
                             <div>
                                 <h6 class="mb-1 fw-semibold">
-                                    <i class="bi bi-bullseye me-2 text-success"></i> Nutrition Fair
+                                    Complete the Baseline Survey for Phase II
                                 </h6>
-                                <small class="text-muted">July 10, 2025 • Auditorium A</small>
+{{--                                <small class="text-muted">July 10, 2025 • Auditorium A</small>--}}
                             </div>
-                            <span class="badge bg-success rounded-pill">New</span>
+{{--                            <span class="badge bg-success rounded-pill">New</span>--}}
+                        </li>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">
+                                    Inaugurate the 4th Fair Price Shop at Zasstex
+                                </h6>
+{{--                                <small class="text-muted">July 15, 2025 • Hall B</small>--}}
+                            </div>
+{{--                            <span class="badge bg-info rounded-pill">Soon</span>--}}
+                        </li>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">
+                                    Organize Auchan kick-off meeting
+                                </h6>
+{{--                                <small class="text-muted">July 20, 2025 • Conference Room</small>--}}
+                            </div>
+{{--                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>--}}
                         </li>
                         <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
                             <div>
                                 <h6 class="mb-1 fw-semibold">
-                                    <i class="bi bi-easel2-fill me-2 text-info"></i> Training Session
+                                    Upgrade & Complete Project Dashboard
                                 </h6>
-                                <small class="text-muted">July 15, 2025 • Hall B</small>
+{{--                                <small class="text-muted">July 20, 2025 • Conference Room</small>--}}
                             </div>
-                            <span class="badge bg-info rounded-pill">Soon</span>
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1 fw-semibold">
-                                    <i class="bi bi-people-fill me-2 text-warning"></i> Community Meeting
-                                </h6>
-                                <small class="text-muted">July 20, 2025 • Conference Room</small>
-                            </div>
-                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>
+{{--                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>--}}
                         </li>
                     </ul>
                 </div>

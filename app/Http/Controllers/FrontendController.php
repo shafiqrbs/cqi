@@ -38,7 +38,7 @@ class FrontendController extends Controller
         $currentYear = date('Y');
         $monthlySalesData = Sales::where('swapno_sales.month', $currentMonth)->where('swapno_sales.year', $currentYear)
             ->join('sur_organization','sur_organization.id','=','swapno_sales.organization_id')
-            ->select('swapno_sales.*','sur_organization.name as org_name')
+            ->select('swapno_sales.*','sur_organization.name as org_name','sur_organization.short_name')
             ->get()->toArray();
 
         // for bar chat
@@ -46,10 +46,15 @@ class FrontendController extends Controller
         $colors = ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f87171']; // Add more if needed
         $datasets = [];
 
-        foreach ($monthlySalesData as $index => $item) {
+        $monthlyOverview = SwapnoNumber::join('sur_organization','sur_organization.id','=','swapno_total.organization_id')
+            ->select('swapno_total.total_sales_in_bdt','sur_organization.name as org_name','sur_organization.short_name')
+            ->get()->toArray();
+//        dump($monthlyOverview);
+
+        foreach ($monthlyOverview as $index => $item) {
             $datasets[] = [
-                'label' => $item['org_name'],
-                'data' => [(float) $item['total_sales_amount']],
+                'label' => $item['short_name'] ?? $item['org_name'],
+                'data' => [(float) $item['total_sales_in_bdt']],
                 'backgroundColor' => $colors[$index % count($colors)],
                 'borderRadius' => 4,
                 'barThickness' => 30
@@ -68,7 +73,7 @@ class FrontendController extends Controller
         $pieColors = [];
 
         foreach ($monthlySalesData as $index => $item) {
-            $pieLabels[] = $item['org_name'];
+            $pieLabels[] = $item['short_name'] ?? $item['org_name'];
             $pieData[] = (float) $item['total_sales_amount'];
             $pieColors[] = $colorPalette[$index % count($colorPalette)];
         }
