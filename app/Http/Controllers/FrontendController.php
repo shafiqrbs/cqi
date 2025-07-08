@@ -42,7 +42,7 @@ class FrontendController extends Controller
             ->get()->toArray();
 
         // for bar chat
-        $labels = [$currentMonth];
+        $labels = [date('F', strtotime('-1 month'))];
         $colors = ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f87171']; // Add more if needed
         $datasets = [];
 
@@ -95,6 +95,12 @@ class FrontendController extends Controller
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Summary';
         return view("frontend.layouts.swapno-summary",compact('TabHeader'));
+    }
+
+    public function swapnoGallery(){
+        ConfigurationHelper::Language();
+        $TabHeader = 'Swapno Gallery';
+        return view("frontend.layouts.swapno-gallery",compact('TabHeader'));
     }
 
 

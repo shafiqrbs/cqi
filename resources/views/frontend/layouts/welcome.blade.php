@@ -545,6 +545,7 @@
     <div class="cta-section">
         <a href="{{route('swapno-dashboard')}}" class="cta-button">More Details about Factories</a>
         <a href="{{route('swapno-summary')}}" class="cta-button">Swapno Summary</a>
+        <a href="{{route('swapno-gallery')}}" class="cta-button">Swapno Gallery</a>
     </div>
 </div>
 
