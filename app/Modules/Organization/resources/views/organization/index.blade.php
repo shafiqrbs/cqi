@@ -93,8 +93,8 @@
                                                         @canany(['organization-edit'])
                                                     <a href="{{route('admin.organization.edit',$value->id)}}" title="Edit Brand" class="text-primary"><i class="fas fa-pencil-alt"></i></a>@endcan
 {{--                                                    <a href="{{route('admin.organization.inactive',$value->id)}}" title="Delete From List" onclick="return confirm('Are you sure to remove from this list?')" class="text-warning"><i class="fas fa-ban"></i></a>--}}
-                                                        @canany(['organization-delete'])
-                                                    <a href="{{route('admin.organization.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>@endcan
+                                                        {{--@canany(['organization-delete'])
+                                                    <a href="{{route('admin.organization.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>@endcan--}}
 {{--                                                    @endif--}}
                                                                                                             </span>
 

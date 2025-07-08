@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Modules\Configuration\ConfigurationHelper;
 use App\Modules\Organization\Models\Organization;
+use App\Modules\Swapno\Models\PhotoGallery;
 use App\Modules\Swapno\Models\Sales;
 use App\Modules\Swapno\Models\SwapnoNumber;
 use App\Modules\Swapno\Models\TotalNumber;
@@ -100,7 +101,15 @@ class FrontendController extends Controller
     public function swapnoGallery(){
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Gallery';
-        return view("frontend.layouts.swapno-gallery",compact('TabHeader'));
+        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1)->get();
+        return view("frontend.layouts.swapno-gallery",compact('TabHeader','galleries'));
+    }
+
+    public function swapnoGalleryDetails($id){
+        ConfigurationHelper::Language();
+        $TabHeader = 'Swapno Gallery Details';
+        $galleries = PhotoGallery::find($id);
+        return view("frontend.layouts.swapno-gallery-details",compact('TabHeader','galleries'));
     }
 
 

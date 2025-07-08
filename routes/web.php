@@ -23,6 +23,7 @@ Route::get('/', [App\Http\Controllers\FrontendController::class,'HomePage'])->na
 Route::get('/swapno', [App\Http\Controllers\FrontendController::class,'swapnoDashboard'])->name('swapno-dashboard');
 Route::get('/swapno-summary', [App\Http\Controllers\FrontendController::class,'swapnoSummary'])->name('swapno-summary');
 Route::get('/swapno-gallery', [App\Http\Controllers\FrontendController::class,'swapnoGallery'])->name('swapno-gallery');
+Route::get('/swapno-gallery-details/{id}', [App\Http\Controllers\FrontendController::class,'swapnoGalleryDetails'])->name('swapno-gallery-details');
 
 Auth::routes();
 Route::get('/admin-dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('admin-dashboard');

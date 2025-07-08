@@ -39,13 +39,9 @@ class GalleryController extends Controller
         $PageTitle = 'Swapno Gallery List';
         $TableTitle = 'Swapno Gallery List';
 
-        $sales = Sales::orderby('id','desc');
-        $sales = $sales->join('sur_organization', 'sur_organization.id', '=', 'swapno_sales.organization_id')
-            ->join('swapno_category', 'swapno_category.id', '=', 'swapno_sales.category_id')
-            ->select('swapno_sales.*', 'sur_organization.name as organization_name', 'swapno_category.name as category_name');
-        $sales=$sales->paginate(10);
+        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1)->paginate(10);
 
-        return view("Swapno::gallery.index", compact('ModuleTitle','PageTitle','TableTitle','sales'));
+        return view("Swapno::gallery.index", compact('ModuleTitle','PageTitle','TableTitle','galleries'));
     }
 
     public function create(){
@@ -54,45 +50,6 @@ class GalleryController extends Controller
             'is_active' => 0
         ]);
         return redirect()->route('admin.gallery.edit',['id' => $photoGallery->id]);
-    }
-
-    /**
-     * @throws \Throwable
-     */
-    public function store(SalesRequest $request)
-    {
-        $input = $request->validated();
-
-        $exists = Sales::where('organization_id', $input['organization_id'])
-            ->when(!empty($input['category_id']), function ($query) use ($input) {
-                $query->where('category_id', $input['category_id']);
-            })
-            ->where('month', $input['month'])
-            ->where('year', $input['year'])
-            ->exists();
-
-        if ($exists) {
-            Session::flash('validate', 'Sales already exists.');
-            return redirect()->back()->withInput();
-        }
-
-        DB::beginTransaction();
-        try {
-            if (empty($input['total_sales_quantity'])){
-                $input['total_sales_quantity'] = 0;
-            }
-            $input['category_id'] = !empty($input['category_id']) ? $input['category_id'] : null;
-            $input['report_date'] = now();
-            Sales::create($input);
-            DB::commit();
-            Session::flash('message','Sales added Successfully!');
-            return redirect()->route('admin.sales.index','all');
-        } catch (\Exception $e) {
-            DB::rollback();
-            print($e->getMessage());
-            exit();
-            Session::flash('danger', $e->getMessage());
-        }
     }
 
 
@@ -109,38 +66,20 @@ class GalleryController extends Controller
     }
 
 
-    public function update(SalesRequest $request,$id){
-        $input = $request->validated();
-
-        $exists = Sales::where('organization_id', $input['organization_id'])
-            ->when(!empty($input['category_id']), function ($query) use ($input) {
-                $query->where('category_id', $input['category_id']);
-            })
-            ->where('month', $input['month'])
-            ->where('year', $input['year'])
-            ->first();
-
-        if ($exists && $exists->id != $id) {
-            Session::flash('validate', 'Sales already exists.');
-            return redirect()->back()->withInput();
-        }
-
-        $updateModel = Sales::where('id',$id)->first();
+    public function update(Request $request,$id){
+        $input = $request->all(['name']);
+        $input['is_active'] = 1;
 
         DB::beginTransaction();
         try {
-            if (empty($input['total_sales_quantity'])){
-                $input['total_sales_quantity'] = 0;
-            }
-            $input['category_id'] = !empty($input['category_id']) ? $input['category_id'] : null;
-
+            $updateModel = PhotoGallery::find($id);
             $updateModel->update($input);
             $updateModel->save();
 
             DB::commit();
 
             Session::flash('message', __('Survey::FormValidation.UpdateData'));
-            return redirect()->route('admin.sales.index','all');
+            return redirect()->route('admin.gallery.index');
         } catch (\Exception $e) {
             DB::rollback();
             print($e->getMessage());
@@ -152,8 +91,9 @@ class GalleryController extends Controller
     public function delete($id){
         DB::beginTransaction();
         try {
-            Sales::where('id', $id)->delete();
-
+            $update = PhotoGallery::find($id);
+            $update->is_active = 0;
+            $update->save();
             Session::flash('delete', __('Survey::FormValidation.DeleteMsg'));
             DB::commit();
             return redirect()->back();

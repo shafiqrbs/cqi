@@ -10,20 +10,11 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
 
-                            {{--<a href="{{route('admin.swapno.total.index')}}" title="Swapno Total" class="module_button_header">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fas fa-th-list"></i>  Swapno Total
-                                </button>
-                            </a>--}}
-
-{{--                            @canany(['survey-create'])--}}
                             <a href="{{route('admin.gallery.create')}}" title="{{__('Survey::message.CreateButton')}}" class="module_button_header">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
                                     <i class="fas fa-plus-circle"></i>  {{__('Survey::message.CreateButton')}}
                                 </button>
                             </a>
-{{--                            @endcan--}}
-
 
                             <?php
                             $TultipMessage = __('Survey::message.HintsMsg');
@@ -50,39 +41,26 @@
                         <div class="card-body">
                             @include('backend.layouts.message')
 
-                            @if(isset($sales) && !empty($sales))
+                            @if(isset($galleries) && !empty($galleries))
                                 <div class="table-responsive">
                                     <table  class="table table-striped table-bordered" id="table_id">
                                         <thead>
                                         <th>SL</th>
-                                        <th>Organization</th>
-                                        <th>Month</th>
-                                        <th>Year</th>
-                                        <th>Quantity</th>
-                                        <th>Amount</th>
+                                        <th>Gallery</th>
                                         <th>Action</th>
                                         </thead>
 
                                         <tbody>
                                         <?php $i=1; ?>
-                                        @foreach($sales as $value)
+                                        @foreach($galleries as $value)
                                             <tr>
                                                 <td>{{$i++}}</td>
-                                                <td>{{$value->organization_name}}</td>
-                                                <td>{{$value->month}}</td>
-                                                <td>{{$value->year}}</td>
-                                                <td>{{$value->total_sales_quantity}}</td>
-                                                <td>{{$value->total_sales_amount}}</td>
+                                                <td>{{$value->name}}</td>
                                                 <td>
 
                                                         <span class="allbutton{{$value->id}}">
-{{--@canany(['survey-edit'])--}}
-<a href="{{route('admin.sales.edit',$value->id)}}" title="Edit" class="text-primary"><i class="fas fa-pencil-alt"></i></a>
-{{--@endcan--}}
-{{--                                                            @canany(['survey-delete'])--}}
-<a href="{{route('admin.sales.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-{{--                                                            @endcan--}}
-{{--@endif--}}
+<a href="{{route('admin.gallery.edit',$value->id)}}" title="Edit" class="text-primary"><i class="fas fa-pencil-alt"></i></a>
+<a href="{{route('admin.gallery.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
                                                         </span>
                                                 </td>
                                             </tr>
@@ -91,7 +69,7 @@
                                     </table>
                                 </div>
                                 <div class=" justify-content-right" style="margin-top: 20px;text-align: end;display: inline;">
-                                    {{ $sales->links('backend.layouts.pagination') }}
+                                    {{ $galleries->links('backend.layouts.pagination') }}
                                 </div>
                             @endif
                         </div>
