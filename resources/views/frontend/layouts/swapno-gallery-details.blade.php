@@ -245,7 +245,7 @@
                         </div>
                         <div class="gallery-caption">
                             <h5>{{ Str::limit($image->caption, 40) }}</h5>
-                            <p>{{ Str::limit($image->caption, 80) }}</p>
+{{--                            <p>{{ Str::limit($image->caption, 80) }}</p>--}}
                         </div>
                     </div>
                 @endforeach
