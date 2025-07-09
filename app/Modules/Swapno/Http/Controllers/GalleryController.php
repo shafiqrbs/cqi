@@ -140,8 +140,8 @@ class GalleryController extends Controller
     public function deletePhotoGalleryImage($id){
         $photoGalleryImage = PhotoGalleryImage::find($id);
         File::delete(public_path().'/photo_gallery/'.$photoGalleryImage->gallery_image);
-        File::delete(public_path().'/photo_gallery/mid/'.$photoGalleryImage->gallery_image);
-        File::delete(public_path().'/photo_gallery/thumb/'.$photoGalleryImage->gallery_image);
+//        File::delete(public_path().'/photo_gallery/mid/'.$photoGalleryImage->gallery_image);
+//        File::delete(public_path().'/photo_gallery/thumb/'.$photoGalleryImage->gallery_image);
         $photoGalleryImage->delete();
         return new JsonResponse(array('status'=>'200','message'=>'Record deleted successfully'));
     }

@@ -123,7 +123,7 @@ $Submit = __('Survey::message.Submit');
             jQuery.ajax({
                 type: 'GET',
                 dataType: 'json',
-                url: '/admin/photo-gallery/ajax/photo-gallery-image/delete/' + entityId,
+                url: '/ajax/photo-gallery-image/delete/' + entityId,
                 data: {},
                 success: function (data) {
 
