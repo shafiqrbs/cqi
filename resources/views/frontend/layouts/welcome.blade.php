@@ -441,20 +441,18 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Product Wise Sales</h3>
-                    {{--<div class="chart-controls mb-3">
-                        <select class="chart-dropdown form-select">
-                            <option>Metric</option>
-                            <option>Revenue</option>
-                            <option>Units</option>
-                        </select>
-                        <select class="chart-dropdown form-select">
-                            <option>Today</option>
-                            <option>This Week</option>
-                            <option>This Month</option>
-                        </select>
-                    </div>--}}
+
+                    <div class="chart-controls mb-3">
+                        {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select']) !!}
+                        {!! Form::select('month', $months, $defaultMonth, ['id' => 'month', 'class' => 'form-control form-select']) !!}
+
+                    </div>
+
                     <div class="pie-chart-container">
                         <canvas id="pieChart"></canvas>
+                        <input type="hidden" id="default-org" value="{{ $defaultOrgId }}">
+                        <input type="hidden" id="default-month" value="{{ $defaultMonth }}">
+
                     </div>
                 </div>
             </div>
@@ -550,7 +548,104 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const defaultOrgId = document.getElementById('default-org').value;
+        const defaultMonth = document.getElementById('default-month').value;
+
+        // Set default selected in dropdowns
+        document.getElementById('organization_id').value = defaultOrgId;
+        document.getElementById('month').value = defaultMonth;
+
+        // Load chart immediately
+        loadChartData();
+    });
+
+
+
+    let pieChart;
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+    // Render chart
+    function renderChart(labels, data) {
+        if (pieChart) pieChart.destroy();
+
+        pieChart = new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#60a5fa', '#34d399', '#f472b6', '#fbbf24',
+                        '#8b5cf6', '#f87171', '#22d3ee', '#a3e635'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                    datalabels: {
+                        color: '#000',
+                        font: { weight: 'bold' },
+                        formatter: (value, context) => {
+                            const label = context.chart.data.labels[context.dataIndex];
+                            return `${label}: ${value}`;
+                        }
+                    }
+                },
+                cutout: '50%'
+            },
+
+            // plugins: [ChartDataLabels]
+            plugins: {
+                datalabels: {
+                    display: false // <- hide labels inside pie
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label;
+                            const value = context.raw;
+                            return `${label}: ${value}`;
+                        }
+                    }
+                }
+            }
+
+        });
+    }
+
+    // Fetch chart data
+    function loadChartData() {
+        const orgId = document.getElementById('organization_id').value;
+        const month = document.getElementById('month').value;
+
+        if (!orgId || !month) return;
+
+        fetch(`/report/product-sales?organization_id=${orgId}&month=${month}`)
+            .then(res => res.json())
+            .then(data => {
+                const labels = data.map(item => item.label);
+                const values = data.map(item => parseFloat(item.value));
+                renderChart(labels, values);
+            })
+            .catch(err => {
+                console.error('Error loading chart data:', err);
+            });
+    }
+
+    // Trigger on change
+    document.getElementById('organization_id').addEventListener('change', loadChartData);
+    document.getElementById('month').addEventListener('change', loadChartData);
+    // Load initially
+    document.addEventListener('DOMContentLoaded', loadChartData);
+
+
     // Monthly Bar Chart
     const chartLabels = @json($labels);
     const chartDatasets = @json($datasets);
@@ -561,22 +656,6 @@
         data: {
             labels: chartLabels,
             datasets: chartDatasets
-            /*datasets: [
-                {
-                    label: 'Category 1',
-                    data: category1Data,
-                    backgroundColor: '#60a5fa',
-                    borderRadius: 4,
-                    barThickness: 30
-                },
-                {
-                    label: 'Category 2',
-                    data: category2Data,
-                    backgroundColor: '#34d399',
-                    borderRadius: 4,
-                    barThickness: 30
-                }
-            ]*/
         },
         options: {
             responsive: true,
@@ -589,65 +668,8 @@
                         padding: 20
                     }
                 }
-            },
-            /*scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        callback: function(value) {
-                            return value + 'tk';
-                        }
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            }*/
+            }
         }
-    });
-
-    // Pie Chart
-    const pieLabels = @json($pieLabels);
-    const pieData = @json($pieData);
-    const pieColors = @json($pieColors);
-
-    const pieCtx = document.getElementById('pieChart').getContext('2d');
-
-    const pieChart = new Chart(pieCtx, {
-        type: 'doughnut',
-        data: {
-            // labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4'],
-            labels: pieLabels,
-            datasets: [{
-                // data: [50, 25, 15, 10],
-                data: pieData,
-                // backgroundColor: ['#60a5fa', '#34d399', '#f472b6', '#fbbf24'],
-                backgroundColor: pieColors,
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: true },
-                datalabels: {
-                    color: '#000',
-                    font: {
-                        weight: 'bold'
-                    },
-                    formatter: (value, context) => {
-                        const label = context.chart.data.labels[context.dataIndex];
-                        return `${label}: ${value}`;
-                    }
-                }
-            },
-            cutout: '50%' // for doughnut effect
-        },
-        plugins: [ChartDataLabels]
     });
 
 </script>

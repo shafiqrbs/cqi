@@ -30,6 +30,7 @@ $Submit = __('Survey::message.Submit');
                 <div class="form-group row mt-3">
                     <div class="col-sm-3">
                         {!! Form::label('category_id', 'Category', ['class' => 'col-form-label']) !!}
+                        <span style="color: red">*</span>
                     </div>
                     <div class="col-sm-9">
                         {!! Form::select('category_id',$category,old('category_id'),['id'=>'category_id','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'name','aria-describedby'=>'basic-addon2']) !!}

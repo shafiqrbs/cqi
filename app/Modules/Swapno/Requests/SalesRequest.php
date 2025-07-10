@@ -28,7 +28,7 @@ class SalesRequest extends FormRequest
             'month'       => 'required|string',
             'year'       => 'required|string',
             'total_sales_amount'       => 'required',
-            'category_id'       => 'nullable',
+            'category_id'       => 'required',
             'total_sales_quantity'       => 'nullable',
         ];
 
