@@ -58,20 +58,6 @@ class FrontendController extends Controller
             ];
         }
 
-
-        /*$organizations = Organization::where('status','1')->pluck('name','id')->all();
-        ksort($organizations);
-        $months = [
-            '' => 'Choose Month',
-            'January'=>'January', 'February'=>'February', 'March'=>'March', 'April'=>'April', 'May'=>'May', 'June'=>'June',
-            'July'=>'July', 'August'=>'August', 'September'=>'September', 'October'=>'October', 'November'=>'November', 'December'=>'December'
-        ];
-
-        // Pick first organization and latest month
-        $defaultOrgId = $organizations->keys()->first();
-        $defaultMonth = $months->keys()->first();
-        dump($defaultMonth,$defaultOrgId);*/
-
         $organizations = Organization::where('status', '1')
             ->pluck('name', 'id')
             ->sortKeys() // this replaces ksort
@@ -95,10 +81,7 @@ class FrontendController extends Controller
             'December' => 'December',
         ];
 
-        $monthKeys = array_keys($months);
-        $defaultMonth = $monthKeys[1]; // ❗ Skips '' => 'Choose Month' entry
-
-//        dump($defaultMonth, $defaultOrgId);
+        $defaultMonth = date('F', strtotime('-1 month')); // ❗ Skips '' => 'Choose Month' entry
 
         return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId'));
     }
