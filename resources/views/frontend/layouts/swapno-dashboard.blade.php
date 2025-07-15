@@ -354,7 +354,7 @@
 
     <!-- Budget Follow Up Section -->
     <div class="budget-section">
-        <h3 class="mb-4">Follow up</h3>
+        <h3 class="mb-4">Factory wise kpi </h3>
 
         <div class="company-tabs">
             @if($Organization)
