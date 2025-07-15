@@ -440,7 +440,7 @@
             <!-- Column 1: Monthly Sales -->
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
-                    <h3 class="chart-title">Product Wise Sales</h3>
+                    <h3 class="chart-title">Category Wise Sales</h3>
 
                     <div class="chart-controls mb-3">
                         {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select']) !!}

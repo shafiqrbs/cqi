@@ -276,7 +276,7 @@
 
 <!-- Main Content -->
 <div class="container-fluid p-4">
-    <h1 class="overview-title">Overview</h1>
+    <h1 class="overview-title">KPI</h1>
 
     <div class="grid-container mb-4">
         <!-- Factory Onboarded - Purple -->
