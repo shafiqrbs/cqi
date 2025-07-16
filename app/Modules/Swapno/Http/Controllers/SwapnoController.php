@@ -113,8 +113,8 @@ class SwapnoController extends Controller
 
 
     public function edit($id){
-        $ModuleTitle = __('Survey::ControllerMsg.ModuleTitle');
-        $PageTitle = __('Survey::ControllerMsg.PageTitleUpdate');
+        $ModuleTitle = 'Manage KPI';
+        $PageTitle = 'Manage KPI information';
 
         $data = SwapnoNumber::where('id',$id)->first();
         $Organization = Organization::where('status','1')->pluck('name','id')->all();

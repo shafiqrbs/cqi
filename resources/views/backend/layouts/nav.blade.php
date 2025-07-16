@@ -25,6 +25,16 @@
 {{--    @endcan--}}
 
 {{--        @canany(['survey-list','survey-create','survey-edit','survey-delete'])--}}
+
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.particular.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-money-bill"></i>
+              </span>
+                <span class="title">Particulars</span>
+            </a>
+        </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">
               <span class="icon-holder">
