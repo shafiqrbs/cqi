@@ -17,6 +17,7 @@ use DB;
 use File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Session;
 use Storage;
 
@@ -32,42 +33,60 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( $type = 'all' )
     {
         ConfigurationHelper::Language();
-        $ModuleTitle = 'Manage Swapno Gallery';
-        $PageTitle = 'Swapno Gallery List';
-        $TableTitle = 'Swapno Gallery List';
+        $ModuleTitle = 'Manage Swapno Gallery & Resources';
+        $PageTitle = 'Swapno Gallery & Resources List';
+        $TableTitle = 'Swapno Gallery & Resources List';
 
-        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1)->paginate(10);
+        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1);
+            if($type=='gallery'){
+                $ModuleTitle = 'Manage Swapno Gallery';
+                $PageTitle = 'Swapno Gallery List';
+                $TableTitle = 'Swapno Gallery List';
+                $galleries = $galleries->where('file_type','gallery');
+            }elseif ($type=='resource') {
+                $ModuleTitle = 'Manage Swapno Resources';
+                $PageTitle = 'Swapno Resources List';
+                $TableTitle = 'Swapno Resources List';
+                $galleries = $galleries->where('file_type','resource');
+            }
+        $galleries=$galleries->paginate(10);
 
-        return view("Swapno::gallery.index", compact('ModuleTitle','PageTitle','TableTitle','galleries'));
+        return view("Swapno::gallery.index", compact('ModuleTitle','PageTitle','TableTitle','galleries','type'));
     }
 
-    public function create(){
+    public function create($type){
         PhotoGallery::where('is_active',0)->delete();
         $photoGallery = PhotoGallery::create([
-            'is_active' => 0
+            'is_active' => 0,
+            'file_type' => $type
         ]);
         return redirect()->route('admin.gallery.edit',['id' => $photoGallery->id]);
     }
 
 
     public function edit($id){
-        $ModuleTitle = 'Manage Swapno Gallery';
-        $PageTitle = 'Swapno Gallery Create';
+//        $ModuleTitle = 'Manage Swapno Gallery';
+//        $PageTitle = 'Swapno Gallery Create';
         $TableTitle = 'Swapno Gallery Create';
 
         $data = PhotoGallery::where('id',$id)->first();
+        if ($data->file_type == 'resource') {
+            $ModuleTitle = 'Manage Swapno Resource';
+            $PageTitle = 'New Resource';
+        }else{
+            $ModuleTitle = 'Manage Swapno Gallery';
+            $PageTitle = 'New Gallery';
+        }
         $photoGallery = PhotoGallery::findOrFail($id);
-
-
         return view("Swapno::gallery.edit", compact('data','ModuleTitle','PageTitle','photoGallery'));
     }
 
 
     public function update(Request $request,$id){
-        $input = $request->all(['name']);
+        $input = $request->only('name','file_type');
         $input['is_active'] = 1;
 
         DB::beginTransaction();
@@ -79,7 +98,7 @@ class GalleryController extends Controller
             DB::commit();
 
             Session::flash('message', __('Survey::FormValidation.UpdateData'));
-            return redirect()->route('admin.gallery.index');
+            return redirect()->route('admin.gallery.index',$updateModel->file_type);
         } catch (\Exception $e) {
             DB::rollback();
             print($e->getMessage());
@@ -105,43 +124,61 @@ class GalleryController extends Controller
         }
     }
 
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function storePhotoGalleryImage(Request $request){
-        $id=$request->input('id');
+    public function storePhotoGalleryImage(Request $request)
+    {
+        $id = $request->input('id');
         $photoGallery = PhotoGallery::findOrFail($id);
+        $fileType = $photoGallery->file_type;
 
-        if($request->TotalFiles > 0) {
+        if ($request->TotalFiles > 0) {
             for ($x = 0; $x < $request->TotalFiles; $x++) {
-                if ($request->hasFile('files'.$x)) {
-                    $file      = $request->file('files'.$x);
-                    $photoGalleryImage= new PhotoGalleryImage();
-                    $photoGalleryImage->caption=$request->input('caption');
+                if ($request->hasFile('files' . $x)) {
+                    $file = $request->file('files' . $x);
+                    $caption = $request->input('caption') ?? 'file';
 
-                    if ($file) {
-                        $fileName = ImageUploadingHelper::UploadImage('photo_gallery', $file, $request->input('caption').$x, 1280, 850,true);
-                        $photoGalleryImage->gallery_image = $fileName;
+                    $photoGalleryImage = new PhotoGalleryImage();
+                    $photoGalleryImage->caption = $caption;
+
+                    if ($fileType == 'gallery') {
+                        // Use image processing helper
+                        $fileName = ImageUploadingHelper::UploadImage(
+                            'photo_gallery',
+                            $file,
+                            $caption . $x,
+                            1280,
+                            850,
+                            true
+                        );
+                    } else {
+                        $extension = $file->getClientOriginalExtension();
+                        $safeName = Str::slug('f'.rand(5,1234567890) . '-' . time() . '-' . $x) . '.' . $extension;
+                        $destinationPath = public_path('/photo_gallery'); // Make sure this path exists
+                        $file->move($destinationPath, $safeName);
+                        $fileName =  $safeName;
                     }
 
-                    $photoGalleryImageUpdate = $photoGallery->photoGalleryImages()->save($photoGalleryImage);
-                    $photoGalleryImageUpdate->sort_order = $photoGalleryImageUpdate->id;
-                    $photoGalleryImageUpdate->update();
+                    // Save filename to DB
+                    $photoGalleryImage->gallery_image = $fileName;
+
+                    // Save and update sort order
+                    $photoGalleryImageSaved = $photoGallery->photoGalleryImages()->save($photoGalleryImage);
+                    $photoGalleryImageSaved->sort_order = $photoGalleryImageSaved->id;
+                    $photoGalleryImageSaved->update();
                 }
             }
         }
 
-        $returnHTML = view('Swapno::gallery/photo_gallery_images',['photoGallery'=>$photoGallery])->render();
-        return response()->json( ['html'=>$returnHTML]);
+        // Return updated view HTML
+        $returnHtml = view('Swapno::gallery.photo_gallery_images', [
+            'photoGallery' => $photoGallery
+        ])->render();
+
+        return response()->json(['html' => $returnHtml]);
     }
 
     public function deletePhotoGalleryImage($id){
         $photoGalleryImage = PhotoGalleryImage::find($id);
         File::delete(public_path().'/photo_gallery/'.$photoGalleryImage->gallery_image);
-//        File::delete(public_path().'/photo_gallery/mid/'.$photoGalleryImage->gallery_image);
-//        File::delete(public_path().'/photo_gallery/thumb/'.$photoGalleryImage->gallery_image);
         $photoGalleryImage->delete();
         return new JsonResponse(array('status'=>'200','message'=>'Record deleted successfully'));
     }

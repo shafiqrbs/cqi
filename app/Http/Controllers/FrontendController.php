@@ -126,18 +126,19 @@ class FrontendController extends Controller
         return view("frontend.layouts.swapno-summary",compact('TabHeader'));
     }
 
-    public function swapnoGallery(){
+    public function swapnoGallery($type){
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Gallery';
-        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1)->get();
-        return view("frontend.layouts.swapno-gallery",compact('TabHeader','galleries'));
+        $galleries = PhotoGallery::orderby('id','desc')->where('is_active',1)->where('file_type',$type)->get();
+        return view("frontend.layouts.swapno-gallery",compact('TabHeader','galleries','type'));
     }
 
     public function swapnoGalleryDetails($id){
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Gallery Details';
         $galleries = PhotoGallery::find($id);
-        return view("frontend.layouts.swapno-gallery-details",compact('TabHeader','galleries'));
+        $type = $galleries->file_type;
+        return view("frontend.layouts.swapno-gallery-details",compact('TabHeader','galleries','type'));
     }
 
 

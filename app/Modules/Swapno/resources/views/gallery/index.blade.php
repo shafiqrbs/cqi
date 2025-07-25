@@ -10,13 +10,42 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
 
-                            <a href="{{route('admin.gallery.create')}}" title="{{__('Survey::message.CreateButton')}}" class="module_button_header">
+                            <a href="{{route('admin.gallery.create','gallery')}}" title="{{__('Survey::message.CreateButton')}}" class="module_button_header">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fas fa-plus-circle"></i>  {{__('Survey::message.CreateButton')}}
+                                    <i class="fas fa-plus-circle"></i>  Create Gallery
                                 </button>
                             </a>
 
-                            <?php
+                            <a href="{{route('admin.gallery.create','resource')}}" title="{{__('Survey::message.CreateButton')}}" class="module_button_header">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-plus-circle"></i>  Create Resource
+                                </button>
+                            </a>
+
+                            @if($type=='all' || $type=='gallery')
+                            <a style="color: #000;" href="{{route('admin.gallery.index','resource')}}" title="{{__('Survey::message.ListButton')}}" class="module_button_header">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-th-list"></i> Resource List
+                                </button>
+                            </a>
+                            @endif
+
+                            @if($type=='all' || $type=='resource')
+
+                            <a style="color: #000;" href="{{route('admin.gallery.index','gallery')}}" title="{{__('Survey::message.ListButton')}}" class="module_button_header">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-th-list"></i> Gallery List
+                                </button>
+                            </a>
+                            @endif
+
+                            <a style="color: #000;" href="{{route('admin.gallery.index','all')}}" title="{{__('Survey::message.ListButton')}}" class="module_button_header">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-th-list"></i> List
+                                </button>
+                            </a>
+
+                            {{--<?php
                             $TultipMessage = __('Survey::message.HintsMsg');
                             ?>
 
@@ -25,7 +54,7 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
                                     <i class="fas fa-question-circle"></i> {{__('Survey::message.Hints')}}
                                 </button>
-                            </a>
+                            </a>--}}
                         </div>
                     </div>
                 </div>
@@ -46,7 +75,8 @@
                                     <table  class="table table-striped table-bordered" id="table_id">
                                         <thead>
                                         <th>SL</th>
-                                        <th>Gallery</th>
+                                        <th>Type</th>
+                                        <th>Name</th>
                                         <th>Action</th>
                                         </thead>
 
@@ -55,6 +85,7 @@
                                         @foreach($galleries as $value)
                                             <tr>
                                                 <td>{{$i++}}</td>
+                                                <td>{{$value->file_type=='gallery'?'Gallery':'Resource'}}</td>
                                                 <td>{{$value->name}}</td>
                                                 <td>
 

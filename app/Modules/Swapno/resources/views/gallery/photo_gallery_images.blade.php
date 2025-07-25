@@ -2,10 +2,10 @@
     @foreach($photoGallery->photoGalleryImages as $image)
 <tr>
     <td>
-        @if($image->gallery_image)
-{{--                {{ ImgUploader::print_image("photo_gallery/thumb/$image->gallery_image", 100, 50) }}--}}
-{{--                {{ ImgUploader::print_image("photo_gallery/mid/$image->gallery_image", 100, 50) }}--}}
+        @if($image->gallery_image && $photoGallery->file_type=='gallery')
             <img src="{{asset("photo_gallery/$image->gallery_image")}}" alt="" width="50px" height="50px">
+        @else
+            {{$image->gallery_image}}
         @endif
     </td>
     <td>{{$image->caption}}</td>

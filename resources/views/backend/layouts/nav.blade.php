@@ -54,11 +54,11 @@
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link wave-effect" href="{{route('admin.gallery.index')}}" style="color: #000;">
+            <a class="nav-link wave-effect" href="{{route('admin.gallery.index','all')}}" style="color: #000;">
               <span class="icon-holder">
                   <i class="fas fa-photo-video"></i>
               </span>
-                <span class="title">Gallery</span>
+                <span class="title">Gallery & Resource</span>
             </a>
         </li>
 {{--        @endcan--}}

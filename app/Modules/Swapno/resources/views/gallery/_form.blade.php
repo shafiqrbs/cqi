@@ -8,13 +8,23 @@ $Submit = __('Survey::message.Submit');
 
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group row">
+        {{--<div class="form-group row">
             <div class="col-sm-2">
-                {!! Form::label('gallery_name', 'Gallery Name', ['class' => 'col-form-label']) !!}
+                {!! Form::label('file_type', 'File Type', ['class' => 'col-form-label']) !!}
                 <span style="color: red">*</span>
             </div>
             <div class="col-sm-10">
-                {!! Form::text('name', old('name'), ['id'=>'name','class'=>'form-control','placeholder'=>'Gallery Name']) !!}
+                {!! Form::select('file_type',['gallery'=>'Gallery','resource'=>'Resource'],old('file_type'),['id'=>'file_type','class' => 'form-control form-select js-example-basic-single','data-checkify'=>'required','aria-label' =>'file_type','aria-describedby'=>'basic-addon2','required'=>true,'disable'=>true]) !!}
+                <span class="text-danger">{!! $errors->first('file_type') !!}</span>
+            </div>
+        </div>--}}
+        <div class="form-group row mt-4">
+            <div class="col-sm-2">
+                {!! Form::label('gallery_name', 'Name', ['class' => 'col-form-label']) !!}
+                <span style="color: red">*</span>
+            </div>
+            <div class="col-sm-10">
+                {!! Form::text('name', old('name'), ['id'=>'name','class'=>'form-control','placeholder'=>'Name','required'=>true]) !!}
                 <span class="text-danger">{!! $errors->first('name') !!}</span>
             </div>
         </div>
@@ -33,7 +43,14 @@ $Submit = __('Survey::message.Submit');
             </tr>--}}
             <tr>
                 <td>
-                    <input type="file" id="file" name="file[]" class="form-control" multiple />
+                    <input
+                            type="file"
+                            id="file"
+                            name="file[]"
+                            class="form-control"
+                            multiple
+                            accept="{{ $data->file_type == 'gallery' ? 'image/jpeg,image/png,image/svg+xml' : 'application/pdf,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }}"
+                    />
 {{--                    <span style="font-size: 10px;">( Greater than or equal to width 1280px & height 850px. )</span>--}}
                 </td>
                 <td>
@@ -135,6 +152,9 @@ $Submit = __('Survey::message.Submit');
 
             });
         }
+    });
+    $(document).on('change','#file_type',function(e) {
+        window.location.reload(true);
     });
 </script>
 @endpush

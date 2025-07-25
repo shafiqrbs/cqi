@@ -1,14 +1,81 @@
 
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWAPNO Photo Gallery</title>
-    <link rel="icon" type="image/png" href="{{asset('assets/logo.jpeg')}}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+@extends('frontend.layouts.app')
+
+@section('content')
+    <div class="gallery-section">
+        <div class="gallery-header">
+            <h2 class="gallery-title">Our {{$type=='gallery'?'Photo':'Resource'}} Collection</h2>
+            <p class="gallery-subtitle">Explore memorable moments captured through our lens. Click on any image to view in full size.</p>
+        </div>
+
+        <div id="gallery" class="gallery-grid">
+            @if($galleries->photoGalleryImages)
+                @foreach($galleries->photoGalleryImages as $image)
+                    @php
+                        $file = "photo_gallery/$image->gallery_image";
+                        $fileUrl = asset($file);
+                        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                        $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
+                    @endphp
+
+                    <div class="gallery-item">
+                        <div class="gallery-image-container">
+                            @if($isImage)
+                                <a href="{{ $fileUrl }}" data-lightbox="gallery" data-title="{{ $image->caption }}">
+                                    <img src="{{ $fileUrl }}" alt="{{ $image->caption }}">
+                                </a>
+                            @else
+                                <a href="{{ $fileUrl }}" target="_blank" title="{{ $image->caption }}">
+                                    <div class="file-preview file-{{ $extension }}">
+                                        <i class="
+                            @if($extension === 'pdf') fas fa-file-pdf
+                            @elseif($extension === 'csv') fas fa-file-csv
+                            @elseif($extension === 'xlsx') fas fa-file-excel
+                            @else fas fa-file-alt
+                            @endif
+                        "></i>
+                                        <span>{{ strtoupper($extension) }}</span>
+                                    </div>
+                                </a>
+                            @endif
+                        </div>
+
+                        <div class="gallery-caption text-center">
+                            <h5>{{ Str::limit($image->caption, 40) }}</h5>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{--@foreach($galleries->photoGalleryImages as $image)
+                    <div class="gallery-item">
+                        <div class="gallery-image-container">
+                            <a href="{{asset("photo_gallery/$image->gallery_image")}}" data-lightbox="gallery" data-title="<h5>{{$image->caption}}</h5>">
+                                <img src="{{asset("photo_gallery/$image->gallery_image")}}" alt="{{$image->caption}}">
+                            </a>
+                            <div class="view-more">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                        </div>
+                        <div class="gallery-caption">
+                            <h5>{{ Str::limit($image->caption, 40) }}</h5>
+                            --}}{{--                            <p>{{ Str::limit($image->caption, 80) }}</p>--}}{{--
+                        </div>
+                    </div>
+                @endforeach--}}
+            @else
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-camera fa-3x mb-3" style="color: #ddd;"></i>
+                    <h4>No photos available yet</h4>
+                    <p>Check back later for our gallery updates</p>
+                </div>
+            @endif
+        </div>
+    </div>
+@endsection
+
+@push('CustomStyle')
     <!-- Add lightbox2 CSS for the gallery -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
     <style>
@@ -200,102 +267,65 @@
                 font-size: 1.8rem;
             }
         }
+        .file-preview {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            color: #fff;
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .file-preview i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .file-preview span {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
     </style>
-</head>
-<body>
-<div class="container py-4">
-    <!-- Header Section -->
-    <div class="header-container">
-        <div class="row align-items-center">
-            <div class="col-md-2 text-center">
-                <a href="{{route('home')}}">
-                    <img width="50%" src="{{asset('assets/logo.jpeg')}}" alt="Swapno" class="img-fluid">
-                </a>
-            </div>
-            <div class="col-md-8">
-                <h4 class="title-text">
-                    <i class="fas fa-images me-2"></i>
-                    Swapno Gallery
-                </h4>
-            </div>
-            <div class="col-md-2 text-end">
-                <img width="50%" src="{{asset('assets/logo-gain-health.svg')}}" alt="Gain Health" class="img-fluid">
-            </div>
-        </div>
-    </div>
+@endpush
+@push('CustomJs')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
-    <!-- Gallery Section -->
-    <div class="gallery-section">
-        <div class="gallery-header">
-            <h2 class="gallery-title">Our Photo Collection</h2>
-            <p class="gallery-subtitle">Explore memorable moments captured through our lens. Click on any image to view in full size.</p>
-        </div>
-
-        <div id="gallery" class="gallery-grid">
-            @if($galleries->photoGalleryImages)
-                @foreach($galleries->photoGalleryImages as $image)
-                    <div class="gallery-item">
-                        <div class="gallery-image-container">
-                            <a href="{{asset("photo_gallery/$image->gallery_image")}}" data-lightbox="gallery" data-title="<h5>{{$image->caption}}</h5>">
-                                <img src="{{asset("photo_gallery/$image->gallery_image")}}" alt="{{$image->caption}}">
-                            </a>
-                            <div class="view-more">
-                                <i class="fas fa-expand"></i>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h5>{{ Str::limit($image->caption, 40) }}</h5>
-{{--                            <p>{{ Str::limit($image->caption, 80) }}</p>--}}
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-camera fa-3x mb-3" style="color: #ddd;"></i>
-                    <h4>No photos available yet</h4>
-                    <p>Check back later for our gallery updates</p>
-                </div>
-            @endif
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Add jQuery (required for lightbox) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Add lightbox2 JS for the gallery slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-
-<script>
-    // Lightbox customization
-    lightbox.option({
-        'resizeDuration': 200,
-        'wrapAround': true,
-        'showImageNumberLabel': true,
-        'positionFromTop': 100,
-        'disableScrolling': true
-    });
-
-    // Add animation to gallery items when they come into view
-    document.addEventListener('DOMContentLoaded', function() {
-        const galleryItems = document.querySelectorAll('.gallery-item');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        galleryItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            item.style.transition = `all 0.5s ease ${index * 0.1}s`;
-            observer.observe(item);
+    <script>
+        // Lightbox customization
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'showImageNumberLabel': true,
+            'positionFromTop': 100,
+            'disableScrolling': true
         });
-    });
-</script>
-</body>
-</html>
+
+        // Add animation to gallery items when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            galleryItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                observer.observe(item);
+            });
+        });
+    </script>
+@endpush

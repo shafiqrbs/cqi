@@ -1,11 +1,11 @@
 <?php
 
-Route::get('admin-gallery-create', [
+Route::get('admin-gallery-create/{file_type}', [
     'as' => 'admin.gallery.create',
     'uses' => 'GalleryController@create'
 ]);
 
-Route::get('admin-gallery-index', [
+Route::get('admin-gallery-index/{type}', [
     'as' => 'admin.gallery.index',
     'uses' => 'GalleryController@index'
 ]);
