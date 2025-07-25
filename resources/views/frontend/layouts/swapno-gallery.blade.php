@@ -29,7 +29,7 @@
                 <div class="col-12">
                     <div class="no-galleries">
                         <i class="fas fa-image"></i>
-                        <h3>No Galleries Found</h3>
+                        <h3>No {{$type=='gallery'?'Galleries':'Resources'}} Found</h3>
                         <p>Check back later for new photo collections</p>
                     </div>
                 </div>
