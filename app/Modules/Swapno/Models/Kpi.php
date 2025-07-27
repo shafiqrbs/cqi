@@ -7,17 +7,13 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Sales extends Model
+class Kpi extends Model
 {
-    protected $table = 'swapno_sales';
+    protected $table = 'swapno__kpi';
     protected $fillable = [
         'organization_id',
-        'category_id',
         'month',
         'year',
-        'total_sales_amount',
-        'total_sales_quantity',
-        'report_date',
         'is_active',
     ];
 
@@ -38,12 +34,8 @@ class Sales extends Model
         });
     }
 
-    public static function categoryDropdown(){
-        $category = Sales::where('is_active','1')->pluck('name','id')->all();
-        $category = $category+['Choose Category'];
-        $first = [0 => $category[0]];
-        unset($category[0]);
-        $category = $first + $category;
-        return $category;
+    public function kpiValues()
+    {
+        return $this->hasMany(KpiValue::class)->orderByDesc('id');
     }
 }

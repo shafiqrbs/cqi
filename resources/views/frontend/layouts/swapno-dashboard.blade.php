@@ -1,19 +1,171 @@
 
-        <!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.87.0">
-    <title>Swapno Dashboard</title>
-    <link rel="icon" type="image/png" href="{{asset('assets/logo.jpeg')}}">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+@extends('frontend.layouts.app')
 
-    <meta name="theme-color" content="#7952b3">
+@section('content')
+    <div class="container-fluid p-4">
+        <h1 class="overview-title">Key Performance Indicator</h1>
 
+        <div class="grid-container mb-4">
+            <!-- Factory Onboarded - Purple -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #9c27b0, #673ab7);">
+                <div class="kpi-title fw-bold text-white">Factories Onboarded</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->factory_onboarded ?? 0}}</div>
+                    <i class="fas fa-industry kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-arrow-up"></i> Key progress indicator
+                </div>
+            </div>
+
+            <!-- FPS Inaugurated - Blue -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #2196f3, #03a9f4);">
+                <div class="kpi-title fw-bold text-white">FPS Inaugurated</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->fps_inaugurated ?? 0}}</div>
+                    <i class="fas fa-building kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-chart-line"></i> Operational units
+                </div>
+            </div>
+
+            <!-- NIC Formed - Teal -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #009688, #4caf50);">
+                <div class="kpi-title fw-bold text-white">NIC Formed</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->nic_formed ?? 0}}</div>
+                    <i class="fas fa-users kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-network-wired"></i> Committees established
+                </div>
+            </div>
+
+            <!-- NIC Meetings - Orange -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff9800, #ff5722);">
+                <div class="kpi-title fw-bold text-white">NIC Meetings Conducted</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->nic_meeting_conducted ?? 0}}</div>
+                    <i class="fas fa-calendar-alt kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-clock"></i> Engagement metric
+                </div>
+            </div>
+
+            <!-- Stakeholder Workshops - Indigo -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #3f51b5, #607d8b);">
+                <div class="kpi-title fw-bold text-white">Stakeholder Workshops</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->stakeholder_conducted ?? 0}}</div>
+                    <i class="fas fa-handshake kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-comments"></i> Collaboration events
+                </div>
+            </div>
+
+            <!-- Participants - Deep Orange -->
+            <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff5722, #e91e63);">
+                <div class="kpi-title fw-bold text-white">Workshop Participants</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="kpi-number text-white">{{$totalNumbers->participants_attend ?? 0}}</div>
+                    <i class="fas fa-user-friends kpi-icon"></i>
+                </div>
+                <div class="kpi-trend text-white">
+                    <i class="fas fa-users"></i> Total attendees
+                </div>
+            </div>
+        </div>
+
+        <!-- Budget Follow Up Section -->
+        <div class="budget-section">
+            @php
+                $firstOrganizationName = collect($groupedKpis)->keys()->first() ?? null;
+                $activeOrg = $firstOrganizationName ? Str::slug($firstOrganizationName) : '';
+            @endphp
+            {{--<div class="row">
+                <div class="col-md-4">
+                    {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select']) !!}
+                </div>
+                <div class="col-md-4">
+                    {!! Form::select('month', $months, $defaultMonth, ['id' => 'month', 'class' => 'form-control form-select']) !!}
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>--}}
+            <h3 class="mb-4">Factory wise kpi </h3>
+
+            <div class="company-tabs">
+                @foreach($Organization as $org)
+                    @php
+                        $orgSlug = Str::slug($org->name);
+                    @endphp
+                    <button class="company-tab {{ $orgSlug === $activeOrg ? 'active' : '' }}"
+                            data-company="{{ $orgSlug }}">
+                        {{ $org->name }}
+                    </button>
+                @endforeach
+            </div>
+
+
+            @php
+                $groupTitles = [
+                    'capacity_building_training' => 'Capacity Building Training',
+                    'sbcc_approach' => 'SBCC Approach',
+                    'promotional_campaign' => 'Promotional Campaign',
+                    'fps_sales_performance' => 'FPS Sales Performance',
+                ];
+                $tableColors = [
+                    'capacity_building_training' => 'table-header-blue',
+                    'sbcc_approach' => 'table-header-green',
+                    'promotional_campaign' => 'table-header-lime',
+                    'fps_sales_performance' => 'table-header-purple',
+                ];
+            @endphp
+
+            @foreach($groupedKpis as $organization => $groupData)
+                @php
+                    $orgSlug = Str::slug($organization);
+                @endphp
+                <div class="company-content {{ $orgSlug === $activeOrg ? 'active' : '' }}" id="company-{{ $orgSlug }}">
+                    <h4 class="text-center">{{ $organization }}</h4>
+                    <div class="row g-4">
+                        @foreach ($groupData as $groupKey => $indicators)
+                            <div class="col-lg-6">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="{{ $tableColors[$groupKey] ?? '' }}">
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>{{ $groupTitles[$groupKey] ?? ucfirst(str_replace('_', ' ', $groupKey)) }}</th>
+                                            <th>Numbers</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table-striped">
+                                        @foreach ($indicators as $index => $item)
+                                            <tr>
+                                                <td>{{ $index + 1 }}.</td>
+                                                <td>{{ $item['kpi_name'] }}</td>
+                                                <td class="text-center">{{ $item['kpi_value'] ?? 0 }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+    </div>
+@endsection
+
+@push('CustomStyle')
     <style>
         .grid-container {
             display: grid;
@@ -267,351 +419,54 @@
             50% { opacity: 1; }
         }
     </style>
+@endpush
+@push('CustomJs')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const companyTabs = document.querySelectorAll('.company-tab');
+            const companyContents = document.querySelectorAll('.company-content');
 
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
-</head>
-<body class="app">
+            companyTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const companyId = this.getAttribute('data-company');
 
-<!-- Main Content -->
-<div class="container-fluid p-4">
-    <h1 class="overview-title">Key Performance Indicator</h1>
+                    // Remove active class from all tabs
+                    companyTabs.forEach(t => t.classList.remove('active'));
 
-    <div class="grid-container mb-4">
-        <!-- Factory Onboarded - Purple -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #9c27b0, #673ab7);">
-            <div class="kpi-title fw-bold text-white">Factories Onboarded</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->factory_onboarded ?? 0}}</div>
-                <i class="fas fa-industry kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-arrow-up"></i> Key progress indicator
-            </div>
-        </div>
+                    // Add active class to clicked tab
+                    this.classList.add('active');
 
-        <!-- FPS Inaugurated - Blue -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #2196f3, #03a9f4);">
-            <div class="kpi-title fw-bold text-white">FPS Inaugurated</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->fps_inaugurated ?? 0}}</div>
-                <i class="fas fa-building kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-chart-line"></i> Operational units
-            </div>
-        </div>
+                    // Hide all company content sections
+                    companyContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
 
-        <!-- NIC Formed - Teal -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #009688, #4caf50);">
-            <div class="kpi-title fw-bold text-white">NIC Formed</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->nic_formed ?? 0}}</div>
-                <i class="fas fa-users kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-network-wired"></i> Committees established
-            </div>
-        </div>
-
-        <!-- NIC Meetings - Orange -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff9800, #ff5722);">
-            <div class="kpi-title fw-bold text-white">NIC Meetings Conducted</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->nic_meeting_conducted ?? 0}}</div>
-                <i class="fas fa-calendar-alt kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-clock"></i> Engagement metric
-            </div>
-        </div>
-
-        <!-- Stakeholder Workshops - Indigo -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #3f51b5, #607d8b);">
-            <div class="kpi-title fw-bold text-white">Stakeholder Workshops</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->stakeholder_conducted ?? 0}}</div>
-                <i class="fas fa-handshake kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-comments"></i> Collaboration events
-            </div>
-        </div>
-
-        <!-- Participants - Deep Orange -->
-        <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff5722, #e91e63);">
-            <div class="kpi-title fw-bold text-white">Workshop Participants</div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="kpi-number text-white">{{$totalNumbers->participants_attend ?? 0}}</div>
-                <i class="fas fa-user-friends kpi-icon"></i>
-            </div>
-            <div class="kpi-trend text-white">
-                <i class="fas fa-users"></i> Total attendees
-            </div>
-        </div>
-    </div>
-
-    <!-- Budget Follow Up Section -->
-    <div class="budget-section">
-        <h3 class="mb-4">Factory wise kpi </h3>
-
-        <div class="company-tabs">
-            @if($Organization)
-                @foreach($Organization as $index => $org)
-                    <button class="company-tab {{ $index == 0 ? 'active' : '' }}" data-company="{{$org->id}}">{{$org->name}}</button>
-                @endforeach
-            @endif
-        </div>
-
-        <!-- Company Content Sections -->
-        @if($swapnoNumbers)
-            @foreach($swapnoNumbers as $index => $swp)
-                <div class="company-content {{ $index == 0 ? 'active' : '' }}" id="company-{{$swp->organization_id}}">
-                    <div class="row g-4">
-                        <!-- Capacity Building Training Table -->
-                        <div class="col-lg-6">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead class="table-header-blue">
-                                    <tr>
-                                        <th>S/N</th>
-                                        <th>Capacity Building Training</th>
-                                        <th>Numbers</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-striped">
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Number of NIC training completed</td>
-                                        <td class="text-center">{{$swp->nic_training_completed ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Number of  NIC member received training</td>
-                                        <td class="text-center">{{$swp->nic_member_received_training ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Number of Peer educator selected</td>
-                                        <td class="text-center">{{$swp->peer_educator_selected ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Female Peer educator</td>
-                                        <td class="text-center">{{$swp->female_peer_educator ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5.</td>
-                                        <td>Male Peer educator</td>
-                                        <td class="text-center">{{$swp->male_peer_educator ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6.</td>
-                                        <td>Number of Peer educator received training</td>
-                                        <td class="text-center">{{$swp->peer_educator_received_training ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7.</td>
-                                        <td>Female participant</td>
-                                        <td class="text-center">{{$swp->female_participant ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8.</td>
-                                        <td>Male participant</td>
-                                        <td class="text-center">{{$swp->male_participant ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9.</td>
-                                        <td>Number of Peer Educator ToT completed</td>
-                                        <td class="text-center">{{$swp->peer_educator_tot_completed ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10.</td>
-                                        <td>Number of training conducted for FPS staff</td>
-                                        <td class="text-center">{{$swp->training_conducted_for_fps_staff ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>11.</td>
-                                        <td>Number of FPS staff received training</td>
-                                        <td class="text-center">{{$swp->fps_staff_received_training ?? 0}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Promotional Campaign Table -->
-                        <div class="col-lg-6">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead class="table-header-green">
-                                    <tr>
-                                        <th>S/N</th>
-                                        <th>SBCC Approach</th>
-                                        <th>Numbers</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-striped">
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Types of SBCC materials developed</td>
-                                        <td class="text-center">{{$swp->sbcc_materials_developed ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Number of SBCC items distributed</td>
-                                        <td class="text-center">{{$swp->sbcc_items_distributed ?? 0}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- SBCC Approach Table -->
-                        <div class="col-lg-6">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead class="table-header-lime">
-                                    <tr>
-                                        <th>S/N</th>
-                                        <th>Promotional Campaign</th>
-                                        <th>Numbers</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-striped">
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Number of campaign organized</td>
-                                        <td class="text-center">{{$swp->campaign_organized ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Number of workers purchased during campaign</td>
-                                        <td class="text-center">{{$swp->workers_purchased_during_campaign ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Female worker</td>
-                                        <td class="text-center">{{$swp->female_worker ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Male worker</td>
-                                        <td class="text-center">{{$swp->male_worker ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5.</td>
-                                        <td>Total sales in BDT during campaign</td>
-                                        <td class="text-center">{{$swp->bdt_during_campaign ?? 0.00}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- FPS Sales Performance Table -->
-                        <div class="col-lg-6">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead class="table-header-purple">
-                                    <tr>
-                                        <th>S/N</th>
-                                        <th>FPS Sales Performance</th>
-                                        <th>Numbers</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-striped">
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Number of workers purchased from FPS</td>
-                                        <td class="text-center">{{$swp->workers_purchased_from_fps ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Amount sales through Credit</td>
-                                        <td class="text-center">{{$swp->amount_sales_through_credit ?? 0.00}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Number of workers purchased through credit</td>
-                                        <td class="text-center">{{$swp->workers_purchased_through_credit ?? 0}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Amount sales through Cash</td>
-                                        <td class="text-center">{{$swp->amount_sales_through_cash ?? 0.00}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5.</td>
-                                        <td>Total sales in BDT</td>
-                                        <td class="text-center">{{$swp->total_sales_in_bdt ?? 0.00}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6.</td>
-                                        <td>Number of products available in FPS</td>
-                                        <td class="text-center">{{$swp->products_available_in_fps ?? 0}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        @endif
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const companyTabs = document.querySelectorAll('.company-tab');
-        const companyContents = document.querySelectorAll('.company-content');
-
-        companyTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const companyId = this.getAttribute('data-company');
-
-                // Remove active class from all tabs
-                companyTabs.forEach(t => t.classList.remove('active'));
-
-                // Add active class to clicked tab
-                this.classList.add('active');
-
-                // Hide all company content sections
-                companyContents.forEach(content => {
-                    content.classList.remove('active');
+                    // Show the selected company content
+                    const targetContent = document.getElementById(`company-${companyId}`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
                 });
+            });
 
-                // Show the selected company content
-                const targetContent = document.getElementById(`company-${companyId}`);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
+            // Intersection Observer for scroll animations
+            const animateOnScroll = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(animateOnScroll, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.kpi-card-flexible, .table-striped tr').forEach(el => {
+                observer.observe(el);
             });
         });
-
-        // Intersection Observer for scroll animations
-        const animateOnScroll = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(animateOnScroll, {
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.kpi-card-flexible, .table-striped tr').forEach(el => {
-            observer.observe(el);
-        });
-    });
-</script>
-
-</body>
-</html>
+    </script>
+@endpush

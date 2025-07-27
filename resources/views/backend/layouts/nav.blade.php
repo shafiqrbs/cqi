@@ -35,14 +35,15 @@
             </a>
         </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">
-              <span class="icon-holder">
-                  <i class="fas fa-paint-roller"></i>
-              </span>
-                    <span class="title">Swapno</span>
-                </a>
-            </li>
+        <li class="nav-item dropdown">
+{{--            <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">--}}
+            <a class="nav-link wave-effect" href="{{route('admin.kpi.index')}}" style="color: #000;">
+          <span class="icon-holder">
+              <i class="fas fa-paint-roller"></i>
+          </span>
+                <span class="title">Kpi</span>
+            </a>
+        </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link wave-effect" href="{{route('admin.sales.index','all')}}" style="color: #000;">

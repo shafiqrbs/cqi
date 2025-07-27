@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWAPNO Project</title>
-    <link rel="icon" type="image/png" href="{{asset('assets/logo.jpeg')}}">
+    <link rel="icon" type="image/png" href="{{asset('assets/logo-gain-health.svg')}}">
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -39,9 +40,9 @@
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #0891b2, #10b981);
+            /*width: 80px;*/
+            /*height: 80px;*/
+            /*background: linear-gradient(135deg, #0891b2, #10b981);*/
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -223,10 +224,10 @@
                 font-size: 2rem;
             }
 
-            .logo {
+            /*.logo {
                 width: 60px;
                 height: 60px;
-            }
+            }*/
 
             .funded-badge {
                 font-size: 1rem;
@@ -275,7 +276,7 @@
                 <div class="logo-container">
                     <div class="logo">
                         <a href="{{ route('home') }}">
-                            <img width="100%" src="{{ asset('assets/logo.jpeg') }}" alt="Logo">
+                            <img width="70%" src="{{ asset('assets/logo-gain-health.svg') }}" alt="Logo">
                         </a>
                     </div>
                 </div>
@@ -326,7 +327,7 @@
 
             <!-- Funded By Section -->
             <div class="col-md-3 text-end">
-                <div class="text-muted mb-2">Funded By</div>
+                <div class="text-muted mb-2"></div>
                 <a href="{{ route('home') }}">
                     <img width="40%" src="{{ asset('assets/logo-auchon.jpeg') }}" alt="Auchan Foundation Logo">
                 </a>

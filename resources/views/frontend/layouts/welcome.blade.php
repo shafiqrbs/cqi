@@ -1,12 +1,12 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <div class="project-title">
-        <h1 class="main-title">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
-        <div class="project-duration">Project Duration</div>
-        <div class="project-duration"><strong>January 2025-Dec 2027</strong></div>
-
+    <div class="project-title" style="color: #ffffff">
+        <h1 class="main-title" style="color: #ffffff">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
+        <div class="project-duration" style="color: #ffffff">Project Duration</div>
+        <div class="project-duration" style="color: #ffffff"><strong>January 2025-Dec 2027</strong></div>
     </div>
+
 
     <!-- Charts Section -->
     {{--
@@ -364,5 +364,45 @@
         });
 
     </script>
+
+@endpush
+
+@push('CustomStyle')
+
+    <style>
+        .project-title {
+            position: relative;
+            background: url('/assets/p-area.jpg') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .project-title::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.63); /* Dark overlay with 40% opacity */
+            z-index: 0;
+        }
+
+        .project-title > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .project-duration {
+            font-size: 1.2rem;
+        }
+    </style>
 
 @endpush

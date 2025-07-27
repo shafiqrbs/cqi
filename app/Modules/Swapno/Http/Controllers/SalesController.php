@@ -36,7 +36,7 @@ class SalesController extends Controller
         $PageTitle = 'Swapno Sales List';
         $TableTitle = 'Swapno Sales List';;
 
-        $sales = Sales::orderby('id','desc');
+        $sales = Sales::orderby('id','desc')->where('swapno_sales.is_active',1);
         if ($activeTab==='all') {
             $sales = $sales->join('sur_organization', 'sur_organization.id', '=', 'swapno_sales.organization_id')
                 ->leftjoin('swapno_category', 'swapno_category.id', '=', 'swapno_sales.category_id')
@@ -177,18 +177,9 @@ class SalesController extends Controller
     }
 
     public function delete($id){
-        DB::beginTransaction();
-        try {
-            Sales::where('id', $id)->delete();
+        Sales::find($id)->update(['is_active'=>'0']);
 
-            Session::flash('delete', __('Survey::FormValidation.DeleteMsg'));
-            DB::commit();
-            return redirect()->back();
-        } catch (\Exception $e) {
-            DB::rollback();
-            print($e->getMessage());
-            exit();
-            Session::flash('danger', $e->getMessage());
-        }
+        Session::flash('delete', __('Survey::FormValidation.DeleteMsg'));
+        return redirect()->back();
     }
 }
