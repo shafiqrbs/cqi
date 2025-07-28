@@ -297,7 +297,7 @@
 
                         @if(Route::currentRouteName()!='swapno-summary')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('swapno-summary') }}">Summary</a>
+                                <a class="nav-link" href="{{ route('swapno-summary') }}">Achievement</a>
                             </li>
                         @endif
 
@@ -329,7 +329,7 @@
             <div class="col-md-3 text-end">
                 <div class="text-muted mb-2"></div>
                 <a href="{{ route('home') }}">
-                    <img width="40%" src="{{ asset('assets/logo-auchon.jpeg') }}" alt="Auchan Foundation Logo">
+                    <img width="80%" src="{{ asset('assets/logo-auchon.jpeg') }}" alt="Auchan Foundation Logo">
                 </a>
             </div>
         </div>

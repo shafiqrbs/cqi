@@ -16,12 +16,9 @@ use App\Modules\Color\Http\Controllers\ColorController;
 |
 */
 
-/*Route::get('/swapno', function () {
-    echo 'ok';
-});*/
 Route::get('/', [App\Http\Controllers\FrontendController::class,'HomePage'])->name('home');
-Route::get('/report/product-sales', [App\Http\Controllers\FrontendController::class, 'productWiseSales'])
-    ->name('report.product-sales');
+Route::get('/report/product-sales', [App\Http\Controllers\FrontendController::class, 'productWiseSales'])->name('report.product-sales');
+Route::get('/report/org-fps-bar', [App\Http\Controllers\FrontendController::class, 'organizationWiseFps'])->name('report.organization-wise-fps');
 Route::get('/swapno', [App\Http\Controllers\FrontendController::class,'swapnoDashboard'])->name('swapno-dashboard');
 Route::get('/swapno-summary', [App\Http\Controllers\FrontendController::class,'swapnoSummary'])->name('swapno-summary');
 Route::get('/swapno-gallery/{type}', [App\Http\Controllers\FrontendController::class,'swapnoGallery'])->name('swapno-gallery');

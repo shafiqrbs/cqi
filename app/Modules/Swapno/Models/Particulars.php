@@ -15,6 +15,7 @@ class Particulars extends Model
         'slug',
         'particular_id',
         'group',
+        'is_featured'
     ];
 
 

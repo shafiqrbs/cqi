@@ -35,6 +35,8 @@ class SwapnoOverviewController extends Controller
         $PageTitle = "KPI Information List";
         $TableTitle = "KPI Information List";
 
+        Kpi::where('is_active',0)->delete();
+
         $kpis = Kpi::orderby('id','desc')
             ->where('is_active',1)
             ->join('sur_organization','sur_organization.id','=','swapno__kpi.organization_id')

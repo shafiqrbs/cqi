@@ -6,6 +6,7 @@ use App\Modules\Configuration\ConfigurationHelper;
 use App\Modules\Organization\Models\Organization;
 use App\Modules\Swapno\Models\Kpi;
 use App\Modules\Swapno\Models\KpiValue;
+use App\Modules\Swapno\Models\Particulars;
 use App\Modules\Swapno\Models\PhotoGallery;
 use App\Modules\Swapno\Models\Sales;
 use App\Modules\Swapno\Models\SwapnoNumber;
@@ -39,14 +40,17 @@ class FrontendController extends Controller
         ConfigurationHelper::Language();
         $TabHeader = 'Home';
 
+        $defaultMonth = date('F', strtotime('-1 month'));
+        $defaultYear = date('Y');
+
         // for bar chat
-        $labels = [date('F', strtotime('-1 month'))];
+        $labels = [$defaultMonth];
         $colors = ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f87171']; // Add more if needed
         $datasets = [];
 
         $kpiValues = KpiValue::where('swapno__kpi.is_active',1)
-            ->where('swapno__kpi.month',date('F', strtotime('-1 month')))
-            ->where('swapno__kpi.year',date('Y'))
+            ->where('swapno__kpi.month',$defaultMonth)
+            ->where('swapno__kpi.year',$defaultYear)
             ->where('swapno__particulars.slug','total-sales-in-bdt')
             ->join('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
             ->join('swapno__particulars','swapno__particulars.id','=','swapno__kpi_value.particular_id')
@@ -90,10 +94,55 @@ class FrontendController extends Controller
             'November' => 'November',
             'December' => 'December',
         ];
+        $years = [
+            '2025' => '2025',
+            '2026' => '2026',
+            '2027' => '2027',
+            '2028' => '2028',
+            '2029' => '2029',
+            '2030' => '2030',
+        ];
+        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId','years','defaultYear'));
+    }
 
-        $defaultMonth = date('F', strtotime('-1 month'));
+    public function organizationWiseFps(Request $request)
+    {
+        $month = $request->input('month');
+        $year = $request->input('year');
 
-        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId'));
+        $labels = [$month];
+        $colors = ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f87171'];
+        $datasets = [];
+
+        $kpiValues = KpiValue::where('swapno__kpi.is_active', 1)
+            ->where('swapno__kpi.month', $month)
+            ->where('swapno__kpi.year', $year)
+            ->where('swapno__particulars.slug', 'total-sales-in-bdt')
+            ->join('swapno__kpi', 'swapno__kpi.id', '=', 'swapno__kpi_value.kpi_id')
+            ->join('swapno__particulars', 'swapno__particulars.id', '=', 'swapno__kpi_value.particular_id')
+            ->join('sur_organization', 'sur_organization.id', '=', 'swapno__kpi.organization_id')
+            ->select([
+                'swapno__kpi_value.kpi_value',
+                'sur_organization.name as org_name',
+                'sur_organization.short_name',
+            ])
+            ->get()
+            ->toArray();
+
+        foreach ($kpiValues as $index => $item) {
+            $datasets[] = [
+                'label' => $item['short_name'] ?? $item['org_name'],
+                'data' => [(float) $item['kpi_value']],
+                'backgroundColor' => $colors[$index % count($colors)],
+                'borderRadius' => 4,
+                'barThickness' => 30
+            ];
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'datasets' => $datasets
+        ]);
     }
 
     public function productWiseSales(Request $request)
@@ -121,15 +170,20 @@ class FrontendController extends Controller
         return response()->json($monthlySalesData);
     }
 
-    public function swapnoDashboard(){
+    public function swapnoDashboard(Request $request){
+        $input = $request->only('month','year');
+
         ConfigurationHelper::Language();
         $TabHeader = 'Swapno Dashboard';
         $totalNumbers = TotalNumber::first();
         $Organization = Organization::join('swapno_total','swapno_total.organization_id','=','sur_organization.id')->where('status','1')->select('sur_organization.*')->get();
 
+        $defaultMonth = $input['month'] ?? date('F', strtotime('-1 month'));
+        $defaultYear = $input['year'] ?? date('Y');
+
         $kpiValues = KpiValue::where('swapno__kpi.is_active',1)
-            ->where('swapno__kpi.month',date('F', strtotime('-1 month')))
-            ->where('swapno__kpi.year',date('Y'))
+            ->where('swapno__kpi.month',$defaultMonth)
+            ->where('swapno__kpi.year',$defaultYear)
             ->join('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
             ->join('swapno__particulars','swapno__particulars.id','=','swapno__kpi_value.particular_id')
             ->join('sur_organization','sur_organization.id','=','swapno__kpi.organization_id')
@@ -175,9 +229,33 @@ class FrontendController extends Controller
             'December' => 'December',
         ];
 
-        $defaultMonth = date('F', strtotime('-1 month'));
+        $years = [
+            '2025' => '2025',
+            '2026' => '2026',
+            '2027' => '2027',
+            '2028' => '2028',
+            '2029' => '2029',
+            '2030' => '2030',
+        ];
 
-        return view("frontend.layouts.swapno-dashboard",compact('TabHeader','totalNumbers','groupedKpis','Organization','organizations','defaultOrgId','months','defaultMonth'));
+        $particulars = Particulars::query()
+                        ->where('swapno__particulars.is_featured', 1)
+                        ->where('swapno__particulars.is_active', 1)
+                        ->where('swapno__kpi.is_active', 1)
+                        ->where('swapno__kpi.month', $defaultMonth)
+                        ->where('swapno__kpi.year', $defaultYear)
+                        ->join('swapno__kpi_value', 'swapno__kpi_value.particular_id', '=', 'swapno__particulars.id')
+                        ->join('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
+                        ->select([
+                            DB::raw('SUM(swapno__kpi_value.kpi_value) as total'),
+                            'swapno__particulars.name',
+                            'swapno__particulars.group',
+                        ])
+                        ->groupBy('swapno__particulars.id', 'swapno__particulars.name')
+                        ->get()
+                        ->toArray();
+
+        return view("frontend.layouts.swapno-dashboard",compact('TabHeader','totalNumbers','groupedKpis','Organization','organizations','defaultOrgId','months','defaultMonth','particulars','defaultYear','years'));
     }
 
     public function swapnoSummary(){

@@ -20,6 +20,11 @@ Route::get('admin-particular-edit/{id}',[
     'uses' => 'ParticularController@edit'
 ]);
 
+Route::get('admin-particular-feature/{id}',[
+    'as' => 'admin.particular.feature',
+    'uses' => 'ParticularController@feature'
+]);
+
 Route::PATCH('admin-particular-update/{id}',[
     'as' => 'admin.particular.update',
     'uses' => 'ParticularController@update'

@@ -164,4 +164,22 @@ class ParticularController extends Controller
             Session::flash('danger', $e->getMessage());
         }
     }
+
+    public function feature($id)
+    {
+        $particular = Particulars::find($id);
+        if (!$particular) {
+            return response([
+                'success' => false,
+                'status' => 200,
+                'message' => 'Particular not found.'
+            ]);
+        }
+        $particular->update(['is_featured' => $particular->is_featured==0?1:0]);
+        return response([
+            'success' => true,
+            'status' => 200,
+            'message' => $particular->is_featured==0?'Particular removed to featured.':'Particular added to featured.'
+        ]);
+    }
 }

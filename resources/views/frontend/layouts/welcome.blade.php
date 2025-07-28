@@ -86,18 +86,10 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Monthly FPS Sales</h3>
-                    {{--<div class="chart-controls mb-3">
-                        <select class="chart-dropdown form-select">
-                            <option>Metric</option>
-                            <option>Revenue</option>
-                            <option>Units</option>
-                        </select>
-                        <select class="chart-dropdown form-select">
-                            <option>Today</option>
-                            <option>This Week</option>
-                            <option>This Month</option>
-                        </select>
-                    </div>--}}
+                        <div class="chart-controls mb-3">
+                            {!! Form::select('month', $months, $defaultMonth, ['id' => 'month_bar', 'class' => 'form-control form-select']) !!}
+                            {!! Form::select('year', $years, $defaultYear, ['id' => 'year', 'class' => 'form-control form-select']) !!}
+                        </div>
                     <div class="chart-container">
                         <canvas id="monthlyChart"></canvas>
                     </div>
@@ -137,7 +129,6 @@
     </div>
     <div class="chart-section my-5">
         <div class="row g-4">
-            <!-- Column 1: Monthly Sales -->
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Category Wise Sales</h3>
@@ -145,7 +136,6 @@
                     <div class="chart-controls mb-3">
                         {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select']) !!}
                         {!! Form::select('month', $months, $defaultMonth, ['id' => 'month', 'class' => 'form-control form-select']) !!}
-
                     </div>
 
                     <div class="pie-chart-container">
@@ -253,8 +243,6 @@
             loadChartData();
         });
 
-
-
         let pieChart;
         const pieCtx = document.getElementById('pieChart').getContext('2d');
 
@@ -335,18 +323,16 @@
         document.getElementById('month').addEventListener('change', loadChartData);
         // Load initially
         document.addEventListener('DOMContentLoaded', loadChartData);
+    </script>
 
-
+    <script>
         // Monthly Bar Chart
-        const chartLabels = @json($labels);
-        const chartDatasets = @json($datasets);
-
         const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
         const monthlyChart = new Chart(monthlyCtx, {
             type: 'bar',
             data: {
-                labels: chartLabels,
-                datasets: chartDatasets
+                labels: @json($labels),
+                datasets: @json($datasets)
             },
             options: {
                 responsive: true,
@@ -363,6 +349,44 @@
             }
         });
 
+        // Add event listeners for month and year select
+        document.getElementById('month_bar').addEventListener('change', updateChart);
+        document.getElementById('year').addEventListener('change', updateChart);
+
+        function updateChart() {
+            const month = document.getElementById('month_bar').value;
+            const year = document.getElementById('year').value;
+
+            // Show loading state
+            monthlyChart.data.labels = ['Loading...'];
+            monthlyChart.data.datasets = [{
+                label: 'Loading',
+                data: [0],
+                backgroundColor: '#cccccc'
+            }];
+            monthlyChart.update();
+
+            // Fetch new data
+            fetch(`/report/org-fps-bar?month=${month}&year=${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update chart with new data
+                    monthlyChart.data.labels = data.labels;
+                    monthlyChart.data.datasets = data.datasets;
+                    monthlyChart.update();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show error state
+                    monthlyChart.data.labels = ['Error loading data'];
+                    monthlyChart.data.datasets = [{
+                        label: 'Error',
+                        data: [0],
+                        backgroundColor: '#ffcccc'
+                    }];
+                    monthlyChart.update();
+                });
+        }
     </script>
 
 @endpush
@@ -402,6 +426,24 @@
 
         .project-duration {
             font-size: 1.2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            min-height: 300px;
+        }
+
+        .loading-chart {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
     </style>
 

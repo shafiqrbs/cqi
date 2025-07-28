@@ -50,6 +50,7 @@
                                         <th>Name</th>
                                         <th>Slug</th>
                                         <th>Group</th>
+                                        <th class="text-center">Featured</th>
                                         <th>Action</th>
                                         </thead>
 
@@ -61,6 +62,9 @@
                                                 <td>{{$value->name}}</td>
                                                 <td>{{$value->slug}}</td>
                                                 <td>{{$value->group}}</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="is_featured" data-id="{{$value->id}}" id="is_featured" {{ $value->is_featured ? 'checked' : '' }}>
+                                                </td>
                                                 <td>
 
                                                         <span class="allbutton{{$value->id}}">
@@ -86,5 +90,22 @@
 @endsection
 
 @push('PerPageCustomJs')
+    <script>
+        $(document).on('click','#is_featured',function(e) {
+            let entityId= $(this).attr('data-id');
+            if(entityId==''){
+                alert('This record are not available');
+                return false;
+            }
 
+            jQuery.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/admin-particular-feature/' + entityId,
+                data: {},
+                success: function (data) {alert(data.message)}
+            });
+        });
+
+    </script>
 @endpush
