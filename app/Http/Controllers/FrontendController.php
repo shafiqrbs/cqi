@@ -40,7 +40,7 @@ class FrontendController extends Controller
         ConfigurationHelper::Language();
         $TabHeader = 'Home';
 
-        $defaultMonth = date('F', strtotime('-1 month'));
+        $defaultMonth = date('F', strtotime('first day of last month'));
         $defaultYear = date('Y');
 
         // for bar chat
@@ -102,7 +102,17 @@ class FrontendController extends Controller
             '2029' => '2029',
             '2030' => '2030',
         ];
-        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId','years','defaultYear'));
+
+        $milestones = [
+            'Successfully inaugurated 03 Fair Price Shop (FPS) in 3 factories.',
+            'Formally three NICs announced by the factory management.',
+            'Completed baseline survey in 2 factories (Russel Garments and TM Jeans).',
+            'Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.',
+            'Adaptive training provided to vocational learners in 2 regions.',
+            'Mobile clinic launched in urban factory cluster for basic healthcare.'
+        ];
+
+        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId','years','defaultYear','milestones'));
     }
 
     public function organizationWiseFps(Request $request)
@@ -178,7 +188,7 @@ class FrontendController extends Controller
         $totalNumbers = TotalNumber::first();
         $Organization = Organization::join('swapno_total','swapno_total.organization_id','=','sur_organization.id')->where('status','1')->select('sur_organization.*')->get();
 
-        $defaultMonth = $input['month'] ?? date('F', strtotime('-1 month'));
+        $defaultMonth = $input['month'] ?? date('F', strtotime('first day of last month'));
         $defaultYear = $input['year'] ?? date('Y');
 
         $kpiValues = KpiValue::where('swapno__kpi.is_active',1)

@@ -8,78 +8,6 @@
     </div>
 
 
-    <!-- Charts Section -->
-    {{--
-        <div class="chart-section">
-            <div class="row g-4">
-                <div class="col-lg-6">
-                    <div class="chart-card">
-                        <h3 class="chart-title">Monthly FPS Sales</h3>
-                        <div class="chart-controls">
-                            <select class="chart-dropdown">
-                                <option>Metric</option>
-                                <option>Revenue</option>
-                                <option>Units</option>
-                            </select>
-                            <select class="chart-dropdown">
-                                <option>Today</option>
-                                <option>This Week</option>
-                                <option>This Month</option>
-                            </select>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="monthlyChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="chart-card">
-                        <h3 class="chart-title">Product Wise Sales</h3>
-                        <div class="chart-controls">
-                            <select class="chart-dropdown">
-                                <option>Metric</option>
-                                <option>Revenue</option>
-                                <option>Units</option>
-                            </select>
-                            <select class="chart-dropdown">
-                                <option>Today</option>
-                                <option>This Week</option>
-                                <option>This Month</option>
-                            </select>
-                        </div>
-                        <div class="pie-chart-container">
-                            <canvas id="pieChart"></canvas>
-                            --}}
-    {{--<div class="pie-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: #60a5fa;"></div>
-                                    <span class="legend-text">Category 1</span>
-                                    <span class="legend-value">$50,000.00</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: #34d399;"></div>
-                                    <span class="legend-text">Category 2</span>
-                                    <span class="legend-value">$25,000.00</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: #f472b6;"></div>
-                                    <span class="legend-text">Category 3</span>
-                                    <span class="legend-value">$15,000.00</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background-color: #fbbf24;"></div>
-                                    <span class="legend-text">Category 4</span>
-                                    <span class="legend-value">$10,000.00</span>
-                                </div>
-                            </div>--}}{{--
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    --}}
-
     <div class="chart-section my-5">
         <div class="row g-4">
             <!-- Column 1: Monthly Sales -->
@@ -147,36 +75,68 @@
                 </div>
             </div>
 
+            @php
+                $colorClasses = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+            @endphp
+
             <div class="col-lg-4">
+                <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
+                    <h3 class="chart-title mb-3">Quarterly Milestone</h3>
+
+                    @foreach ($milestones as $index => $item)
+                        <div class="p-3 text-start border rounded shadow-sm mb-2 bg-light border-start border-3
+                border-{{ $colorClasses[$index % count($colorClasses)] }}">
+                            <small class="text-muted d-block">
+                                {{ $item }}
+                            </small>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+
+            {{--<div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
 
                     <h3 class="chart-title">Quarterly Milestone</h3>
 
-                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-4">
+                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-1">
                         <small class="text-muted d-block">
                             Successfully inaugurated 03 Fair Price Shop (FPS) in 3 factories.
                         </small>
                     </div>
 
-                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-4">
+                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-1">
                         <small class="text-muted d-block">
                             Formally three NICs announced by the factory management.
                         </small>
                     </div>
 
-                    <div class="p-2 text-left mb-xl-4 border rounded bg-light shadow-sm position-relative">
+                    <div class="p-2 text-left mb-xl-1 border rounded bg-light shadow-sm position-relative">
                         <small class="text-muted d-block">
                             Completed baseline survey in 2 factories (Russel Garments and TM Jeans).
                         </small>
                     </div>
 
-                    <div class="p-2 text-left  mb-xl-4 border rounded bg-light shadow-sm position-relative">
+                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
+                        <small class="text-muted d-block">
+                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
+                        </small>
+                    </div>
+
+                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
+                        <small class="text-muted d-block">
+                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
+                        </small>
+                    </div>
+
+                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
                         <small class="text-muted d-block">
                             Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
                         </small>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
 
             <div class="col-lg-4">

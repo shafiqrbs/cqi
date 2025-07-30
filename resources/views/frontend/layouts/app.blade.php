@@ -286,20 +286,12 @@
             <div class="col-md-5 text-center">
                 <nav class="menu">
                     <ul class="nav justify-content-center">
-                        @if(Route::currentRouteName()!='home')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">Home</a>
                             </li>
-                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('swapno-dashboard') }}">Factories</a>
                         </li>
-
-                        @if(Route::currentRouteName()!='swapno-summary')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('swapno-summary') }}">Achievement</a>
-                            </li>
-                        @endif
 
                             @php
                                 $type = Request::segment(2);

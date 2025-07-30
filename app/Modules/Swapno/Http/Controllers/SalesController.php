@@ -36,7 +36,7 @@ class SalesController extends Controller
         $PageTitle = 'Swapno Sales List';
         $TableTitle = 'Swapno Sales List';;
 
-        $sales = Sales::orderby('id','desc')->where('swapno_sales.is_active',1);
+        $sales = Sales::orderby('id','desc');
         if ($activeTab==='all') {
             $sales = $sales->join('sur_organization', 'sur_organization.id', '=', 'swapno_sales.organization_id')
                 ->leftjoin('swapno_category', 'swapno_category.id', '=', 'swapno_sales.category_id')
@@ -177,7 +177,10 @@ class SalesController extends Controller
     }
 
     public function delete($id){
-        Sales::find($id)->update(['is_active'=>'0']);
+        $sales = Sales::find($id);
+        $sales->update([
+            'is_active' => $sales->is_active == 0 ? 1 : 0,
+        ]);
 
         Session::flash('delete', __('Survey::FormValidation.DeleteMsg'));
         return redirect()->back();

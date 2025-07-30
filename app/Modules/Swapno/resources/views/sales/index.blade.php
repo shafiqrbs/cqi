@@ -10,20 +10,11 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
 
-                            {{--<a href="{{route('admin.swapno.total.index')}}" title="Swapno Total" class="module_button_header">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fas fa-th-list"></i>  Swapno Total
-                                </button>
-                            </a>--}}
-
-{{--                            @canany(['survey-create'])--}}
                             <a href="{{route('admin.sales.create')}}" title="{{__('Survey::message.CreateButton')}}" class="module_button_header">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
                                     <i class="fas fa-plus-circle"></i>  {{__('Survey::message.CreateButton')}}
                                 </button>
                             </a>
-{{--                            @endcan--}}
-
 
                             <?php
                             $TultipMessage = __('Survey::message.HintsMsg');
@@ -74,6 +65,7 @@
                                         <th>Year</th>
                                         <th>Quantity</th>
                                         <th>Amount</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                         </thead>
 
@@ -90,16 +82,21 @@
                                                 <td>{{$value->year}}</td>
                                                 <td>{{$value->total_sales_quantity}}</td>
                                                 <td>{{$value->total_sales_amount}}</td>
+                                                <td style="color: {{$value->is_active==1?'':'red'}}">{{$value->is_active==1?'Acyive':'Inactive'}}</td>
                                                 <td>
 
                                                         <span class="allbutton{{$value->id}}">
 {{--@canany(['survey-edit'])--}}
 <a href="{{route('admin.sales.edit',$value->id)}}" title="Edit" class="text-primary"><i class="fas fa-pencil-alt"></i></a>
 {{--@endcan--}}
-{{--                                                            @canany(['survey-delete'])--}}
+
+                                                            @if($value->is_active)
 <a href="{{route('admin.sales.delete',$value->id)}}" title="Permanent Delete" onclick="return confirm('Are you sure to Permanent Delete?')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-{{--                                                            @endcan--}}
-{{--@endif--}}
+                                                            @else
+                                                                <a href="{{route('admin.sales.delete',$value->id)}}" title="Restore Delete" onclick="return confirm('Are you sure to restore Delete?')" class="text-danger"><i class="fas fa-window-restore"></i></a>
+
+                                                            @endif
+
                                                         </span>
                                                 </td>
                                             </tr>
