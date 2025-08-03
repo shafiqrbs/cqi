@@ -82,104 +82,51 @@
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title mb-3">Quarterly Milestone</h3>
+                    <div class="chart-controls mb-3">
+                        {!! Form::select('milestone_type_id', $milestoneTypes, $defaultMilestone, ['id' => 'milestone_type_id', 'class' => 'form-control form-select']) !!}
+                    </div>
 
-                    @foreach ($milestones as $index => $item)
-                        <div class="p-3 text-start border rounded shadow-sm mb-2 bg-light border-start border-3
-                border-{{ $colorClasses[$index % count($colorClasses)] }}">
-                            <small class="text-muted d-block">
-                                {{ $item }}
-                            </small>
+                    <div id="milestone-list-wrapper" style="position: relative; min-height: 100px;"> <div id="milestone-loader" class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
-                    @endforeach
+                        <div id="milestone-list">
+                            @foreach ($milestones as $index => $item)
+                                <div class="p-3 text-start border rounded shadow-sm mb-2 bg-light border-start border-3
+border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- Add milestone-item class --}}
+                                    <small class="text-muted d-block">
+                                        {{ $item->name }}
+                                    </small>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-            {{--<div class="col-lg-4">
-                <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
-
-                    <h3 class="chart-title">Quarterly Milestone</h3>
-
-                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-1">
-                        <small class="text-muted d-block">
-                            Successfully inaugurated 03 Fair Price Shop (FPS) in 3 factories.
-                        </small>
-                    </div>
-
-                    <div class="p-2 text-left border rounded bg-light shadow-sm position-relative mb-xl-1">
-                        <small class="text-muted d-block">
-                            Formally three NICs announced by the factory management.
-                        </small>
-                    </div>
-
-                    <div class="p-2 text-left mb-xl-1 border rounded bg-light shadow-sm position-relative">
-                        <small class="text-muted d-block">
-                            Completed baseline survey in 2 factories (Russel Garments and TM Jeans).
-                        </small>
-                    </div>
-
-                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
-                        <small class="text-muted d-block">
-                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
-                        </small>
-                    </div>
-
-                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
-                        <small class="text-muted d-block">
-                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
-                        </small>
-                    </div>
-
-                    <div class="p-2 text-left  mb-xl-1 border rounded bg-light shadow-sm position-relative">
-                        <small class="text-muted d-block">
-                            Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.
-                        </small>
-                    </div>
-                </div>
-            </div>--}}
-
 
             <div class="col-lg-4">
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Upcoming Events</h3>
 
+                    {{-- Example with an imaginary 'event->description' --}}
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
-                            <div>
-                                <h6 class="mb-1 fw-semibold">
-                                    Complete the Baseline Survey for Phase II
-                                </h6>
-                                {{--                                <small class="text-muted">July 10, 2025 • Auditorium A</small>--}}
-                            </div>
-                            {{--                            <span class="badge bg-success rounded-pill">New</span>--}}
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
-                            <div>
-                                <h6 class="mb-1 fw-semibold">
-                                    Inaugurate the 4th Fair Price Shop at Zasstex
-                                </h6>
-                                {{--                                <small class="text-muted">July 15, 2025 • Hall B</small>--}}
-                            </div>
-                            {{--                            <span class="badge bg-info rounded-pill">Soon</span>--}}
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4">
-                            <div>
-                                <h6 class="mb-1 fw-semibold">
-                                    Organize Auchan kick-off meeting
-                                </h6>
-                                {{--                                <small class="text-muted">July 20, 2025 • Conference Room</small>--}}
-                            </div>
-                            {{--                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>--}}
-                        </li>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1 fw-semibold">
-                                    Upgrade & Complete Project Dashboard
-                                </h6>
-                                {{--                                <small class="text-muted">July 20, 2025 • Conference Room</small>--}}
-                            </div>
-                            {{--                            <span class="badge bg-warning text-dark rounded-pill">Reminder</span>--}}
-                        </li>
+                        @foreach($events as $event)
+                            <li class="list-group-item px-0 d-flex justify-content-between align-items-start mb-xl-4 event-item"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="hover focus"
+                                data-bs-placement="top"
+                                data-bs-content="{{ $event->description ?? 'No description available.' }}"
+                                title="{{ $event->name }}">
+                                <div>
+                                    <h6 class="mb-1 fw-semibold">
+                                        {{$event->name}}
+                                    </h6>
+                                    <small class="text-muted">{{date('F j, Y',strtotime($event->event_date))}}</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill">New</span>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -349,17 +296,76 @@
         }
     </script>
 
+{{--
+    // for mailstone
+--}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const milestoneTypeSelect = document.getElementById('milestone_type_id');
+            const milestoneListContainer = document.getElementById('milestone-list');
+
+            if (milestoneTypeSelect && milestoneListContainer) {
+                milestoneTypeSelect.addEventListener('change', function () {
+                    const selectedMilestoneTypeId = this.value;
+
+                    milestoneListContainer.classList.add('is-loading');
+
+                    setTimeout(() => {
+                        fetch(`/get-milestones?milestone_type_id=${selectedMilestoneTypeId}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.text();
+                            })
+                            .then(html => {
+                                milestoneListContainer.innerHTML = html;
+                                // 2. Remove loading class after new content is loaded
+                                milestoneListContainer.classList.remove('is-loading');
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                                milestoneListContainer.classList.remove('is-loading'); // Ensure class is removed on error
+                            });
+                    }, 150); // Small delay to allow fade-out to be visible
+                });
+            }
+        });
+    </script>
 @endpush
 
 @push('CustomStyle')
 
     <style>
+
+        #milestone-list {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        #milestone-list.is-loading {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        .milestone-item {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .project-title {
             position: relative;
-            background: url('/assets/p-area.jpg') no-repeat center center;
+            background: url('/assets/swapno-bg.jpg') no-repeat center center;
             background-size: cover;
             color: white;
-            padding: 80px 20px;
+            /*padding: 80px 20px;*/
+            padding: 250px 20px;
             text-align: center;
             border-radius: 10px;
             overflow: hidden;

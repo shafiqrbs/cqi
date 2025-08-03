@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 use App\Modules\RolePermission\Http\Controllers\RoleController;
 use App\Modules\User\Http\Controllers\UserController;
@@ -16,13 +17,15 @@ use App\Modules\Color\Http\Controllers\ColorController;
 |
 */
 
-Route::get('/', [App\Http\Controllers\FrontendController::class,'HomePage'])->name('home');
-Route::get('/report/product-sales', [App\Http\Controllers\FrontendController::class, 'productWiseSales'])->name('report.product-sales');
-Route::get('/report/org-fps-bar', [App\Http\Controllers\FrontendController::class, 'organizationWiseFps'])->name('report.organization-wise-fps');
-Route::get('/swapno', [App\Http\Controllers\FrontendController::class,'swapnoDashboard'])->name('swapno-dashboard');
-Route::get('/swapno-summary', [App\Http\Controllers\FrontendController::class,'swapnoSummary'])->name('swapno-summary');
-Route::get('/swapno-gallery/{type}', [App\Http\Controllers\FrontendController::class,'swapnoGallery'])->name('swapno-gallery');
-Route::get('/swapno-gallery-details/{id}', [App\Http\Controllers\FrontendController::class,'swapnoGalleryDetails'])->name('swapno-gallery-details');
+Route::get('/', [FrontendController::class,'HomePage'])->name('home');
+Route::get('/report/product-sales', [FrontendController::class, 'productWiseSales'])->name('report.product-sales');
+Route::get('/report/org-fps-bar', [FrontendController::class, 'organizationWiseFps'])->name('report.organization-wise-fps');
+Route::get('/get-milestones', [FrontendController::class, 'getMilestones'])->name('get.milestones');
+
+Route::get('/swapno', [FrontendController::class,'swapnoDashboard'])->name('swapno-dashboard');
+Route::get('/swapno-summary', [FrontendController::class,'swapnoSummary'])->name('swapno-summary');
+Route::get('/swapno-gallery/{type}', [FrontendController::class,'swapnoGallery'])->name('swapno-gallery');
+Route::get('/swapno-gallery-details/{id}', [FrontendController::class,'swapnoGalleryDetails'])->name('swapno-gallery-details');
 
 Auth::routes();
 Route::get('/admin-dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('admin-dashboard');

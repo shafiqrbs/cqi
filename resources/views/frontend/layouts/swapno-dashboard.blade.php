@@ -41,140 +41,26 @@
 
         <h1 class="overview-title">Key Performance Indicator</h1>
 
-        {{--<div class="grid-container mb-4">
-            @if(isset($totalNumbers->factory_onboarded))
-                <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #9c27b0, #673ab7);">
-                    <div class="kpi-title fw-bold text-white">Factories Onboarded</div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="kpi-number text-white">{{$totalNumbers->factory_onboarded ?? 0}}</div>
-                        <i class="fas fa-industry kpi-icon"></i>
-                    </div>
-                    <div class="kpi-trend text-white">
-                        <i class="fas fa-arrow-up"></i> Key progress indicator
-                    </div>
-                </div>
-            @endif
-
-            @if(isset($totalNumbers->fps_inaugurated))
-                <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #2196f3, #03a9f4);">
-                    <div class="kpi-title fw-bold text-white">FPS Inaugurated</div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="kpi-number text-white">{{$totalNumbers->fps_inaugurated ?? 0}}</div>
-                        <i class="fas fa-building kpi-icon"></i>
-                    </div>
-                    <div class="kpi-trend text-white">
-                        <i class="fas fa-chart-line"></i> Operational units
-                    </div>
-                </div>
-            @endif
-
-                @if(isset($totalNumbers->nic_formed))
-                    <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #009688, #4caf50);">
-                        <div class="kpi-title fw-bold text-white">NIC Formed</div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="kpi-number text-white">{{$totalNumbers->nic_formed ?? 0}}</div>
-                            <i class="fas fa-users kpi-icon"></i>
-                        </div>
-                        <div class="kpi-trend text-white">
-                            <i class="fas fa-network-wired"></i> Committees established
-                        </div>
-                    </div>
-                @endif
-
-                @if(isset($totalNumbers->nic_meeting_conducted))
-                    <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff9800, #ff5722);">
-                        <div class="kpi-title fw-bold text-white">NIC Meetings Conducted</div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="kpi-number text-white">{{$totalNumbers->nic_meeting_conducted ?? 0}}</div>
-                            <i class="fas fa-calendar-alt kpi-icon"></i>
-                        </div>
-                        <div class="kpi-trend text-white">
-                            <i class="fas fa-clock"></i> Engagement metric
-                        </div>
-                    </div>
-                @endif
-
-                @if(isset($totalNumbers->stakeholder_conducted))
-                    <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #3f51b5, #607d8b);">
-                        <div class="kpi-title fw-bold text-white">Stakeholder Workshops</div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="kpi-number text-white">{{$totalNumbers->stakeholder_conducted ?? 0}}</div>
-                            <i class="fas fa-handshake kpi-icon"></i>
-                        </div>
-                        <div class="kpi-trend text-white">
-                            <i class="fas fa-comments"></i> Collaboration events
-                        </div>
-                    </div>
-                @endif
-
-                @if(isset($totalNumbers->participants_attend))
-                    <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #ff5722, #e91e63);">
-                        <div class="kpi-title fw-bold text-white">Workshop Participants</div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="kpi-number text-white">{{$totalNumbers->participants_attend ?? 0}}</div>
-                            <i class="fas fa-user-friends kpi-icon"></i>
-                        </div>
-                        <div class="kpi-trend text-white">
-                            <i class="fas fa-users"></i> Total attendees
-                        </div>
-                    </div>
-                @endif
-
-                @php
-                    $icons = [
-                        'fa-user-friends',
-                        'fa-users',
-                        'fa-chart-line',
-                        'fa-chart-pie',
-                        'fa-briefcase',
-                        'fa-trophy',
-                        'fa-star',
-                        'fa-award',
-                        'fa-lightbulb',
-                        'fa-gem'
-                    ];
-
-                    $gradients = [
-                        'linear-gradient(135deg, #ff5722, #e91e63)',
-                        'linear-gradient(135deg, #3f51b5, #2196f3)',
-                        'linear-gradient(135deg, #4caf50, #8bc34a)',
-                        'linear-gradient(135deg, #9c27b0, #673ab7)',
-                        'linear-gradient(135deg, #00bcd4, #009688)',
-                        'linear-gradient(135deg, #ff9800, #ff5722)',
-                        'linear-gradient(135deg, #607d8b, #795548)',
-                        'linear-gradient(135deg, #e91e63, #f44336)'
-                    ];
-                @endphp
-
-                @if(count($particulars)>0)
-                    @foreach($particulars as $key => $particular)
-                        @php
-                            $randomIcon = $icons[array_rand($icons)];
-                            $randomGradient = $gradients[array_rand($gradients)];
-                        @endphp
-
-                        <div class="kpi-card-colorful" style="background: {{ $randomGradient }};">
-                            <div class="kpi-title fw-bold text-white">{{$particular['name']}}</div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="kpi-number text-white">{{$particular['total'] ?? 0}}</div>
-                                <i class="fas {{ $randomIcon }} kpi-icon"></i>
-                            </div>
-                            <div class="kpi-trend text-white">
-                                <i class="fas fa-users"></i> {{Str::headline($particular['group'])}}
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-        </div>--}}
-
         <div class="row">
             <!-- Static KPIs Column with light blue background -->
             <div class="col-md-6" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                 <h4 class="mb-4 text-primary" style="border-bottom: 2px solid #007bff; padding-bottom: 8px;">
                     <i class="fas fa-chart-pie mr-2"></i> Core Metrics
                 </h4>
-                <div class="grid-container mb-4">
-                    @if(isset($totalNumbers->factory_onboarded))
+                <div class=" mb-4">
+                    <div class="alert alert-info">
+                        * Number of worker reached
+                    </div>
+                    <div class="alert alert-info">
+                        * Number of Fair Price Shop established and sustained beyond project period
+                    </div>
+                    <div class="alert alert-info">
+                        * Growth in Sales performance
+                    </div>
+                    <div class="alert alert-info">
+                        * Number of beneficiaries reached through trainings, awareness activities
+                    </div>
+                    {{--@if(isset($totalNumbers->factory_onboarded))
                         <div class="kpi-card-colorful" style="background: linear-gradient(135deg, #9c27b0, #673ab7);">
                             <div class="kpi-title fw-bold text-white">Factories Onboarded</div>
                             <div class="d-flex justify-content-between align-items-center">
@@ -250,7 +136,7 @@
                                 <i class="fas fa-users"></i> Total attendees
                             </div>
                         </div>
-                    @endif
+                    @endif--}}
                 </div>
             </div>
 
@@ -319,7 +205,7 @@
                 $firstOrganizationName = collect($groupedKpis)->keys()->first() ?? null;
                 $activeOrg = $firstOrganizationName ? Str::slug($firstOrganizationName) : '';
             @endphp
-            <h3 class="mb-4">Factory wise kpi </h3>
+            <h3 class="mb-4">Factory wise KPI </h3>
 
             <div class="company-tabs">
                 @foreach($Organization as $org)

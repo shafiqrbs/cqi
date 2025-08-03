@@ -23,7 +23,8 @@
         }
 
         body {
-            background-color: var(--light-bg);
+            /*background-color: var(--light-bg);*/
+            background-color: #0005ff0a;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 

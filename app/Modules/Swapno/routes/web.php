@@ -8,5 +8,7 @@ Route::group(['module' => 'Swapno', 'middleware' => ['web','auth']], function() 
     include 'particular.php';
     include 'gallery.php';
     include 'category.php';
+    include 'milestone.php';
+    include 'event.php';
     include 'swapno-overview.php';
 });

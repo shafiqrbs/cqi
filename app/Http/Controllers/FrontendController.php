@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Modules\Configuration\ConfigurationHelper;
 use App\Modules\Organization\Models\Organization;
+use App\Modules\Swapno\Models\Event;
 use App\Modules\Swapno\Models\Kpi;
 use App\Modules\Swapno\Models\KpiValue;
+use App\Modules\Swapno\Models\Milestone;
 use App\Modules\Swapno\Models\Particulars;
 use App\Modules\Swapno\Models\PhotoGallery;
 use App\Modules\Swapno\Models\Sales;
@@ -103,16 +105,47 @@ class FrontendController extends Controller
             '2030' => '2030',
         ];
 
-        $milestones = [
-            'Successfully inaugurated 03 Fair Price Shop (FPS) in 3 factories.',
-            'Formally three NICs announced by the factory management.',
-            'Completed baseline survey in 2 factories (Russel Garments and TM Jeans).',
-            'Formal Visit has been paid at GLP operated school in Badda to overview the present operations and facilities.',
-            'Adaptive training provided to vocational learners in 2 regions.',
-            'Mobile clinic launched in urban factory cluster for basic healthcare.'
-        ];
+        $defaultMilestone = Particulars::join('swapno__particular_types','swapno__particular_types.id','=','swapno__particulars.particular_id')
+                                ->where('swapno__particulars.is_featured', 1)
+                                ->where('swapno__particulars.is_active', 1)
+                                ->where('swapno__particular_types.slug','milestones')
+                                ->value('swapno__particulars.id');
 
-        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId','years','defaultYear','milestones'));
+        $milestones = Milestone::where('is_active', 1)->where('particular_id', $defaultMilestone)
+            ->orderBy('id', 'DESC')
+            ->select(['name'])
+            ->limit(4)
+            ->get();
+
+        $milestoneTypes = Particulars::join('swapno__particular_types','swapno__particular_types.id','=','swapno__particulars.particular_id')
+            ->where('swapno__particular_types.slug','milestones')
+            ->where('swapno__particular_types.is_active','1')
+            ->where('swapno__particulars.is_active','1')
+            ->pluck('swapno__particulars.name','swapno__particulars.id')
+            ->all();
+
+        $events = Event::where('is_active', 1)->orderBy('id', 'DESC')->limit(6)->get();
+
+
+        return view("frontend.layouts.welcome",compact('TabHeader','labels','datasets','organizations','months','defaultMonth','defaultOrgId','years','defaultYear','milestones','milestoneTypes','defaultMilestone','events'));
+    }
+
+    public function getMilestones(Request $request)
+    {
+        $milestoneTypeId = $request->input('milestone_type_id');
+
+        $milestones = Milestone::where('is_active', 1)
+            ->when($milestoneTypeId, function ($query, $milestoneTypeId) {
+                return $query->where('particular_id', $milestoneTypeId);
+            })
+            ->orderBy('id', 'DESC')
+            ->select(['name'])
+            ->limit(4)
+            ->get();
+
+        $colorClasses = ['primary', 'success', 'warning', 'danger', 'info']; // Example colors
+
+        return view('frontend.layouts.milestones-list', compact('milestones', 'colorClasses'))->render();
     }
 
     public function organizationWiseFps(Request $request)
@@ -254,8 +287,8 @@ class FrontendController extends Controller
                         ->where('swapno__kpi.is_active', 1)
                         ->where('swapno__kpi.month', $defaultMonth)
                         ->where('swapno__kpi.year', $defaultYear)
-                        ->join('swapno__kpi_value', 'swapno__kpi_value.particular_id', '=', 'swapno__particulars.id')
-                        ->join('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
+                        ->leftJoin('swapno__kpi_value', 'swapno__kpi_value.particular_id', '=', 'swapno__particulars.id')
+                        ->leftJoin('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
                         ->select([
                             DB::raw('SUM(swapno__kpi_value.kpi_value) as total'),
                             'swapno__particulars.name',

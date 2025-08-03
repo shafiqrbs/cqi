@@ -96,8 +96,9 @@ class ParticularController extends Controller
 
 
     public function edit($id){
-        $ModuleTitle = __('Survey::ControllerMsg.ModuleTitle');
-        $PageTitle = __('Survey::ControllerMsg.PageTitleUpdate');
+        $ModuleTitle = 'Manage Swapno Particulars';
+        $PageTitle = 'Update Swapno Particular';
+        $TableTitle = __('Swapno::ControllerMsg.TableTitle');
 
         $data = Particulars::where('id',$id)->first();
 
@@ -175,7 +176,16 @@ class ParticularController extends Controller
                 'message' => 'Particular not found.'
             ]);
         }
+        if ($particular->particular_type->slug == 'milestones') {
+            $particulars = Particulars::where('particular_id',$particular->particular_id)->where('id','<>',$id)->get();
+            if (count($particulars) > 0) {
+                foreach ($particulars as $value) {
+                    $value->update(['is_featured' => 0]);
+                }
+            }
+        }
         $particular->update(['is_featured' => $particular->is_featured==0?1:0]);
+
         return response([
             'success' => true,
             'status' => 200,

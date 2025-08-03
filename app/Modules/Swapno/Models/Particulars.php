@@ -34,4 +34,8 @@ class Particulars extends Model
             $model->updated_at = $date;
         });
     }
+
+    public function particular_type(){
+        return $this->belongsTo(ParticularTypes::class,'particular_id');
+    }
 }

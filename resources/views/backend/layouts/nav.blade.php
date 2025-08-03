@@ -45,6 +45,26 @@
         </li>
 
         <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.milestone.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-archive"></i>
+              </span>
+                <span class="title">Milestones</span>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link wave-effect" href="{{route('admin.event.index')}}" style="color: #000;">
+              <span class="icon-holder">
+                  <i class="fas fa-node"></i>
+              </span>
+                <span class="title">Events</span>
+            </a>
+        </li>
+
+
+
+        <li class="nav-item dropdown">
 {{--            <a class="nav-link wave-effect" href="{{route('admin.swapno.index')}}" style="color: #000;">--}}
             <a class="nav-link wave-effect" href="{{route('admin.kpi.index')}}" style="color: #000;">
           <span class="icon-holder">
