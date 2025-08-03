@@ -122,7 +122,9 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
                                     <h6 class="mb-1 fw-semibold">
                                         {{$event->name}}
                                     </h6>
-                                    <small class="text-muted">{{date('F j, Y',strtotime($event->event_date))}}</small>
+                                    @if($event->event_date)
+                                        <small class="text-muted">{{date('F j, Y',strtotime($event->event_date))}}</small>
+                                    @endif
                                 </div>
                                 <span class="badge bg-success rounded-pill">New</span>
                             </li>
