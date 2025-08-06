@@ -15,6 +15,7 @@ class Milestone extends Model
         'name',
         'slug',
         'is_active',
+        'year',
     ];
 
     // TODO :: boot

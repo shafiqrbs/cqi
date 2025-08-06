@@ -4,41 +4,6 @@
 @section('content')
     <div class="container-fluid p-4">
 
-        <!-- Filter Form -->
-        <div class="filter-container mb-4">
-            <form method="GET" action="{{ route('swapno-dashboard') }}" class="filter-form">
-                <div class="filter-inputs">
-                    <select name="month" class="form-select">
-                        <option value="">All Months</option>
-                        @foreach($months as $month)
-                            <option value="{{ $month }}" {{ $defaultMonth == $month ? 'selected' : '' }}>
-                                {{ $month }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select name="year" class="form-select">
-                        <option value="">All Years</option>
-                        @foreach($years as $year)
-                            <option value="{{ $year }}" {{ $defaultYear == $year ? 'selected' : '' }}>
-                                {{ $year }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-filter"></i> Apply
-                    </button>
-
-                    @if(request()->has('month') || request()->has('year'))
-                        <a href="{{ route('swapno-dashboard') }}" class="btn btn-outline-secondary">
-                            <i class="fas fa-times"></i> Clear
-                        </a>
-                    @endif
-                </div>
-            </form>
-        </div>
-
         <h1 class="overview-title">Key Performance Indicator</h1>
 
         <div class="row">
@@ -197,6 +162,42 @@
                     @endif
                 </div>
             </div>
+        </div>
+
+        <br>
+        <!-- Filter Form -->
+        <div class="filter-container mb-4">
+            <form method="GET" action="{{ route('swapno-dashboard') }}" class="filter-form">
+                <div class="filter-inputs">
+                    <select name="month" class="form-select">
+                        <option value="">All Months</option>
+                        @foreach($months as $month)
+                            <option value="{{ $month }}" {{ $defaultMonth == $month ? 'selected' : '' }}>
+                                {{ $month }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="year" class="form-select">
+                        <option value="">All Years</option>
+                        @foreach($years as $year)
+                            <option value="{{ $year }}" {{ $defaultYear == $year ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter"></i> Apply
+                    </button>
+
+                    @if(request()->has('month') || request()->has('year'))
+                        <a href="{{ route('swapno-dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    @endif
+                </div>
+            </form>
         </div>
 
 

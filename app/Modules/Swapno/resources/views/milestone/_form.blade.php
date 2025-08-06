@@ -36,6 +36,17 @@ $InctiveStatus = __('Organization::message.Inactive');
                     </div>
                 </div>
 
+                <div class="form-group row mt-4">
+                    <div class="col-sm-3">
+                        {!! Form::label('year', 'Year', ['class' => 'col-form-label']) !!}
+                        <span style="color: red">*</span>
+                    </div>
+                    <div class="col-sm-9">
+                        {!! Form::select('year',$years,$currentYear??old('year'),['id'=>'year','class' => 'form-control form-select js-example-basic-single']) !!}
+                        <span class="text-danger">{!! $errors->first('year') !!}</span>
+                    </div>
+                </div>
+
                 <div class="form-group row mg-top">
                     <div class="col-sm-3">
                         {!! Form::label('Status', 'Status', array('class' => 'form-label')) !!}

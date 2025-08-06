@@ -111,7 +111,9 @@ class FrontendController extends Controller
                                 ->where('swapno__particular_types.slug','milestones')
                                 ->value('swapno__particulars.id');
 
-        $milestones = Milestone::where('is_active', 1)->where('particular_id', $defaultMilestone)
+        $milestones = Milestone::where('is_active', 1)
+            ->where('particular_id', $defaultMilestone)
+            ->where('year', $defaultYear)
             ->orderBy('id', 'DESC')
             ->select(['name'])
             ->limit(4)
@@ -135,6 +137,7 @@ class FrontendController extends Controller
         $milestoneTypeId = $request->input('milestone_type_id');
 
         $milestones = Milestone::where('is_active', 1)
+            ->where('year', $request->input('year'))
             ->when($milestoneTypeId, function ($query, $milestoneTypeId) {
                 return $query->where('particular_id', $milestoneTypeId);
             })
@@ -193,12 +196,14 @@ class FrontendController extends Controller
         $request->validate([
             'organization_id' => ['required'],
             'month' => ['required'],
+            'year' => ['required'],
         ]);
         $month = $request->month;
         $organization_id = $request->organization_id;
+        $year = $request->year;
 
         $monthlySalesData = Sales::where('swapno_sales.month', $month)
-            ->where('swapno_sales.year', date('Y'))
+            ->where('swapno_sales.year', $year)
             ->where('swapno_sales.organization_id', $organization_id)
             ->where('swapno_sales.is_active', 1)
             ->leftJoin('swapno_category', 'swapno_category.id', '=', 'swapno_sales.category_id')
@@ -227,6 +232,7 @@ class FrontendController extends Controller
         $kpiValues = KpiValue::where('swapno__kpi.is_active',1)
             ->where('swapno__kpi.month',$defaultMonth)
             ->where('swapno__kpi.year',$defaultYear)
+            ->where('swapno__particulars.group','!=','0')
             ->join('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
             ->join('swapno__particulars','swapno__particulars.id','=','swapno__kpi_value.particular_id')
             ->join('sur_organization','sur_organization.id','=','swapno__kpi.organization_id')
@@ -285,8 +291,8 @@ class FrontendController extends Controller
                         ->where('swapno__particulars.is_featured', 1)
                         ->where('swapno__particulars.is_active', 1)
                         ->where('swapno__kpi.is_active', 1)
-                        ->where('swapno__kpi.month', $defaultMonth)
-                        ->where('swapno__kpi.year', $defaultYear)
+//                        ->where('swapno__kpi.month', $defaultMonth)
+//                        ->where('swapno__kpi.year', $defaultYear)
                         ->leftJoin('swapno__kpi_value', 'swapno__kpi_value.particular_id', '=', 'swapno__particulars.id')
                         ->leftJoin('swapno__kpi','swapno__kpi.id','=','swapno__kpi_value.kpi_id')
                         ->select([

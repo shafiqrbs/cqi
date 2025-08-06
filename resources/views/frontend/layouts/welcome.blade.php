@@ -1,11 +1,23 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <div class="project-title" style="color: #ffffff">
+    {{--<div class="project-title" style="color: #ffffff">
         <h1 class="main-title" style="color: #ffffff">Strengthening Workers' Access to Pertinent<br>Nutrition Opportunities (SWAPNO)</h1>
         <div class="project-duration" style="color: #ffffff">Project Duration</div>
         <div class="project-duration" style="color: #ffffff"><strong>January 2025-Dec 2027</strong></div>
+    </div>--}}
+
+    <div class="project-title">
+        <div class="project-title-content">
+            <h1 class="main-title">
+                Strengthening Workers' Access to Pertinent<br>
+                Nutrition Opportunities (SWAPNO)
+            </h1>
+            <div class="project-duration">Project Duration</div>
+            <div class="project-duration font-weight-bold">January 2025 - Dec 2027</div>
+        </div>
     </div>
+
 
 
     <div class="chart-section my-5">
@@ -15,8 +27,8 @@
                 <div class="chart-card h-100 p-4 border rounded bg-white shadow-sm">
                     <h3 class="chart-title">Monthly FPS Sales</h3>
                         <div class="chart-controls mb-3">
-                            {!! Form::select('month', $months, $defaultMonth, ['id' => 'month_bar', 'class' => 'form-control form-select']) !!}
-                            {!! Form::select('year', $years, $defaultYear, ['id' => 'year', 'class' => 'form-control form-select']) !!}
+                            {!! Form::select('fps_month', $months, $defaultMonth, ['id' => 'fps_month', 'class' => 'form-control form-select']) !!}
+                            {!! Form::select('fps_year', $years, $defaultYear, ['id' => 'fps_year', 'class' => 'form-control form-select']) !!}
                         </div>
                     <div class="chart-container">
                         <canvas id="monthlyChart"></canvas>
@@ -62,14 +74,16 @@
                     <h3 class="chart-title">Category Wise Sales</h3>
 
                     <div class="chart-controls mb-3">
-                        {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select']) !!}
-                        {!! Form::select('month', $months, $defaultMonth, ['id' => 'month', 'class' => 'form-control form-select']) !!}
+                        {!! Form::select('organization_id', $organizations, $defaultOrgId, ['id' => 'organization_id', 'class' => 'form-control form-select','style'=>'width:50%']) !!}
+                        {!! Form::select('month', $months, $defaultMonth, ['id' => 'sales_month', 'class' => 'form-control form-select','style'=>'width:25%']) !!}
+                        {!! Form::select('years', $years, $defaultYear, ['id' => 'sales_year', 'class' => 'form-control form-select','style'=>'width:25%']) !!}
                     </div>
 
                     <div class="pie-chart-container">
                         <canvas id="pieChart"></canvas>
                         <input type="hidden" id="default-org" value="{{ $defaultOrgId }}">
                         <input type="hidden" id="default-month" value="{{ $defaultMonth }}">
+                        <input type="hidden" id="default-year" value="{{ $defaultYear }}">
 
                     </div>
                 </div>
@@ -84,6 +98,7 @@
                     <h3 class="chart-title mb-3">Quarterly Milestone</h3>
                     <div class="chart-controls mb-3">
                         {!! Form::select('milestone_type_id', $milestoneTypes, $defaultMilestone, ['id' => 'milestone_type_id', 'class' => 'form-control form-select']) !!}
+                        {!! Form::select('milestone_year', $years, $defaultYear, ['id' => 'milestone_year', 'class' => 'form-control form-select']) !!}
                     </div>
 
                     <div id="milestone-list-wrapper" style="position: relative; min-height: 100px;"> <div id="milestone-loader" class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
@@ -142,11 +157,13 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const defaultOrgId = document.getElementById('default-org').value;
-            const defaultMonth = document.getElementById('default-month').value;
+            const defaultMonth = document.getElementById('default-sales_month').value;
+            const defaultYear = document.getElementById('default-year').value;
 
             // Set default selected in dropdowns
             document.getElementById('organization_id').value = defaultOrgId;
-            document.getElementById('month').value = defaultMonth;
+            document.getElementById('sales_month').value = defaultMonth;
+            document.getElementById('sales_year').value = defaultMonth;
 
             // Load chart immediately
             loadChartData();
@@ -211,11 +228,12 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
         // Fetch chart data
         function loadChartData() {
             const orgId = document.getElementById('organization_id').value;
-            const month = document.getElementById('month').value;
+            const sales_month = document.getElementById('sales_month').value;
+            const sales_year = document.getElementById('sales_year').value;
 
-            if (!orgId || !month) return;
+            if (!orgId || !sales_month) return;
 
-            fetch(`/report/product-sales?organization_id=${orgId}&month=${month}`)
+            fetch(`/report/product-sales?organization_id=${orgId}&month=${sales_month}&year=${sales_year}`)
                 .then(res => res.json())
                 .then(data => {
                     const labels = data.map(item => item.label);
@@ -229,7 +247,8 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
 
         // Trigger on change
         document.getElementById('organization_id').addEventListener('change', loadChartData);
-        document.getElementById('month').addEventListener('change', loadChartData);
+        document.getElementById('sales_month').addEventListener('change', loadChartData);
+        document.getElementById('sales_year').addEventListener('change', loadChartData);
         // Load initially
         document.addEventListener('DOMContentLoaded', loadChartData);
     </script>
@@ -259,12 +278,12 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
         });
 
         // Add event listeners for month and year select
-        document.getElementById('month_bar').addEventListener('change', updateChart);
-        document.getElementById('year').addEventListener('change', updateChart);
+        document.getElementById('fps_month').addEventListener('change', updateChart);
+        document.getElementById('fps_year').addEventListener('change', updateChart);
 
         function updateChart() {
-            const month = document.getElementById('month_bar').value;
-            const year = document.getElementById('year').value;
+            const fps_month = document.getElementById('fps_month').value;
+            const fps_year = document.getElementById('fps_year').value;
 
             // Show loading state
             monthlyChart.data.labels = ['Loading...'];
@@ -276,7 +295,7 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
             monthlyChart.update();
 
             // Fetch new data
-            fetch(`/report/org-fps-bar?month=${month}&year=${year}`)
+            fetch(`/report/org-fps-bar?month=${fps_month}&year=${fps_year}`)
                 .then(response => response.json())
                 .then(data => {
                     // Update chart with new data
@@ -298,43 +317,50 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
         }
     </script>
 
-{{--
-    // for mailstone
---}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const milestoneTypeSelect = document.getElementById('milestone_type_id');
+            const milestoneYearSelect = document.getElementById('milestone_year');
             const milestoneListContainer = document.getElementById('milestone-list');
 
-            if (milestoneTypeSelect && milestoneListContainer) {
-                milestoneTypeSelect.addEventListener('change', function () {
-                    const selectedMilestoneTypeId = this.value;
+            const loadMilestones = () => {
+                const milestoneTypeId = milestoneTypeSelect?.value;
+                const milestoneYear = milestoneYearSelect?.value || '';
 
-                    milestoneListContainer.classList.add('is-loading');
+                if (!milestoneTypeId || !milestoneListContainer) return;
 
-                    setTimeout(() => {
-                        fetch(`/get-milestones?milestone_type_id=${selectedMilestoneTypeId}`)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.text();
-                            })
-                            .then(html => {
-                                milestoneListContainer.innerHTML = html;
-                                // 2. Remove loading class after new content is loaded
-                                milestoneListContainer.classList.remove('is-loading');
-                            })
-                            .catch(error => {
-                                console.error('There was a problem with the fetch operation:', error);
-                                milestoneListContainer.classList.remove('is-loading'); // Ensure class is removed on error
-                            });
-                    }, 150); // Small delay to allow fade-out to be visible
-                });
+                milestoneListContainer.classList.add('is-loading');
+
+                setTimeout(() => {
+                    fetch(`/get-milestones?milestone_type_id=${milestoneTypeId}&year=${milestoneYear}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
+                        .then(html => {
+                            milestoneListContainer.innerHTML = html;
+                            milestoneListContainer.classList.remove('is-loading');
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                            milestoneListContainer.classList.remove('is-loading');
+                        });
+                }, 150);
+            };
+
+            if (milestoneTypeSelect) {
+                milestoneTypeSelect.addEventListener('change', loadMilestones);
+            }
+
+            if (milestoneYearSelect) {
+                milestoneYearSelect.addEventListener('change', loadMilestones);
             }
         });
     </script>
+
 @endpush
 
 @push('CustomStyle')
@@ -361,12 +387,12 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .project-title {
+        /*.project-title {
             position: relative;
             background: url('/assets/swapno-bg.jpg') no-repeat center center;
             background-size: cover;
             color: white;
-            /*padding: 80px 20px;*/
+            !*padding: 80px 20px;*!
             padding: 250px 20px;
             text-align: center;
             border-radius: 10px;
@@ -377,7 +403,7 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.63); /* Dark overlay with 40% opacity */
+            background: rgba(0, 0, 0, 0.63); !* Dark overlay with 40% opacity *!
             z-index: 0;
         }
 
@@ -394,6 +420,49 @@ border-{{ $colorClasses[$index % count($colorClasses)] }} milestone-item"> {{-- 
 
         .project-duration {
             font-size: 1.2rem;
+        }*/
+
+        .project-title {
+            position: relative;
+            background: url('/assets/swapno-bg.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            padding: 250px 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .project-title::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            /*background-color: rgba(0, 0, 0, 0.6); !* full section dark overlay *!*/
+            z-index: 0;
+        }
+
+        .project-title-content {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.5); /* Local background for text block */
+            width: 100%;
+            padding: 10px 10px;
+            text-align: center;
+            top: 245px;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .project-duration {
+            font-size: 1.25rem;
+            color: #ffffff;
         }
 
         .chart-container {

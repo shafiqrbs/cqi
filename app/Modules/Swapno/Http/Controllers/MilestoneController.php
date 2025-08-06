@@ -53,8 +53,10 @@ class MilestoneController extends Controller
                 ->where('swapno__particulars.is_active','1')
                 ->pluck('swapno__particulars.name','swapno__particulars.id')
                 ->all();
+        $years = ['2025'=>'2025', '2026'=>'2026', '2027'=>'2027', '2028'=>'2028', '2029'=>'2029', '2030'=>'2030'];
+        $currentYear  = date('Y');
 
-        return view("Swapno::milestone.create", compact('ModuleTitle','PageTitle','TableTitle','milestoneTypes'));
+        return view("Swapno::milestone.create", compact('ModuleTitle','PageTitle','TableTitle','milestoneTypes','years','currentYear'));
     }
 
     /**
@@ -93,8 +95,8 @@ class MilestoneController extends Controller
             ->all();
 
         $data = Milestone::where('id',$id)->first();
-
-        return view("Swapno::milestone.edit", compact('data','ModuleTitle','PageTitle','milestoneTypes'));
+        $years = ['2025'=>'2025', '2026'=>'2026', '2027'=>'2027', '2028'=>'2028', '2029'=>'2029', '2030'=>'2030'];
+        return view("Swapno::milestone.edit", compact('data','ModuleTitle','PageTitle','milestoneTypes','years'));
     }
 
 

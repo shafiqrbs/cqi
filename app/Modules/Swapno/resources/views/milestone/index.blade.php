@@ -47,6 +47,7 @@
                                     <table  class="table table-striped table-bordered" id="table_id">
                                         <thead>
                                         <th>SL</th>
+                                        <th>Year</th>
                                         <th>Type</th>
                                         <th>Name</th>
                                         <th>Slug</th>
@@ -59,6 +60,7 @@
                                         @foreach($milestones as $value)
                                             <tr>
                                                 <td>{{$i++}}</td>
+                                                <td>{{$value->year}}</td>
                                                 <td>{{$value->particular->name}}</td>
                                                 <td>{{$value->name}}</td>
                                                 <td>{{$value->slug}}</td>

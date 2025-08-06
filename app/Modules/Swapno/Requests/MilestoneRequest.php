@@ -27,6 +27,7 @@ class MilestoneRequest extends FormRequest
             'particular_id'       => 'required',
             'name'       => 'required',
             'is_active'       => 'required',
+            'year'       => 'required',
         ];
 
     }
