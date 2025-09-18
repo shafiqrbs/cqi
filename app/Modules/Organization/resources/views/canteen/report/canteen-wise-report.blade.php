@@ -178,6 +178,7 @@
                                                 <th style="padding: 10px;">Name En</th>
                                                 <th style="padding: 10px;">Name Bn</th>
                                                 <th style="padding: 10px;">Total</th>
+                                                <th style="padding: 10px;">Percent</th>
                                             </tr>
                                             </thead>
 
@@ -186,15 +187,19 @@
                                                     <?php $totalResponse = 0;?>
                                                 @foreach($cantteenWiseData as $value)
                                                         <?php $totalResponse += $value['value']; ?>
+                                                @endforeach
+                                                @foreach($cantteenWiseData as $value)
                                                     <tr style="background-color: #fff; border: 1px solid #ebebeb;">
                                                         <td style="padding: 10px;">{{$value['item_en']}}</td>
                                                         <td style="padding: 10px;">{{$value['item_bn']}}</td>
                                                         <td style="padding: 10px;">{{$value['value']}}</td>
+                                                        <td style="padding: 10px;">{{number_format(($value['value']*100)/$totalResponse,2)}}%</td>
                                                     </tr>
                                                 @endforeach
                                                 <tr style="background-color: #567cad; color: white; font-weight: bold;">
                                                     <th colspan="2" style="padding: 10px; text-align: left;">Total</th>
                                                     <th style="padding: 10px;">{{$totalResponse}}</th>
+                                                    <th></th>
                                                 </tr>
                                             @endif
                                             </tbody>
